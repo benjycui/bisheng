@@ -2,7 +2,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const ReactRouter = require('react-router');
 
-const data = require('./bisheng.data');
+const data = require('./loaders/bisheng.data');
 
 ReactDOM.render(
   React.createElement(ReactRouter.Router, { history: ReactRouter.browserHistory }),
