@@ -1,5 +1,3 @@
-const MT = require('mark-twain');
+const markTwain = require('mark-twain');
 
-module.exports = function(content) {
-  return `module.exports = ${JSON.stringify(MT(content), null, 2)};`;
-};
+module.exports = (content) => `module.exports = ${JSON.stringify(markTwain(content), null, 2)};`;

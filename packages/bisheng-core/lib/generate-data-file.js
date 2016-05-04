@@ -36,16 +36,18 @@ function stringifyObject(obj, depth) {
   const indent = '  '.repeat(depth);
   const kvStrings = R.pipe(
     R.toPairs,
+    /* eslint-disable no-use-before-define */
     R.map((kv) => `${indent}  '${kv[0]}': ${stringify(kv[1], depth + 1)},`)
+    /* eslint-enable no-use-before-define */
   )(obj);
   return kvStrings.join('\n');
-};
+}
 
 function stringify(node, depth) {
   const indent = '  '.repeat(depth);
   return R.cond([
     [(n) => typeof n === 'object', (obj) =>
-     `{\n${stringifyObject(obj, depth)}\n${indent}}`
+     `{\n${stringifyObject(obj, depth)}\n${indent}}`,
     ],
     [R.T, (filename) => `require('${process.cwd()}${path.sep}${filename}')`],
   ])(node);

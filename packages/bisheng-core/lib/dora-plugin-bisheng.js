@@ -7,6 +7,7 @@ module.exports = {
   'webpack.updateConfig'(webpackConfig) {
     const configFile = this.query.config;
 
+    /* eslint-disable no-param-reassign */
     webpackConfig.entry = {};
     webpackConfig.module.loaders.push({
       test(filename) {
@@ -19,6 +20,7 @@ module.exports = {
       exclude: /node_modules/,
       loaders: ['babel', `${bishengLib}markdown-loader`],
     });
+    /* eslint-enable no-param-reassign */
 
     const config = getConfig(configFile);
     const customizedWebpackConfig = config.webpackConfig(webpackConfig, webpack);
@@ -28,5 +30,5 @@ module.exports = {
     }
     customizedWebpackConfig.entry.index = `${bishengLib}entry.jsx`;
     return customizedWebpackConfig;
-  }
+  },
 };
