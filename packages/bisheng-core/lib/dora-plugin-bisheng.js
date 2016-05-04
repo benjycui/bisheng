@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('atool-build/lib/webpack');
 const getConfig = require('./utils/get-config');
 const bishengLib = `${__dirname}${path.sep}`;
-const bishengLibLoaders = `${bishengLib}loaders${path.sep}`
+const bishengLibLoaders = `${bishengLib}loaders${path.sep}`;
 
 module.exports = {
   'webpack.updateConfig'(webpackConfig) {
@@ -19,7 +19,10 @@ module.exports = {
     webpackConfig.module.loaders.push({
       test: /\.md$/,
       exclude: /node_modules/,
-      loaders: ['babel', `${bishengLibLoaders}markdown-loader`],
+      loaders: [
+        'babel',
+        `${bishengLibLoaders}markdown-loader?config=${configFile}`,
+      ],
     });
     /* eslint-enable no-param-reassign */
 
