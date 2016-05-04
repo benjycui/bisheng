@@ -1,3 +1,8 @@
 const markTwain = require('mark-twain');
 
-module.exports = (content) => `module.exports = ${JSON.stringify(markTwain(content), null, 2)};`;
+module.exports = (content) => {
+  if (this.cacheable) {
+    this.cacheable();
+  }
+  return `module.exports = ${JSON.stringify(markTwain(content), null, 2)};`;
+};
