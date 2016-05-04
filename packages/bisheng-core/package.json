@@ -35,6 +35,8 @@
     "dora-plugin-livereload": "^0.3.0",
     "dora-plugin-webpack": "^0.6.4",
     "dora-plugin-webpack-hmr": "^0.1.1",
+    "exist.js": "^0.1.3",
+    "jsonml-to-react-component": "^0.2.2",
     "loader-utils": "^0.2.14",
     "mark-twain": "^1.1.4",
     "mkdirp": "^0.5.1",
