@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+
+const program = require('commander');
+const BiSheng = require('../lib');
+
+program
+  .option('-c, --config <path>', 'set config path. defaults to ./bisheng.config.js')
+  .parse(process.argv);
+
+BiSheng.start(program);
