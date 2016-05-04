@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('atool-build/lib/webpack');
-const getConfig = require('./get-config');
+const getConfig = require('./utils/get-config');
 const bishengLib = `${__dirname}${path.sep}`;
 const bishengLibLoaders = `${bishengLib}loaders${path.sep}`
 

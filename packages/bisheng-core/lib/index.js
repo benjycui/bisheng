@@ -1,6 +1,6 @@
 const path = require('path');
 const dora = require('dora');
-const getConfig = require('./get-config');
+const getConfig = require('./utils/get-config');
 
 exports.start = function start(program) {
   const configFile = program.config || `${process.cwd()}/bisheng.config.js`;
