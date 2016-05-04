@@ -35,6 +35,7 @@
     "dora-plugin-webpack": "^0.6.4",
     "dora-plugin-webpack-hmr": "^0.1.1",
     "loader-utils": "^0.2.14",
+    "mark-twain": "^1.1.4",
     "mkdirp": "^0.5.1",
     "ramda": "^0.21.0",
     "react": "^15.0.2",
