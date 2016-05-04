@@ -31,6 +31,7 @@
     "atool-build": "^0.7.1",
     "commander": "^2.9.0",
     "dora": "^0.3.2",
+    "dora-plugin-browser-history": "^0.1.1",
     "dora-plugin-livereload": "^0.3.0",
     "dora-plugin-webpack": "^0.6.4",
     "dora-plugin-webpack-hmr": "^0.1.1",

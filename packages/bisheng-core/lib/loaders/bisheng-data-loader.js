@@ -1,6 +1,7 @@
+const path = require('path');
 const loaderUtils = require('loader-utils');
 const getConfig = require('../utils/get-config');
-const generateDataFile = require('../utils/generate-data-file');
+const generateMarkdownData = require('../utils/generate-markdown-data');
 
 module.exports = function bishengDataLoader(/* content */) {
   if (this.cacheable) {
@@ -8,5 +9,8 @@ module.exports = function bishengDataLoader(/* content */) {
   }
   const query = loaderUtils.parseQuery(this.query);
   const config = getConfig(query.config);
-  return generateDataFile(config.source, config.extension);
+  return `module.exports = {` +
+    `\n  markdown: ${generateMarkdownData(config.source, config.extension)},` +
+    `\n  theme: require('${process.cwd()}${path.sep}${config.theme}'),` +
+    `\n};`;
 };
