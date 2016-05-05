@@ -46,7 +46,8 @@
     "ramda": "^0.21.0",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
-    "react-router": "^2.4.0"
+    "react-router": "^2.4.0",
+    "resolve": "^1.1.7"
   },
   "devDependencies": {
     "eslint": "^2.9.0",
