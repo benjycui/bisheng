@@ -3,6 +3,7 @@
   "version": "0.1.0-beta",
   "description": "The one theme for bisheng.",
   "scripts": {
+    "start": "bisheng start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/benjycui/bisheng-theme-one/issues"
   },
-  "homepage": "https://github.com/benjycui/bisheng-theme-one#readme"
+  "homepage": "https://github.com/benjycui/bisheng-theme-one#readme",
+  "devDependencies": {
+    "bisheng": "^0.1.0-beta.0"
+  }
 }
