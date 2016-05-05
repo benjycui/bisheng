@@ -18,17 +18,18 @@ const utils = {
 plugins.map((plugin) => plugin.utils || {})
   .forEach((u) => Object.assing(utils, u));
 
+const theme = data.theme;
 function templateWrapper(Template) {
   return (props) => React.createElement(
     Template,
     Object.assign({}, props, {
       data: data.markdown,
       utils,
+      config: theme,
     })
   );
 }
 
-const theme = data.theme;
 const routes = Object.keys(theme.routes).map(
   (path, index) =>
     React.createElement(Route, {
