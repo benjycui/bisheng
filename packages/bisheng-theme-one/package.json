@@ -1,0 +1,23 @@
+{
+  "name": "bisheng-theme-one",
+  "version": "0.1.0-beta",
+  "description": "The one theme for bisheng.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjycui/bisheng-theme-one.git"
+  },
+  "keywords": [
+    "bisheng",
+    "theme",
+    "one"
+  ],
+  "author": "Benjy Cui",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benjycui/bisheng-theme-one/issues"
+  },
+  "homepage": "https://github.com/benjycui/bisheng-theme-one#readme"
+}
