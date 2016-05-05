@@ -23,5 +23,8 @@
   "homepage": "https://github.com/benjycui/bisheng-theme-one#readme",
   "devDependencies": {
     "bisheng": "^0.1.0-beta.0"
+  },
+  "dependencies": {
+    "react-document-title": "^2.0.1"
   }
 }
