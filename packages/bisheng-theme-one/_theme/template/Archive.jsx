@@ -8,7 +8,7 @@ function getTime(date) {
 }
 
 export default (props) => {
-  const { data, utils } = props;
+  const data = props.data;
   const posts = Object.keys(data.posts).map((key) => data.posts[key])
           .sort((a, b) => getTime(b.meta.publishDate) - getTime(a.meta.publishDate));
 
@@ -25,7 +25,7 @@ export default (props) => {
       <div className="item" key={index}>
         <h2 className="item-title" id={meta.title}>
           <time>{`${year}-${publishDate.getMonth() + 1}-${publishDate.getDate()} `}</time>
-          <Link to={`#${meta.title}`}>{meta.title}</Link>
+          <Link to={`${meta.filename.replace(/\.md$/i, '')}`}>{meta.title}</Link>
         </h2>
         {
           !meta.description ? null :

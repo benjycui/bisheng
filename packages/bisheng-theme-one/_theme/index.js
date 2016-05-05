@@ -11,6 +11,6 @@ module.exports = {
   github: 'https://github.com/benjycui/bisheng-theme-one',
   routes: {
     '/': require('./template/Archive'),
-    '/posts/:post': require('./template/Article'),
+    '/posts/:post': require('./template/Post'),
   }
 };
