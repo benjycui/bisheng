@@ -18,7 +18,7 @@ module.exports = function markdownLoader(content) {
   const plugins = resolvePlugins(getConfig(query.config).plugins);
   const parsedMarkdown = plugins.reduce(
     (markdownData, plugin) =>
-      plugin[0](markdownData, plugin[1]),
+      require(plugin[0])(markdownData, plugin[1]),
     markdown
   );
 
