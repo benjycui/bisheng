@@ -12,20 +12,23 @@ export default (props) => {
   const posts = Object.keys(data.posts).map((key) => data.posts[key])
           .sort((a, b) => getTime(b.meta.publishDate) - getTime(a.meta.publishDate));
 
-  let year = 0;
+  let year = NaN;
   const entryList = [];
   posts.forEach(({ meta }, index) => {
-    const publishDate = new Date(meta.publishDate);
-    if (year !== publishDate.getFullYear()) {
-      year = publishDate.getFullYear();
-      entryList.push(<Link className="item-year" to={`#${year}`} key={year} id={year}>{year}</Link>);
+    const publishYear = meta.publishDate.slice(0, 4);
+    if (year !== publishYear) {
+      year = publishYear;
+      entryList.push(
+        <Link className="item-year" to={`#${publishYear}`} key={publishYear} id={publishYear}>
+          {publishYear}
+        </Link>);
     }
 
     entryList.push(
       <div className="item" key={index}>
         <h2 className="item-title" id={meta.title}>
-          <time>{`${year}-${publishDate.getMonth() + 1}-${publishDate.getDate()} `}</time>
-          <Link to={`${meta.filename.replace(/\.md$/i, '')}`}>{meta.title}</Link>
+          <time>{`${meta.publishDate.slice(0, 10)} `}</time>
+          <Link to={`/${meta.filename.replace(/\.md$/i, '')}`}>{meta.title}</Link>
         </h2>
         {
           !meta.description ? null :
@@ -37,7 +40,7 @@ export default (props) => {
     );
   })
   return (
-    <DocumentTitle title="Archive | BiSheng Theme One">
+    <DocumentTitle title="BiSheng Theme One">
       <Layout {...props}>
         <h1 className="entry-title">Archive</h1>
         <div className="entry-list">

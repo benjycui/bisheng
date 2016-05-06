@@ -11,12 +11,11 @@ function getPostFilename(pathname) {
 export default (props) => {
   const { data, utils, location } = props;
   const { meta, content } = data.posts[getPostFilename(location.pathname)];
-  const publishDate = new Date(meta.publishDate);
   return (
-    <DocumentTitle title={`${meta.title}| BiSheng Theme One`}>
+    <DocumentTitle title={`${meta.title} | BiSheng Theme One`}>
       <Layout {...props}>
         <div className="hentry">
-          <h1 className="entry-title" itemprop="name">{meta.title}</h1>
+          <h1 className="entry-title">{meta.title}</h1>
           {
             !meta.description ? null :
               <div className="entry-description">{meta.description}</div>
@@ -25,7 +24,7 @@ export default (props) => {
 
           <div className="entry-meta">
             <time className="updated">
-              {`${publishDate.getFullYear()}-${publishDate.getMonth() + 1}-${publishDate.getDate()} `}
+              {`${meta.publishDate.slice(0, 10)} `}
             </time>
             {
               !meta.tags ? null :

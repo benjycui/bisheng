@@ -1,17 +1,21 @@
+const Archive = require('./template/Archive');
+const Post = require('./template/Post');
+const TagCloud = require('./template/TagCloud');
+
 module.exports = {
   home: '/',
   sitename: 'One',
-  // tagline: 'BiSheng Theme',
+  // tagline: 'The one theme for bisheng',
   // navigation: [{
   //   title: 'BiSheng',
   //   link: 'https://github.com/benjycui/bisheng',
   // }],
-  footer: 'The one theme for bisheng which is used to transform Markdown files into a SPA website using React.',
+  // footer: 'Copyright and so on...',
   // hideBisheng: true,
   github: 'https://github.com/benjycui/bisheng-theme-one',
   routes: {
-    '/': require('./template/Archive'),
-    '/posts/:post': require('./template/Post'),
-    'tags': require('./template/TagCloud'),
-  }
+    '/': Archive,
+    '/posts/:post': Post,
+    '/tags': TagCloud,
+  },
 };

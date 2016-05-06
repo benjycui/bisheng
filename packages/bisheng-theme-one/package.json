@@ -1,11 +1,10 @@
 {
   "name": "bisheng-theme-one",
-  "version": "0.1.0-beta",
   "description": "The one theme for bisheng.",
   "scripts": {
     "start": "bisheng start",
     "lint": "eslint ./_theme",
-    "eslint-fix": "elsint --fix ./_theme",
+    "eslint-fix": "eslint --fix ./_theme",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
