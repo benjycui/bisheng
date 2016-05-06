@@ -13,7 +13,7 @@ export default (props) => {
   const { meta, content } = data.posts[getPostFilename(location.pathname)];
   const publishDate = new Date(meta.publishDate);
   return (
-    <DocumentTitle title="Archive | BiSheng Theme One">
+    <DocumentTitle title={`${meta.title}| BiSheng Theme One`}>
       <Layout {...props}>
         <div className="hentry">
           <h1 className="entry-title" itemprop="name">{meta.title}</h1>
@@ -30,10 +30,10 @@ export default (props) => {
             {
               !meta.tags ? null :
                 <span>
-                  in <span class="entry-tags">
+                  in <span className="entry-tags">
                   {
                     meta.tags.map((tag, index) =>
-                      <Link to="not-found" key={index}>{tag}</Link>
+                      <Link to={`/tags#${tag}`} key={index}>{tag}</Link>
                     )
                   }
                   </span>

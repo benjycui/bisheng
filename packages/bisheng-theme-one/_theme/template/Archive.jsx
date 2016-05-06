@@ -29,7 +29,7 @@ export default (props) => {
         </h2>
         {
           !meta.description ? null :
-            <div class="item-description">
+            <div className="item-description">
               { meta.description }
             </div>
         }
@@ -40,7 +40,7 @@ export default (props) => {
     <DocumentTitle title="Archive | BiSheng Theme One">
       <Layout {...props}>
         <h1 className="entry-title">Archive</h1>
-        <div class="entry-list">
+        <div className="entry-list">
           {entryList}
         </div>
       </Layout>

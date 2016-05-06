@@ -12,5 +12,6 @@ module.exports = {
   routes: {
     '/': require('./template/Archive'),
     '/posts/:post': require('./template/Post'),
+    'tags': require('./template/TagCloud'),
   }
 };
