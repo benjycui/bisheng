@@ -1,7 +1,3 @@
-const Archive = require('./template/Archive');
-const Post = require('./template/Post');
-const TagCloud = require('./template/TagCloud');
-
 module.exports = {
   home: '/',
   sitename: 'One',
@@ -14,8 +10,8 @@ module.exports = {
   // hideBisheng: true,
   github: 'https://github.com/benjycui/bisheng-theme-one',
   routes: {
-    '/': Archive,
-    '/posts/:post': Post,
-    '/tags': TagCloud,
+    '/': './template/Archive',
+    '/posts/:post': './template/Post',
+    '/tags': './template/TagCloud',
   },
 };
