@@ -7,3 +7,9 @@ tags:
 ---
 
 Hello world!
+
+```js
+(function () {
+  console.log('Hello world!');
+})();
+```
