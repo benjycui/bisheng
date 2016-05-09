@@ -5,7 +5,7 @@ const Route = ReactRouter.Route;
 const chain = require('ramda/src/chain');
 const toReactComponent = require('jsonml-to-react-component');
 const exist = require('exist.js');
-const data = require('./loaders/bisheng.data');
+const data = require('./data.js');
 
 const plugins = data.plugins;
 const converters = chain((plugin) => plugin.converters || [], plugins);

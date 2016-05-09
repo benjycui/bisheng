@@ -12,7 +12,7 @@ module.exports = {
     webpackConfig.entry = {};
     webpackConfig.module.loaders.push({
       test(filename) {
-        return filename === `${bishengLibLoaders}bisheng.data`;
+        return filename === `${bishengLib}data.js`;
       },
       loader: `${bishengLibLoaders}bisheng-data-loader?config=${configFile}`,
     });
