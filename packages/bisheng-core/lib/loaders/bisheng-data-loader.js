@@ -1,7 +1,7 @@
 const path = require('path');
 const loaderUtils = require('loader-utils');
 const getConfig = require('../utils/get-config');
-const generateMarkdownData = require('../utils/generate-markdown-data');
+const markdownData = require('../utils/markdown-data');
 const resolvePlugins = require('../utils/resolve-plugins');
 
 module.exports = function bishengDataLoader(/* content */) {
@@ -12,7 +12,7 @@ module.exports = function bishengDataLoader(/* content */) {
   const query = loaderUtils.parseQuery(this.query);
   const config = getConfig(query.config);
 
-  const markdownData = generateMarkdownData(config.source, config.extension);
+  const markdown = markdownData.generate(config.source, config.extension);
   const plugins = resolvePlugins(config.plugins, true);
   const pluginsString = plugins.map(
     (plugin) =>
@@ -20,7 +20,7 @@ module.exports = function bishengDataLoader(/* content */) {
   ).join(',\n');
 
   return 'module.exports = {' +
-    `\n  markdown: ${markdownData},` +
+    `\n  markdown: ${markdownData.stringify(markdown)},` +
     `\n  plugins: [\n${pluginsString}\n],` +
     `\n};`;
 };

@@ -53,7 +53,7 @@ function stringify(node, depth) {
   ])(node);
 }
 
-module.exports = R.useWith((source, extensions) => {
+exports.generate = R.useWith((source, extensions) => {
   function isMDFile(filename) {
     const ext = path.extname(filename);
     return !isDirectory(filename) && R.contains(ext, extensions);
@@ -61,5 +61,7 @@ module.exports = R.useWith((source, extensions) => {
 
   const mds = findMDFile(source, isMDFile);
   const filesTree = filesToTreeStructure(mds);
-  return stringify(filesTree, 0);
+  return filesTree;
 }, [ensureToBeArray, ensureToBeArray]);
+
+exports.stringify = (filesTree) => stringify(filesTree, 0);
