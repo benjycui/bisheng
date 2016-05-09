@@ -1,117 +1,138 @@
-/* syntax browed from github */
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
 
-pre .comment,
-pre .template_comment,
-pre .diff .header,
-pre .javadoc {
-  color: #998;
-  font-style: italic
+code[class*="language-"],
+pre[class*="language-"] {
+        color: black;
+        background: none;
+        text-shadow: 0 1px white;
+        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        direction: ltr;
+        text-align: left;
+        white-space: pre;
+        word-spacing: normal;
+        word-break: normal;
+        word-wrap: normal;
+        line-height: 1.5;
+
+        -moz-tab-size: 4;
+        -o-tab-size: 4;
+        tab-size: 4;
+
+        -webkit-hyphens: none;
+        -moz-hyphens: none;
+        -ms-hyphens: none;
+        hyphens: none;
 }
 
-pre .keyword,
-pre .css .rule .keyword,
-pre .winutils,
-pre .javascript .title,
-pre .nginx .title,
-pre .subst,
-pre .request,
-pre .status {
-  color: #333;
-  font-weight: bold
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+        text-shadow: none;
+        background: #b3d4fc;
 }
 
-pre .number,
-pre .hexcolor,
-pre .ruby .constant {
-  color: #099;
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+        text-shadow: none;
+        background: #b3d4fc;
 }
 
-pre .string,
-pre .tag .value,
-pre .phpdoc,
-pre .tex .formula {
-  color: #d14
+@media print {
+        code[class*="language-"],
+        pre[class*="language-"] {
+                text-shadow: none;
+        }
 }
 
-pre .title,
-pre .id {
-  color: #900;
-  font-weight: bold
+/* Code blocks */
+pre[class*="language-"] {
+        padding: 1em;
+        margin: .5em 0;
+        overflow: auto;
 }
 
-pre .javascript .title,
-pre .lisp .title,
-pre .clojure .title,
-pre .subst {
-  font-weight: normal
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+        background: #f5f2f0;
 }
 
-pre .class .title,
-pre .haskell .type,
-pre .vhdl .literal,
-pre .tex .command {
-  color: #458;
-  font-weight: bold
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+        padding: .1em;
+        border-radius: .3em;
+        white-space: normal;
 }
 
-pre .tag,
-pre .tag .title,
-pre .rules .property,
-pre .django .tag .keyword {
-  color: #000080;
-  font-weight: normal
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+        color: slategray;
 }
 
-pre .attribute,
-pre .variable,
-pre .lisp .body {
-  color: #008080
+.token.punctuation {
+        color: #999;
 }
 
-pre .regexp {
-  color: #009926
+.namespace {
+        opacity: .7;
 }
 
-pre .class {
-  color: #458;
-  font-weight: bold
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+        color: #905;
 }
 
-pre .symbol,
-pre .ruby .symbol .string,
-pre .lisp .keyword,
-pre .tex .special,
-pre .prompt {
-  color: #990073
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+        color: #690;
 }
 
-pre .built_in,
-pre .lisp .title,
-pre .clojure .built_in {
-  color: #0086b3
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+        color: #a67f59;
+        background: hsla(0, 0%, 100%, .5);
 }
 
-pre .preprocessor,
-pre .pi,
-pre .doctype,
-pre .shebang,
-pre .cdata {
-  color: #999;
-  font-weight: bold
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+        color: #07a;
 }
 
-pre .deletion {
-  background: #fdd
+.token.function {
+        color: #DD4A68;
 }
 
-pre .addition {
-  background: #dfd
+.token.regex,
+.token.important,
+.token.variable {
+        color: #e90;
 }
 
-pre .diff .change {
-  background: #0086b3
+.token.important,
+.token.bold {
+        font-weight: bold;
+}
+.token.italic {
+        font-style: italic;
 }
 
-pre .chunk {
-  color: #aaa
+.token.entity {
+        cursor: help;
 }
