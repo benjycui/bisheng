@@ -7,6 +7,7 @@ const defaultConfig = {
   output: './_site',
   theme: './_theme',
   port: 8000,
+  root: '/',
   plugins: [],
   webpackConfig(config) {
     return config;
