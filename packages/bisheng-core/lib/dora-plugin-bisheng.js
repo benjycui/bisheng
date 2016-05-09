@@ -12,6 +12,12 @@ module.exports = {
     webpackConfig.entry = {};
     webpackConfig.module.loaders.push({
       test(filename) {
+        return filename === `${bishengLib}entry.js`;
+      },
+      loader: `${bishengLibLoaders}bisheng-entry-loader?config=${configFile}`,
+    });
+    webpackConfig.module.loaders.push({
+      test(filename) {
         return filename === `${bishengLib}data.js`;
       },
       loader: `${bishengLibLoaders}bisheng-data-loader?config=${configFile}`,
