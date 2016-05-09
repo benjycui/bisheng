@@ -44,6 +44,7 @@
     "loader-utils": "^0.2.14",
     "mark-twain": "^1.1.4",
     "mkdirp": "^0.5.1",
+    "nunjucks": "^2.4.2",
     "prismjs": "^1.4.1",
     "ramda": "^0.21.0",
     "react": "^15.0.2",
