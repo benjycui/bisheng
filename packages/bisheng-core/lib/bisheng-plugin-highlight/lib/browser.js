@@ -5,8 +5,9 @@ module.exports = (config) => {
   return {
     converters: [
       [(node) => JsonML.getTagName(node) === 'pre', (node, index) => {
-        return React.createElement('pre', { key: index }, React.createElement('code', {
-          dangerouslySetInnerHTML: { __html: JsonML.getAttributes(node).highlighted },
+        const attr = JsonML.getAttributes(node);
+        return React.createElement('pre', { key: index, className: `language-${attr.lang}` }, React.createElement('code', {
+          dangerouslySetInnerHTML: { __html: attr.highlighted },
         }));
       }]
     ],
