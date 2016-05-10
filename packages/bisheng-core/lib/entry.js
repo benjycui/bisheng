@@ -1,6 +1,7 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const ReactRouter = require('react-router');
+const history = require('history');
 const Route = ReactRouter.Route;
 const chain = require('ramda/src/chain');
 const toReactComponent = require('jsonml-to-react-component');
@@ -61,7 +62,9 @@ routes.push(React.createElement(Route, {
 
 ReactDOM.render(
   React.createElement(ReactRouter.Router, {
-    history: ReactRouter.browserHistory,
+    history: ReactRouter.useRouterHistory(history.createHistory)({
+      basename: '{{ root }}'
+    }),
     children: routes,
   }),
   document.getElementById('react-content')

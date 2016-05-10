@@ -4,18 +4,20 @@ const getConfig = require('./get-config');
 const bishengLib = path.join(__dirname, '..');
 const bishengLibLoaders = path.join(bishengLib, 'loaders');
 
-module.exports = function updateWebpackConfig(webpackConfig, configFile) {
+module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild) {
   const entryPath = path.join(bishengLib, 'entry.js');
   const config = getConfig(configFile);
 
   /* eslint-disable no-param-reassign */
   webpackConfig.entry = {};
-  webpackConfig.output.path = config.output;
+  if (isBuild) {
+    webpackConfig.output.path = config.output;
+  }
   webpackConfig.module.loaders.push({
     test(filename) {
       return filename === entryPath;
     },
-    loader: `${path.join(bishengLibLoaders, 'bisheng-entry-loader')}?config=${configFile}`,
+    loader: `${path.join(bishengLibLoaders, 'bisheng-entry-loader')}?config=${configFile}&isBuild=${isBuild}`,
   });
   webpackConfig.module.loaders.push({
     test(filename) {

@@ -11,6 +11,7 @@ module.exports = function bishengEntryLoader(content) {
   const query = loaderUtils.parseQuery(this.query);
   const config = getConfig(query.config);
   const themePath = path.join(process.cwd(), config.theme);
+  const root = query.isBuild === true ? config.root : '/';
 
-  return nunjucks.renderString(content, { themePath });
+  return nunjucks.renderString(content, { themePath, root });
 };
