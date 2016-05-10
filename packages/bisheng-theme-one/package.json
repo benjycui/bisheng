@@ -2,7 +2,8 @@
   "name": "bisheng-theme-one",
   "description": "The one theme for bisheng.",
   "scripts": {
-    "start": "bisheng start",
+    "start": "bisheng",
+    "deploy": "bisheng gh-pages",
     "lint": "eslint ./_theme",
     "eslint-fix": "eslint --fix ./_theme",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,7 +24,7 @@
   },
   "homepage": "https://github.com/benjycui/bisheng-theme-one#readme",
   "devDependencies": {
-    "bisheng": "^0.1.0-beta.0",
+    "bisheng": "^0.1.0",
     "eslint": "^2.9.0",
     "eslint-config-airbnb": "^8.0.0",
     "eslint-plugin-import": "^1.6.1",
@@ -31,6 +32,8 @@
     "eslint-plugin-react": "^5.0.1"
   },
   "dependencies": {
-    "react-document-title": "^2.0.1"
+    "react": "^15.0.2",
+    "react-document-title": "^2.0.1",
+    "react-router": "^2.4.0"
   }
 }
