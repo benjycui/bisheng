@@ -18,7 +18,9 @@ module.exports = function markdownLoader(content) {
   const plugins = resolvePlugins(getConfig(query.config).plugins);
   const parsedMarkdown = plugins.reduce(
     (markdownData, plugin) =>
+      /* eslint-disable global-require */
       require(plugin[0])(markdownData, plugin[1]),
+      /* eslint-enable global-require */
     markdown
   );
 
