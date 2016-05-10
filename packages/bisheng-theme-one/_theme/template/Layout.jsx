@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router';
 import '../static/style';
 
-export default ({ config, children }) => {
+const config = require('..');
+
+export default ({ children }) => {
   return (
     <div>
       <div className="header">
