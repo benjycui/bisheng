@@ -17,7 +17,7 @@ module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild
     test(filename) {
       return filename === entryPath;
     },
-    loader: `${path.join(bishengLibLoaders, 'bisheng-entry-loader')}?config=${configFile}&isBuild=${isBuild}`,
+    loader: `babel!${path.join(bishengLibLoaders, 'bisheng-entry-loader')}?config=${configFile}&isBuild=${isBuild}`,
   });
   webpackConfig.module.loaders.push({
     test(filename) {
