@@ -3,14 +3,9 @@ import { Link } from 'react-router';
 import DocumentTitle from 'react-document-title';
 import Layout from './Layout';
 
-function getPostFilename(pathname) {
-  const snippets = pathname.split('/');
-  return `${snippets[snippets.length - 1]}.md`;
-}
-
 export default (props) => {
-  const { data, utils, location } = props;
-  const { meta, content } = data.posts[getPostFilename(location.pathname)];
+  const { pageData, utils } = props;
+  const { meta, content } = pageData;
   return (
     <DocumentTitle title={`${meta.title} | BiSheng Theme One`}>
       <Layout {...props}>

@@ -44,7 +44,7 @@ export default (props) => {
             Object.keys(tags).map((tag) =>
               [
                 <a className="item-tag" href={`#${tag}`} id={tag} key="tag">{tag}</a>
-              ].concat(tags[tag].map(({ meta }, index) => 
+              ].concat(tags[tag].map(({ meta }, index) =>
                 <div className="item" key={index}>
                   <h2 className="item-title">
                     <time>{meta.publishDate.slice(0, 10)}</time>
