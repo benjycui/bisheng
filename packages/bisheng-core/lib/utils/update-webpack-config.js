@@ -7,7 +7,7 @@ const bishengLibLoaders = path.join(bishengLib, 'loaders');
 module.exports = function updateWebpackConfig(webpackConfig, configFile) {
   const entryPath = path.join(bishengLib, 'entry.js');
   const config = getConfig(configFile);
-  
+
   /* eslint-disable no-param-reassign */
   webpackConfig.entry = {};
   webpackConfig.output.path = config.output;
