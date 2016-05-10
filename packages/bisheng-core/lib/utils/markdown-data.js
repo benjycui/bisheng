@@ -37,7 +37,7 @@ function stringifyObject(obj, depth) {
   const kvStrings = R.pipe(
     R.toPairs,
     /* eslint-disable no-use-before-define */
-    R.map((kv) => `${indent}  '${kv[0]}': ${stringify(kv[1], depth + 1)},`)
+    R.map((kv) => `${indent}  '${kv[0].replace(/\.md$/, '')}': ${stringify(kv[1], depth + 1)},`)
     /* eslint-enable no-use-before-define */
   )(obj);
   return kvStrings.join('\n');
@@ -49,7 +49,7 @@ function stringify(node, depth) {
     [(n) => typeof n === 'object', (obj) =>
      `{\n${stringifyObject(obj, depth)}\n${indent}}`,
     ],
-    [R.T, (filename) => `require('${process.cwd()}${path.sep}${filename}')`],
+    [R.T, (filename) => `require('${path.join(process.cwd(), filename)}')`],
   ])(node);
 }
 
