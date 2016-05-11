@@ -3,7 +3,6 @@ const path = require('path');
 
 const defaultConfig = {
   source: './posts',
-  extension: '.md',
   output: './_site',
   theme: './_theme',
   port: 8000,

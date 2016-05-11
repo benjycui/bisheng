@@ -41,7 +41,7 @@ exports.build = function build(program, callback) {
   /* eslint-enable global-require */
   themeConfig.completedRoutes = toCompletedRoutes(themeConfig.routes);
 
-  const markdown = markdownData.generate(config.source, config.extension);
+  const markdown = markdownData.generate(config.source);
   const filesNeedCreated = generateFilesPath(themeConfig.completedRoutes, markdown);
   const template = fs.readFileSync(path.join(__dirname, 'template.html')).toString();
   const fileContent = nunjucks.renderString(template, { root: config.root });
@@ -76,7 +76,7 @@ exports.deploy = function deploy(program) {
       if (err) {
         throw err;
       }
-      console.log('Site has been published');
+      console.log('Site has been published!');
     });
   });
 };
