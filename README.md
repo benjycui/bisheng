@@ -37,7 +37,6 @@ Create `bisheng.config.js`, otherwise `bisheng` will use the default config:
 ```js
 module.exports = {
   source: './posts',
-  extension: '.md',
   output: './_site',
   theme: './_theme',
   port: 8000,
