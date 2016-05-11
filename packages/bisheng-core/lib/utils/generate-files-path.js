@@ -25,5 +25,5 @@ module.exports = function generateFilesPath(completedRoutes, markdown) {
       return [`${item.route}index.html`];
     }
     return [`${item.route}.html`];
-  }, completedRoutes);
+  }, completedRoutes).concat('/404.html');
 };
