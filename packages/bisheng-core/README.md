@@ -93,7 +93,7 @@ To set the port which will be used when start a local server.
 
 #### root: String
 
-If the website will be deploy under a sub-directory of a domain(something like `http://benjycui.github.io/bisheng-theme-one/`), we must set it(such as `/bisheng-theme-one`).
+If the website will be deploy under a sub-directory of a domain(something like `http://benjycui.github.io/bisheng-theme-one/`), we must set it(such as `/bisheng-theme-one/`).
 
 #### plugins
 
