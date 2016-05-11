@@ -7,6 +7,6 @@ program
   .version(package.version)
   .usage('[command] [options]')
   .command('start [options]', 'to start a server', { isDefault: true })
-  .command('build', 'to build and write static files to `config.output`')
-  .command('gh-pages', 'to deploy website to gh-pages')
+  .command('build [options]', 'to build and write static files to `config.output`')
+  .command('gh-pages [options]', 'to deploy website to gh-pages')
   .parse(process.argv);
