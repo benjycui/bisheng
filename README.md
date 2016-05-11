@@ -49,6 +49,62 @@ Now, just run `npm start`.
 
 ## Documentation
 
+### CLI
+
+We can install `bisheng` as a cli command and explore what it can do by `bisheng -g`. However, the recommanded way to use `bisheng` is that install it as `devDependencies`.
+
+```bash
+npm install -g bisheng
+bisheng -h
+```
+
+### Configuration
+
+`bisheng` will read `bisheng.config.js` as its config file, but we can set the config file name by `--config`, something like this `bisheng --config another.config.js`.
+
+The content of `bisheng.config.js` looks like this:
+
+```js
+module.exports = {
+  source: './posts',
+  output: './_site',
+  theme: './_theme',
+  port: 8000,
+  root: '/',
+  plugins: [],
+};
+```
+
+#### source: String|Array[String]
+
+To set directory/directories where we place markdown files.
+
+#### output: String
+
+To set directory where `bisheng` will generate (HTML & CSS & JavaScript) files to.
+
+#### theme: String
+
+To set directory where we put the theme of website.
+
+#### port: Number
+
+To set the port which will be used when start a local server.
+
+#### root: String
+
+If the website will be deploy under a sub-directory of a domain(something like `http://benjycui.github.io/bisheng-theme-one/`), we must set it(such as `/bisheng-theme-one`).
+
+#### plugins
+
+// TBD
+
+### How to develop a theme
+
+// TBD
+
+### How to develop a plugin
+
 // TBD
 
 ## Liscense
