@@ -51,7 +51,7 @@ Now, just run `npm start`.
 
 ### CLI
 
-We can install `bisheng` as a cli command and explore what it can do by `bisheng -g`. However, the recommanded way to use `bisheng` is that install it as `devDependencies`.
+We can install `bisheng` as a cli command and explore what it can do by `bisheng -h`. However, the recommanded way to use `bisheng` is that install it as `devDependencies`.
 
 ```bash
 $ npm install -g bisheng
@@ -90,7 +90,7 @@ module.exports = {
 
 #### source: String|Array[String]
 
-To set directory/directories where we place markdown files.
+To set directory/directories where we place Markdown files.
 
 #### output: String
 
@@ -122,6 +122,7 @@ theme
 ├── static # style files
 │   └── style.css
 └── template # templates are JSX files
+    ├── NotFound.jsx # required
     └── Template.jsx
 ```
 
@@ -167,6 +168,7 @@ If `routes` is an object, `bisheng` will process key as `route` and `dataPath`, 
 A template is just a React component, `bisheng` will pass `data` `pageData` `utils` and all the [react-router](https://github.com/reactjs/react-router) props to it.
 
 * `data` is generated from Markdown files in `source`(see: `bisheng.config.js`), and the structure of `data` is the same as directories' structure:
+
   ```js
   {
     posts: {
@@ -175,6 +177,7 @@ A template is just a React component, `bisheng` will pass `data` `pageData` `uti
     },
   }
   ```
+
   Every Markdown file will be parsed as an object by [mark-twain](https://github.com/benjycui/mark-twain).
 * `pageData` is the content of a specific Markdown file. Actually, `bisheng` just get it from `data`.
 * `uitls` includes `bisheng`'s and plugins' utilities:
