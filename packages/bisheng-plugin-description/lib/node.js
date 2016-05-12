@@ -7,12 +7,14 @@ module.exports = (markdownData) => {
   const contentChildren = JsonML.getChildren(content);
   const dividerIndex = contentChildren.findIndex((node) => JsonML.getTagName(node) === 'hr');
 
-  markdownData.description = ['section']
-    .concat(contentChildren.slice(0, dividerIndex));
-  markdownData.content = [
-    JsonML.getTagName(content),
-    JsonML.getAttributes(content) || {},
-  ].concat(contentChildren.slice(dividerIndex + 1));
+  if (dividerIndex >= 0) {
+    markdownData.description = ['section']
+      .concat(contentChildren.slice(0, dividerIndex));
+    markdownData.content = [
+      JsonML.getTagName(content),
+      JsonML.getAttributes(content) || {},
+    ].concat(contentChildren.slice(dividerIndex + 1));
+  }
 
   return markdownData;
 };
