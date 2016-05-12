@@ -1,0 +1,23 @@
+{
+  "name": "bisheng-plugin-description",
+  "version": "0.1.0",
+  "description": "To extract description from Markdown.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjycui/bisheng-plugin-description.git"
+  },
+  "keywords": [
+    "bisheng",
+    "plugin",
+    "description"
+  ],
+  "author": "Benjy Cui",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benjycui/bisheng-plugin-description/issues"
+  },
+  "homepage": "https://github.com/benjycui/bisheng-plugin-description#readme"
+}
