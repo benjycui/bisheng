@@ -22,6 +22,7 @@ function getTags(posts) {
 }
 
 export default (props) => {
+  const toReactComponent = props.utils.toReactComponent;
   const tags = getTags(props.data.posts);
 
   return (
@@ -44,16 +45,16 @@ export default (props) => {
             Object.keys(tags).map((tag) =>
               [
                 <a className="item-tag" href={`#${tag}`} id={tag} key="tag">{tag}</a>
-              ].concat(tags[tag].map(({ meta }, index) =>
+              ].concat(tags[tag].map(({ meta, description }, index) =>
                 <div className="item" key={index}>
                   <h2 className="item-title">
                     <time>{meta.publishDate.slice(0, 10)}</time>
                     <Link to={`${meta.filename.replace(/\.md/, '')}`}>{meta.title}</Link>
                   </h2>
                   {
-                    !meta.description ? null :
+                    !description ? null :
                       <div className="item-description">
-                        { meta.description }
+                        { toReactComponent(description) }
                       </div>
                   }
                 </div>

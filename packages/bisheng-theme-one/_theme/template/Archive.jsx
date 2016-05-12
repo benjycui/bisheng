@@ -9,12 +9,13 @@ function getTime(date) {
 
 export default (props) => {
   const data = props.data;
+  const toReactComponent = props.utils.toReactComponent;
   const posts = Object.keys(data.posts).map((key) => data.posts[key])
           .sort((a, b) => getTime(b.meta.publishDate) - getTime(a.meta.publishDate));
 
   let year = NaN;
   const entryList = [];
-  posts.forEach(({ meta }, index) => {
+  posts.forEach(({ meta, description }, index) => {
     const publishYear = meta.publishDate.slice(0, 4);
     if (year !== publishYear) {
       year = publishYear;
@@ -31,9 +32,9 @@ export default (props) => {
           <Link to={`/${meta.filename.replace(/\.md$/i, '')}`}>{meta.title}</Link>
         </h2>
         {
-          !meta.description ? null :
+          !description ? null :
             <div className="item-description">
-              { meta.description }
+              { toReactComponent(description) }
             </div>
         }
       </div>

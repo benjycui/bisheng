@@ -5,15 +5,15 @@ import Layout from './Layout';
 
 export default (props) => {
   const { pageData, utils } = props;
-  const { meta, content } = pageData;
+  const { meta, description, content } = pageData;
   return (
     <DocumentTitle title={`${meta.title} | BiSheng Theme One`}>
       <Layout {...props}>
         <div className="hentry">
           <h1 className="entry-title">{meta.title}</h1>
           {
-            !meta.description ? null :
-              <div className="entry-description">{meta.description}</div>
+            !description ? null :
+              <div className="entry-description">{utils.toReactComponent(description)}</div>
           }
           <div className="entry-content">{utils.toReactComponent(content)}</div>
 
