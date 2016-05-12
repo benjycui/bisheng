@@ -34,7 +34,6 @@ const noop = () => {};
 exports.build = function build(program, callback) {
   const configFile = program.config || path.join(process.cwd(), 'bisheng.config.js');
   const config = getConfig(configFile);
-  mkdirp.sync(config.output);
 
   /* eslint-disable global-require */
   const themeConfig = require(path.join(process.cwd(), config.theme));
@@ -43,8 +42,10 @@ exports.build = function build(program, callback) {
 
   const markdown = markdownData.generate(config.source);
   const filesNeedCreated = generateFilesPath(themeConfig.completedRoutes, markdown);
+
   const template = fs.readFileSync(path.join(__dirname, 'template.html')).toString();
   const fileContent = nunjucks.renderString(template, { root: config.root });
+
   filesNeedCreated.forEach((file) => {
     const output = path.join(config.output, file);
     mkdirp.sync(path.dirname(output));
