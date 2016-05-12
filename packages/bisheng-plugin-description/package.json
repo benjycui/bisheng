@@ -1,6 +1,6 @@
 {
   "name": "bisheng-plugin-description",
-  "version": "0.1.0",
+  "version": "0.1.0-beta.0",
   "description": "To extract description from Markdown.",
   "scripts": {
     "lint": "eslint .eslintrc.js ./lib",
