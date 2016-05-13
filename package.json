@@ -6,8 +6,8 @@
     "bisheng": "./bin/bisheng"
   },
   "scripts": {
-    "lint": "eslint ./lib",
-    "eslint-fix": "eslint --fix ./lib",
+    "lint": "eslint .eslintrc.js ./lib",
+    "eslint-fix": "eslint .eslintrc.js --fix ./lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "pre-commit": [
@@ -56,10 +56,7 @@
   },
   "devDependencies": {
     "eslint": "^2.9.0",
-    "eslint-config-airbnb": "^8.0.0",
-    "eslint-plugin-import": "^1.6.1",
-    "eslint-plugin-jsx-a11y": "^1.0.4",
-    "eslint-plugin-react": "^5.0.1",
+    "eslint-config-egg": "^2.0.0",
     "pre-commit": "^1.1.2"
   }
 }
