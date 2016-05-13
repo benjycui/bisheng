@@ -20,6 +20,21 @@ module.exports = {
 };
 ```
 
+In Markdown:
+
+```markdown
+---
+title: ...
+...
+---
+
+This is description.
+
+---
+
+This is main content.
+```
+
 In template:
 
 ```jsx
