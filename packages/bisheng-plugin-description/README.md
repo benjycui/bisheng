@@ -1,5 +1,7 @@
 # bisheng-plugin-description
 
+[![Build Status](https://travis-ci.org/benjycui/bisheng-plugin-description.svg?branch=master)](https://travis-ci.org/benjycui/bisheng-plugin-description)
+
 To extract description from Markdown.
 
 ## Usage
