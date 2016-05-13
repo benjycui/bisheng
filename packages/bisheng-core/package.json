@@ -6,8 +6,8 @@
     "bisheng": "./bin/bisheng"
   },
   "scripts": {
-    "lint": "eslint .eslintrc.js ./lib",
-    "eslint-fix": "eslint .eslintrc.js --fix ./lib",
+    "lint": "eslint .eslintrc.js ./lib ./test",
+    "eslint-fix": "eslint .eslintrc.js --fix ./lib ./test",
     "test": "mocha --recursive"
   },
   "pre-commit": [
