@@ -1,3 +1,5 @@
+'use strict';
+
 const path = require('path');
 const webpack = require('atool-build/lib/webpack');
 const getConfig = require('./get-config');

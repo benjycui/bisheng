@@ -1,3 +1,5 @@
+'use strict';
+
 const loaderUtils = require('loader-utils');
 const getConfig = require('../utils/get-config');
 const markdownData = require('../utils/markdown-data');

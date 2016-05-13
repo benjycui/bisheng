@@ -1,3 +1,5 @@
+'use strict';
+
 const path = require('path');
 const nunjucks = require('nunjucks');
 const loaderUtils = require('loader-utils');
