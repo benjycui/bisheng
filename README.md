@@ -104,6 +104,8 @@ To set directory where we put the theme of website.
 
 [More about theme.](https://github.com/benjycui/bisheng/tree/master/docs/theme.md)
 
+* [bisheng-theme-one](https://github.com/benjycui/bisheng-theme-one)
+
 #### port: Number
 
 To set the port which will be used when start a local server.
@@ -113,10 +115,6 @@ To set the port which will be used when start a local server.
 If the website will be deploy under a sub-directory of a domain(something like `http://benjycui.github.io/bisheng-theme-one/`), we must set it(such as `/bisheng-theme-one/`).
 
 #### plugins
-
-// TBD
-
-### Plugins
 
 // TBD
 
