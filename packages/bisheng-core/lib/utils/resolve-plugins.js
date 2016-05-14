@@ -19,7 +19,7 @@ module.exports = function resolvePlugins(plugins, isBrowser) {
   return plugins.map((plugin) => {
     const snippets = plugin.split('?');
     const moduleName = isBrowser ? 'browser' : 'node';
-    const pluginName = `${snippets[0]}${path.sep}lib${path.sep}${moduleName}`;
+    const pluginName = path.join(snippets[0], 'lib', moduleName);
     const pluginQuery = loaderUtils.parseQuery(snippets[1] ? `?${snippets[1]}` : '');
     const resolvedPlugin = resolvePlugin(pluginName);
     if (!resolvedPlugin) {
