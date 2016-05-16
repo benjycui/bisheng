@@ -22,12 +22,15 @@ exports.start = function start(program) {
   const indexPath = path.join(process.cwd(), 'index.html');
   fs.writeFileSync(indexPath, nunjucks.renderString(template, { root: '/' }));
 
+  require('babel-polyfill');
   dora({
     port: config.port,
     plugins: [
       `${require.resolve('dora-plugin-webpack')}?disableNpmInstall`,
       `${path.join(__dirname, 'dora-plugin-bisheng')}?config=${configFile}`,
       require.resolve('dora-plugin-browser-history'),
+      `${require.resolve('dora-plugin-webpack-hmr')}?reload=false`,
+      `${require.resolve('dora-plugin-livereload')}?enableJs=false`,
     ],
   });
 };
