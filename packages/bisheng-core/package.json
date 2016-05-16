@@ -38,7 +38,7 @@
     "dora-plugin-livereload": "^0.3.0",
     "dora-plugin-webpack": "^0.6.4",
     "dora-plugin-webpack-hmr": "^0.1.1",
-    "exist.js": "^0.1.3",
+    "exist.js": "^0.2.0",
     "gh-pages": "^0.11.0",
     "history": "^2.1.1",
     "jsonml-to-react-component": "^0.2.2",
