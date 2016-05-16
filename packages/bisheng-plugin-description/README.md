@@ -1,6 +1,9 @@
 # bisheng-plugin-description
 
-[![Build Status](https://travis-ci.org/benjycui/bisheng-plugin-description.svg?branch=master)](https://travis-ci.org/benjycui/bisheng-plugin-description)
+[![](https://img.shields.io/travis/benjycui/bisheng-plugin-description.svg?style=flat-square)](https://travis-ci.org/benjycui/bisheng-plugin-description)
+[![npm package](https://img.shields.io/npm/v/bisheng-plugin-description.svg?style=flat-square)](https://www.npmjs.org/package/bisheng-plugin-description)
+[![NPM downloads](http://img.shields.io/npm/dm/bisheng-plugin-description.svg?style=flat-square)](https://npmjs.org/package/bisheng-plugin-description)
+[![Dependency Status](https://david-dm.org/benjycui/bisheng-plugin-description.svg?style=flat-square)](https://david-dm.org/benjycui/bisheng-plugin-description)
 
 To extract description from Markdown.
 
