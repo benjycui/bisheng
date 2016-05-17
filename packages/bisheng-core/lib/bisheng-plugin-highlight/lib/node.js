@@ -1,22 +1,7 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const R = require('ramda');
+const Prism = require('node-prismjs');
 const JsonML = require('jsonml.js/lib/utils');
-
-const prismCore = 'prismjs/components/prism-core';
-const Prism = require(prismCore);
-const prismComponents = path.dirname(require.resolve(prismCore));
-const prelude = [
-  'prism-clike', 'prism-javascript', 'prism-markup', 'prism-c', 'prism-ruby',
-  'prism-css',
-];
-
-const componentsSet = R.uniq(prelude.concat(fs.readdirSync(prismComponents))
-                             .map((component) => component.replace(/(\.min)?\.js$/, '')));
-componentsSet
-  .forEach((component) => require(path.join(prismComponents, component)));
 
 function getCode(node) {
   return JsonML.getChildren(
