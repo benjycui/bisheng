@@ -19,11 +19,12 @@ exports.start = function start(program) {
   const config = getConfig(configFile);
 
   const template = fs.readFileSync(path.join(__dirname, 'template.html')).toString();
-  const indexPath = path.join(process.cwd(), 'index.html');
+  const indexPath = path.join(process.cwd(), config.output, 'index.html');
   fs.writeFileSync(indexPath, nunjucks.renderString(template, { root: '/' }));
 
   require('babel-polyfill');
   dora({
+    cwd: path.join(process.cwd(), config.output),
     port: config.port,
     plugins: [
       `${require.resolve('dora-plugin-webpack')}?disableNpmInstall`,
