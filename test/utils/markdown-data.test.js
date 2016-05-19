@@ -12,8 +12,11 @@ describe('utils/markdown-data', function() {
         test: {
           fixtures: {
             posts: {
-              'a.md': 'test/fixtures/posts/a.md',
-              'b.md': 'test/fixtures/posts/b.md',
+              a: {
+                'en-US': 'test/fixtures/posts/a.en-US.md',
+                'zh-CN': 'test/fixtures/posts/a.zh-CN.md',
+              },
+              b: 'test/fixtures/posts/b.md',
             },
           },
         },
@@ -29,7 +32,10 @@ describe('utils/markdown-data', function() {
                          '  \'test\': {\n' +
                          '    \'fixtures\': {\n' +
                          '      \'posts\': {\n' +
-                         `        'a': require('${path.join(__dirname, '../fixtures/posts/a.md')}'),\n` +
+                         '        \'a\': {\n' +
+                         `          'en-US': require('${path.join(__dirname, '../fixtures/posts/a.en-US.md')}'),\n` +
+                         `          'zh-CN': require('${path.join(__dirname, '../fixtures/posts/a.zh-CN.md')}'),\n` +
+                         '        },\n' +
                          `        'b': require('${path.join(__dirname, '../fixtures/posts/b.md')}'),\n` +
                          '      },\n' +
                          '    },\n' +
