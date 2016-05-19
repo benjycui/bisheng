@@ -1,0 +1,31 @@
+{
+  "name": "bisheng-plugin-toc",
+  "version": "0.1.0",
+  "description": "Generate a Table of Contents (TOC) for Markdown files.",
+  "scripts": {
+    "lint": "eslint ./lib ./test",
+    "eslint-fix": "eslint --fix ./lib ./test",
+    "test": "npm run lint && mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjycui/bisheng-plugin-toc.git"
+  },
+  "keywords": [
+    "bisheng",
+    "plugin",
+    "toc",
+    "markdown"
+  ],
+  "author": "Benjy Cui",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benjycui/bisheng-plugin-toc/issues"
+  },
+  "homepage": "https://github.com/benjycui/bisheng-plugin-toc#readme",
+  "devDependencies": {
+    "eslint": "^2.10.2",
+    "eslint-config-egg": "^2.0.0",
+    "mocha": "^2.4.5"
+  }
+}
