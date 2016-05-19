@@ -1,6 +1,6 @@
 {
   "name": "bisheng",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Transform Markdown files into a SPA website using React.",
   "bin": {
     "bisheng": "./bin/bisheng"
@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint .eslintrc.js ./lib ./test",
     "eslint-fix": "eslint .eslintrc.js --fix ./lib ./test",
-    "test": "mocha --recursive"
+    "test": "npm run lint && mocha --recursive"
   },
   "pre-commit": [
     "lint"
