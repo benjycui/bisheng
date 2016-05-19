@@ -3,8 +3,9 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const ReactRouter = require('react-router');
-const history = require('history');
 const Route = ReactRouter.Route;
+const Redirect = ReactRouter.Redirect;
+const history = require('history');
 const toCompletedRoutes = require('./utils/to-completed-routes');
 const templateWrapper = require('./utils/template-wrapper.nunjucks');
 
@@ -14,22 +15,30 @@ theme.completedRoutes = toCompletedRoutes(theme.routes);
 const routes = theme.completedRoutes.map(
   (item, index) =>
     React.createElement(Route, {
-      key: index,
+      key: `route-${index}`,
       path: item.route,
       component: templateWrapper(item.template, item.dataPath),
     })
 );
 routes.push(React.createElement(Route, {
-  key: 'not found',
+  key: 'not-found',
   path: '*',
   component: templateWrapper('./template/NotFound'),
 }));
+
+const configRedirects = theme.redirects || {};
+const redirects = Object.keys(configRedirects)
+        .map((from, index) => React.createElement(Redirect, {
+          key: `redirect-${index}`,
+          from,
+          to: configRedirects[from],
+        }))
 
 const router = React.createElement(ReactRouter.Router, {
   history: ReactRouter.useRouterHistory(history.createHistory)({
     basename: '{{ root }}',
   }),
-  children: routes,
+  children: redirects.concat(routes),
 });
 ReactDOM.render(
   router,

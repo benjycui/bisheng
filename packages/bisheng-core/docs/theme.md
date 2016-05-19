@@ -26,6 +26,12 @@ module.exports = {
     ...
   },
 
+  // redirects is optional
+  redirects: {
+    from: 'to',
+    ...
+  }
+
   // theme's own config goes here...
   config1: ...,
   config2: ...,
