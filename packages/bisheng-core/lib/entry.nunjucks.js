@@ -32,7 +32,7 @@ const redirects = Object.keys(configRedirects)
           key: `redirect-${index}`,
           from,
           to: configRedirects[from],
-        }))
+        }));
 
 const router = React.createElement(ReactRouter.Router, {
   history: ReactRouter.useRouterHistory(history.createHistory)({
