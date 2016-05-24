@@ -20,6 +20,7 @@ exports.start = function start(program) {
 
   const template = fs.readFileSync(path.join(__dirname, 'template.html')).toString();
   const indexPath = path.join(process.cwd(), config.output, 'index.html');
+  mkdirp.sync(config.output);
   fs.writeFileSync(indexPath, nunjucks.renderString(template, { root: '/' }));
 
   require('babel-polyfill');
