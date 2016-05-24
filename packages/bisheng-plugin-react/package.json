@@ -1,0 +1,30 @@
+{
+  "name": "bisheng-plugin-react",
+  "version": "0.1.0",
+  "description": "To convert JSX which is written in Markdown to React.Element.",
+  "scripts": {
+    "lint": "eslint ./lib ./test",
+    "eslint-fix": "eslint --fix ./lib ./test",
+    "test": "npm run lint && mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjycui/bisheng-plugin-react.git"
+  },
+  "keywords": [
+    "bisheng",
+    "plugin",
+    "markdown",
+    "react"
+  ],
+  "author": "Benjy Cui",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benjycui/bisheng-plugin-react/issues"
+  },
+  "homepage": "https://github.com/benjycui/bisheng-plugin-react#readme",
+  "devDependencies": {
+    "eslint": "^2.10.2",
+    "eslint-config-egg": "^2.0.0"
+  }
+}
