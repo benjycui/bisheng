@@ -26,14 +26,9 @@ module.exports = {
 In template:
 
 ```jsx
-<ul>
-  {
-    pageData.toc.map((heading, index) => {
-      const text = JsonML.getChildren(heading)[0];
-      return <li key={index}><a href={`#${text}`}>{text}</a></li>
-    })
-  }
-</ul>
+<div>
+  { utils.toReactComponent(pageData.toc) }
+</div>
 ```
 
 ## License
