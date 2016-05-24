@@ -15,7 +15,7 @@ const generateFilesPath = require('./utils/generate-files-path');
 const updateWebpackConfig = require('./utils/update-webpack-config');
 
 exports.start = function start(program) {
-  const configFile = program.config || path.join(process.cwd(), 'bisheng.config.js');
+  const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
   const config = getConfig(configFile);
 
   const template = fs.readFileSync(path.join(__dirname, 'template.html')).toString();
