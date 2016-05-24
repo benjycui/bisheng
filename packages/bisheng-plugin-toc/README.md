@@ -31,6 +31,12 @@ In template:
 </div>
 ```
 
+## API
+
+### maxDepth: Number
+
+> default: 6
+
 ## License
 
 MIT
