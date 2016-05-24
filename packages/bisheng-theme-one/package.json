@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/benjycui/bisheng-theme-one#readme",
   "devDependencies": {
-    "bisheng": "^0.2.0",
     "eslint": "^2.9.0",
     "eslint-config-airbnb": "^8.0.0",
     "eslint-plugin-import": "^1.6.1",
@@ -32,6 +31,7 @@
     "eslint-plugin-react": "^5.0.1"
   },
   "dependencies": {
+    "bisheng": "^0.4.0",
     "bisheng-plugin-description": "^0.1.0",
     "react": "^15.0.2",
     "react-document-title": "^2.0.1",
