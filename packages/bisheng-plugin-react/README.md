@@ -32,7 +32,7 @@ This is a button:
 
 ```jsx
 import { Button } from 'antd';
-ReactDOM.render(<Button>Click!</Button>, mountNode);
+ReactDOM.render(&lt;Button&gt;Click!&lt;/Button&gt;, mountNode);
 ```
 ...
 </pre>
