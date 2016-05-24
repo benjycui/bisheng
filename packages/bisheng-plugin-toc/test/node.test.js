@@ -15,6 +15,10 @@ describe('./lib/node.js', function() {
 
   it('should ignore heading which depth is greater than `config.maxDepth`', function() {
     const data = addToc(markdownData, { maxDepth: 2 });
-    assert.deepEqual(data.toc, [ [ 'h1', 'Heading' ], [ 'h2', 'Heading' ] ]);
+    assert.deepEqual(data.toc, [
+      'ul',
+      [ 'li', [ 'a', { href: '#Heading' }, 'Heading' ] ],
+      [ 'li', [ 'a', { href: '#Heading' }, 'Heading' ] ],
+    ]);
   });
 });
