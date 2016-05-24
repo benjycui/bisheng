@@ -15,7 +15,7 @@ module.exports = (config) => {
         if (loader.test.toString() !== '/\\.md$/') return;
         const babelIndex = loader.loaders.indexOf('babel');
         const query = generateQuery(config);
-        loader.loaders.splice(babelIndex + 1, 0, path.join(process.cwd(), `jsonml-react-loader?${query}`));
+        loader.loaders.splice(babelIndex + 1, 0, path.join(__dirname, `jsonml-react-loader?${query}`));
       });
       return bishengWebpackConfig;
     },

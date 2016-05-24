@@ -1,6 +1,7 @@
 'use strict';
 const recast = require('recast');
 const builders = recast.types.builders;
+const loaderUtils = require('loader-utils');
 
 // WAITING: esprima will support JSX
 const parseOptions = {
@@ -14,10 +15,13 @@ function isNotImport(node) {
   return !isImport(node);
 }
 
-module.exports = (content) => {
+module.exports = function jsonmlReactLoader(content) {
   if (this.cacheable) {
     this.cacheable();
   }
+
+  const query = loaderUtils.parseQuery(this.query);
+  const lang = query.lang || 'react-example';
 
   let imports = [];
   const ast = recast.visit(recast.parse(content, parseOptions), {
@@ -30,7 +34,7 @@ module.exports = (content) => {
       if (firstItem &&
           firstItem.type === 'Literal' &&
           firstItem.value === 'pre' &&
-          secondItem.properties[0].value.value === '__react') { // TODO
+          secondItem.properties[0].value.value === lang) {
         const codeAst = recast.parse(node.elements[2].elements[1].value, parseOptions);
         const astProgramBody = codeAst.program.body;
 
@@ -43,10 +47,7 @@ module.exports = (content) => {
           codeBody[lastIndex].expression.arguments[0]
         );
 
-        return builders.functionExpression(null, [
-          builders.identifier('React'), // TODO
-          builders.identifier('ReactDOM'),
-        ], builders.blockStatement(codeBody));
+        return builders.functionExpression(null, [], builders.blockStatement(codeBody));
       }
 
       this.traverse(path);
@@ -54,5 +55,7 @@ module.exports = (content) => {
   });
 
   ast.program.body = imports.concat(ast.program.body);
-  return recast.print(ast).code;
+  return 'import React from \'react\';\n' +
+    'import ReactDOM from \'react-dom\';\n' +
+    recast.print(ast).code;
 };
