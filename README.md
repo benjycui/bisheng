@@ -117,9 +117,15 @@ To set the port which will be used when start a local server.
 
 If the website will be deploy under a sub-directory of a domain(something like `http://benjycui.github.io/bisheng-theme-one/`), we must set it(such as `/bisheng-theme-one/`).
 
-#### plugins
+#### plugins: Array[String]
 
-// TBD
+A list of plugins.
+
+[More about plugin.](https://github.com/benjycui/bisheng/tree/master/docs/plugin.md)
+
+* [bisheng-plugin-description](https://github.com/benjycui/bisheng-plugin-description)
+* [bisheng-plugin-toc](https://github.com/benjycui/bisheng-plugin-toc)
+* [bisheng-plugin-react](https://github.com/benjycui/bisheng-plugin-react)
 
 ## Liscense
 
