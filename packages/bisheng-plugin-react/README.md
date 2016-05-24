@@ -25,7 +25,7 @@ module.exports = {
 
 In Markdown:
 
-```markdown
+<pre>
 ...
 
 This is a button:
@@ -34,9 +34,8 @@ This is a button:
 import { Button } from 'antd';
 ReactDOM.render(<Button>Click!</Button>, mountNode);
 ```
-
 ...
-```
+</pre>
 
 ## API
 
