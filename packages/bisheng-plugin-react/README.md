@@ -19,7 +19,7 @@ Add 'bisheng-plugin-react to `bisehng.config.js`'s plugins.
 
 ```js
 module.exports = {
-  plugins: ['bisheng-plugin-react'],
+  plugins: ['bisheng-plugin-react?lang=jsx'],
 };
 ```
 
@@ -30,7 +30,7 @@ In Markdown:
 
 This is a button:
 
-```react-example
+```jsx
 import { Button } from 'antd';
 ReactDOM.render(<Button>Click!</Button>, mountNode);
 ```
