@@ -14,7 +14,7 @@ module.exports = function bishengDataLoader(/* content */) {
   const config = getConfig(query.config);
 
   const markdown = markdownData.generate(config.source);
-  const plugins = resolvePlugins(config.plugins, true);
+  const plugins = resolvePlugins(config.plugins, 'browser');
   const pluginsString = plugins.map(
     (plugin) =>
       `require('${plugin[0]}')(${JSON.stringify(plugin[1])})`

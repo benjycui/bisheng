@@ -15,10 +15,9 @@ function resolvePlugin(plugin) {
   return result;
 }
 
-module.exports = function resolvePlugins(plugins, isBrowser) {
+module.exports = function resolvePlugins(plugins, moduleName) {
   return plugins.map((plugin) => {
     const snippets = plugin.split('?');
-    const moduleName = isBrowser ? 'browser' : 'node';
     const pluginName = path.join(snippets[0], 'lib', moduleName);
     const pluginQuery = loaderUtils.parseQuery(snippets[1] ? `?${snippets[1]}` : '');
     const resolvedPlugin = resolvePlugin(pluginName);
