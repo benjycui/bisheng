@@ -1,6 +1,6 @@
 {
   "name": "bisheng-plugin-react",
-  "version": "0.1.0",
+  "version": "0.1.0-beta.0",
   "description": "To convert JSX which is written in Markdown to React.Element.",
   "scripts": {
     "lint": "eslint ./lib ./test",
@@ -26,5 +26,9 @@
   "devDependencies": {
     "eslint": "^2.10.2",
     "eslint-config-egg": "^2.0.0"
+  },
+  "dependencies": {
+    "esprima-fb": "^15001.1001.0-dev-harmony-fb",
+    "recast": "^0.11.5"
   }
 }
