@@ -37,6 +37,10 @@ ReactDOM.render(&lt;Button&gt;Click!&lt;/Button&gt;, mountNode);
 ...
 </pre>
 
+The above example will be rendered as:
+
+![screenshot](https://raw.githubusercontent.com/benjycui/bisheng-plugin-react/master/screenshot.png)
+
 ## API
 
 ### lang: String
