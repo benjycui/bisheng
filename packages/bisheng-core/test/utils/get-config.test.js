@@ -18,6 +18,7 @@ describe('utils/get-config', function() {
       port: 8000,
       root: '/',
       plugins: [path.join(__dirname, '..', '..', 'lib', 'bisheng-plugin-highlight')],
+      doraConfig: {},
     });
   });
 
@@ -34,6 +35,7 @@ describe('utils/get-config', function() {
         path.join(__dirname, '..', '..', 'lib', 'bisheng-plugin-highlight'),
         'bisheng-plugin-description',
       ],
+      doraConfig: {},
     });
   });
 });

@@ -10,6 +10,7 @@ const defaultConfig = {
   port: 8000,
   root: '/',
   plugins: [],
+  doraConfig: {},
   webpackConfig(config) {
     return config;
   },
