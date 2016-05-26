@@ -15,6 +15,7 @@ describe('utils/get-config', function() {
       source: './posts',
       output: './_site',
       theme: './_theme',
+      htmlTemplate: path.join(__dirname, '../../lib/template.html'),
       port: 8000,
       root: '/',
       plugins: [path.join(__dirname, '..', '..', 'lib', 'bisheng-plugin-highlight')],
@@ -29,6 +30,7 @@ describe('utils/get-config', function() {
       source: './content',
       output: './_site',
       theme: './_theme',
+      htmlTemplate: path.join(__dirname, '../../lib/template.html'),
       port: 8000,
       root: '/',
       plugins: [
