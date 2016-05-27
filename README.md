@@ -131,6 +131,10 @@ A list of plugins.
 * [bisheng-plugin-toc](https://github.com/benjycui/bisheng-plugin-toc)
 * [bisheng-plugin-react](https://github.com/benjycui/bisheng-plugin-react)
 
+## Sites built with BiSheng
+
+* [Ant Design](http://ant.design)
+
 ## Liscense
 
 MIT
