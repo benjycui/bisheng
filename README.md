@@ -9,6 +9,10 @@
 
 `bisheng` is designed to transform [Markdown](https://en.wikipedia.org/wiki/Markdown) into static websites and blogs using [React](https://facebook.github.io/react/).
 
+## Features
+
+* Support [`browserHistory`](https://github.com/reactjs/react-router/blob/master/docs/API.md#browserhistory), even in [GitHub Pages](https://pages.github.com/).
+
 ## Usage
 
 ### Use `bisheng` in a new project
