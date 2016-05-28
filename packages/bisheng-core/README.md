@@ -125,6 +125,15 @@ If the website will be deploy under a sub-directory of a domain(something like `
 
 A list of plugins.
 
+```js
+module.exports = {
+  plugins: [
+    'pluginName?config1=value1&config2=value2',
+    'anotherPluginName',
+  ],
+};
+```
+
 [More about plugin.](https://github.com/benjycui/bisheng/tree/master/docs/plugin.md)
 
 * [bisheng-plugin-description](https://github.com/benjycui/bisheng-plugin-description)
