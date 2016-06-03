@@ -2,12 +2,12 @@
 
 const React = require('react');
 
-module.exports = () => {
+module.exports = function() {
   return {
     converters: [
       [
-        (node) => typeof node === 'function',
-        (node, index) => {
+        function(node) { return typeof node === 'function' },
+        function(node, index) {
           return React.cloneElement(node(), { key: index });
         },
       ],
