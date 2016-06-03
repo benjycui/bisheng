@@ -1,5 +1,6 @@
 'use strict';
 
+/* eslint-disable no-var */
 var React = require('react');
 var JsonML = require('jsonml.js/lib/utils');
 
@@ -7,7 +8,7 @@ module.exports = function() {
   return {
     converters: [
       [
-        function(node) { return JsonML.isElement(node) && JsonML.getTagName(node) === 'pre' },
+        function(node) { return JsonML.isElement(node) && JsonML.getTagName(node) === 'pre'; },
         function(node, index) {
           const attr = JsonML.getAttributes(node);
           return React.createElement('pre', {
