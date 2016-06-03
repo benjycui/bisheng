@@ -12,7 +12,7 @@ module.exports = function() {
           const attr = JsonML.getAttributes(node);
           return React.createElement('pre', {
             key: index,
-            className: `language-${attr.lang}`,
+            className: 'language-' + attr.lang,
           }, React.createElement('code', {
             dangerouslySetInnerHTML: { __html: attr.highlighted },
           }));
