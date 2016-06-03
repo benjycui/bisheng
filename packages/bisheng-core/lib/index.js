@@ -57,7 +57,7 @@ exports.start = function start(program) {
 
 const noop = () => {};
 exports.build = function build(program, callback) {
-  const configFile = program.config || path.join(process.cwd(), 'bisheng.config.js');
+  const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
   const config = getConfig(configFile);
 
   const themeConfig = require(path.join(process.cwd(), config.theme));
@@ -82,7 +82,7 @@ exports.build = function build(program, callback) {
 
 exports.deploy = function deploy(program) {
   exports.build(program, () => {
-    const configFile = program.config || path.join(process.cwd(), 'bisheng.config.js');
+    const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
     const config = getConfig(configFile);
 
     const options = {
