@@ -77,6 +77,15 @@ exports.build = function build(program, callback) {
 
   const webpackConfig =
           updateWebpackConfig(getWebpackCommonConfig({ cwd: process.cwd() }), configFile, true);
+  webpackConfig.UglifyJsPluginConfig = {
+    output: {
+      ascii_only: true,
+    },
+    compress: {
+      warnings: false,
+    },
+  };
+  webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin(webpackConfig.UglifyJsPluginConfig));
   webpack(webpackConfig).run(callback || noop);
 };
 
