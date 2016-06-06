@@ -3,6 +3,18 @@ import { Link } from 'react-router';
 import DocumentTitle from 'react-document-title';
 import Layout from './Layout';
 
+export function collect(nextProps, callback) {
+  if (nextProps.pageData) {
+    nextProps.pageData()
+      .then((post) => callback(null, {
+        ...nextProps,
+        pageData: post,
+      }))
+  } else {
+    callback(null, nextProps);
+  }
+}
+
 export default (props) => {
   const { pageData, utils } = props;
   const { meta, description, content } = pageData;

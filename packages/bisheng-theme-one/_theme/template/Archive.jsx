@@ -2,15 +2,17 @@ import React from 'react';
 import { Link } from 'react-router';
 import DocumentTitle from 'react-document-title';
 import Layout from './Layout';
+import * as utils from './utils';
 
 function getTime(date) {
   return (new Date(date)).getTime();
 }
 
+export const collect = utils.collect;
+
 export default (props) => {
-  const data = props.data;
   const toReactComponent = props.utils.toReactComponent;
-  const posts = Object.keys(data.posts).map((key) => data.posts[key])
+  const posts = props.posts
           .sort((a, b) => getTime(b.meta.publishDate) - getTime(a.meta.publishDate));
 
   let year = NaN;

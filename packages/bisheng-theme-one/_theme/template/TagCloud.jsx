@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import DocumentTitle from 'react-document-title';
 import Layout from './Layout';
+import * as utils from './utils';
 
 function getTags(posts) {
   const tags = {};
@@ -21,9 +22,11 @@ function getTags(posts) {
   return tags;
 }
 
+export const collect = utils.collect;
+
 export default (props) => {
   const toReactComponent = props.utils.toReactComponent;
-  const tags = getTags(props.data.posts);
+  const tags = getTags(props.posts);
 
   return (
     <DocumentTitle title="Tag Cloud | BiSheng Theme One">
