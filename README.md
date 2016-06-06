@@ -49,6 +49,7 @@ Create `bisheng.config.js`, otherwise `bisheng` will use the default config:
 module.exports = {
   source: './posts',
   output: './_site',
+  lazyLoad: false,
   theme: './_theme',
   port: 8000,
 };
@@ -106,6 +107,12 @@ To set directory/directories where we place Markdown files.
 #### output: String
 
 To set directory where `bisheng` will generate (HTML & CSS & JavaScript) files to.
+
+#### lazyLoad: Boolean
+
+Whether to load Markdown data lazily.
+
+**Note:** when `lazyLoad` is `true`, each page data will be a function which will return a promise.
 
 #### theme: String
 
