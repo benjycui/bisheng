@@ -17,13 +17,13 @@ const routes = theme.completedRoutes.map(
     React.createElement(Route, {
       key: `route-${index}`,
       path: item.route,
-      component: templateWrapper(item.template, item.dataPath),
+      getComponents: templateWrapper(item.template, item.dataPath),
     })
 );
 routes.push(React.createElement(Route, {
   key: 'not-found',
   path: '*',
-  component: templateWrapper('./template/NotFound'),
+  getComponents: templateWrapper('./template/NotFound'),
 }));
 
 const configRedirects = theme.redirects || {};

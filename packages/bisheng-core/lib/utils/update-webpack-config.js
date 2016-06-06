@@ -16,6 +16,7 @@ module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild
   if (isBuild) {
     webpackConfig.output.path = config.output;
   }
+  webpackConfig.output.publicPath = isBuild ? config.root : '/';
   webpackConfig.module.loaders.push({
     test: /\.nunjucks\.js$/i,
     loader: `babel!${path.join(bishengLibLoaders, 'bisheng-nunjucks-loader')}` +
