@@ -33,7 +33,7 @@
   "dependencies": {
     "atool-build": "^0.7.1",
     "babel-polyfill": "^6.8.0",
-    "bundle-loader": "^0.5.4",
+    "bluebird": "^3.4.0",
     "commander": "^2.9.0",
     "dora": "^0.3.2",
     "dora-plugin-browser-history": "^0.1.1",
@@ -50,6 +50,7 @@
     "node-prismjs": "^0.1.0",
     "nunjucks": "^2.4.2",
     "prismjs": "^1.4.1",
+    "promise-loader": "^1.0.0",
     "ramda": "^0.21.0",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
