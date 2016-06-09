@@ -3,8 +3,6 @@
 const fs = require('fs');
 const path = require('path');
 const R = require('ramda');
-const tmpDir = require('os').tmpDir();
-const promiseLoader = path.join(__dirname, '..', 'loaders', 'promise-loader');
 
 function ensureToBeArray(maybeArray) {
   return Array.isArray(maybeArray) ?
@@ -42,29 +40,24 @@ function filesToTreeStructure(files) {
   }, {});
 }
 
-function stringifyObject(obj, depth, lazy) {
+function stringifyObject(obj, depth) {
   const indent = '  '.repeat(depth);
   const kvStrings = R.pipe(
     R.toPairs,
     /* eslint-disable no-use-before-define */
-    R.map((kv) => `${indent}  '${kv[0]}': ${stringify(kv[1], depth + 1, lazy)},`)
+    R.map((kv) => `${indent}  '${kv[0]}': ${stringify(kv[1], depth + 1)},`)
     /* eslint-enable no-use-before-define */
   )(obj);
   return kvStrings.join('\n');
 }
 
-function stringify(node, depth, lazy) {
+function stringify(node, depth) {
   const indent = '  '.repeat(depth);
   return R.cond([
     [(n) => typeof n === 'object', (obj) =>
-     `{\n${stringifyObject(obj, depth, lazy)}\n${indent}}`,
+     `{\n${stringifyObject(obj, depth)}\n${indent}}`,
     ],
-    [R.T, (filename) => {
-      const fullPath = path.join(process.cwd(), filename);
-      const tmpFile = path.join(tmpDir, `bisheng-${Math.random()}`);
-      fs.linkSync(fullPath, tmpFile);
-      return `require('${lazy ? `${promiseLoader}?${fullPath}!${tmpFile}` : fullPath}')`;
-    }],
+    [R.T, (filename) => `require('${path.join(process.cwd(), filename)}')`],
   ])(node);
 }
 
@@ -74,5 +67,5 @@ exports.generate = R.useWith((source) => {
   return filesTree;
 }, [ensureToBeArray]);
 
-exports.stringify = (filesTree, lazy) =>
-  stringify(filesTree, 0, lazy);
+exports.stringify = (filesTree) =>
+  stringify(filesTree, 0);
