@@ -14,6 +14,7 @@
 ## Features
 
 * Support [`browserHistory`](https://github.com/reactjs/react-router/blob/master/docs/API.md#browserhistory), even in [GitHub Pages](https://pages.github.com/).
+* Lazy load for Markdown data.
 
 ## Usage
 
