@@ -1,6 +1,6 @@
 {
   "name": "bisheng",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Transform Markdown files into a SPA website using React.",
   "bin": {
     "bisheng": "./bin/bisheng"
@@ -50,7 +50,6 @@
     "node-prismjs": "^0.1.0",
     "nunjucks": "^2.4.2",
     "prismjs": "^1.4.1",
-    "promise-loader": "^1.0.0",
     "ramda": "^0.21.0",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
