@@ -48,10 +48,10 @@ module.exports = function templateWrapper(template, dataPath = '') {
       callback(err, (props) => {
         return React.createElement(
           !hasParams(dataPath) || pageData ?
-            (Template.default || Template) : NotFound,
+            Template.default || Template : NotFound,
           Object.assign({}, props, nextProps)
         );
-      })
+      });
     });
   };
 };
