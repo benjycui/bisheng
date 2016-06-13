@@ -7,6 +7,7 @@ const exist = require('exist.js');
 const NotFound = require('{{ themePath }}/template/NotFound');
 const data = require('./data.js');
 const NProgress = require('nprogress');
+require('nprogress/nprogress.css');
 
 const plugins = data.plugins;
 const converters = chain((plugin) => plugin.converters || [], plugins);

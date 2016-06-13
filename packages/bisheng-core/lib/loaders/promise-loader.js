@@ -20,9 +20,11 @@ module.exports.pitch = function bisengPromiseLoader(remainingRequest) {
           'var Promise = require(\'bluebird\');\n' +
           'module.exports = function () {\n' +
           '  return new Promise(function (resolve) {\n' +
+          // '    require.ensure([], function (require) {\n' +
           (isBuild ? '    require.ensure([], function (require) {\n' : '') +
           `      resolve(require(${JSON.stringify('!!' + remainingRequest)}));\n` +
           (isBuild ? `    }, '${filename}');\n` : '') +
+          // `    }, '${filename}');\n` +
           '  });\n' +
           '}';
 
