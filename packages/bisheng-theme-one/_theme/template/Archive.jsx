@@ -22,9 +22,9 @@ export default (props) => {
     if (year !== publishYear) {
       year = publishYear;
       entryList.push(
-        <Link className="item-year" to={`#${publishYear}`} key={publishYear} id={publishYear}>
+        <a className="item-year" href={`#${publishYear}`} key={publishYear} id={publishYear}>
           {publishYear}
-        </Link>);
+        </a>);
     }
 
     entryList.push(
