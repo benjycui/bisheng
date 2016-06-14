@@ -31,7 +31,7 @@
     "eslint-plugin-react": "^5.0.1"
   },
   "dependencies": {
-    "bisheng": "^0.6.0",
+    "bisheng": "^0.7.0",
     "bisheng-plugin-description": "^0.1.0",
     "react": "^15.0.2",
     "react-document-title": "^2.0.1",
