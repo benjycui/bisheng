@@ -38,7 +38,6 @@ module.exports = function templateWrapper(template, dataPath = '') {
   const Template = require(`{{ themePath }}/${template.replace(/^\.\//, '')}`);
 
   return (nextState, callback) => {
-    NProgress.start();
     const propsPath = calcPropsPath(dataPath, nextState.params);
     const pageData = exist.get(data.markdown, propsPath.split('/').slice(1));
     const collect = Template.collect || defaultCollect;

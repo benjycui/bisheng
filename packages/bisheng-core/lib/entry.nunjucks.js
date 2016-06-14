@@ -3,6 +3,7 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const ReactRouter = require('react-router');
+const NProgress = require('nprogress');
 const Route = ReactRouter.Route;
 const Redirect = ReactRouter.Redirect;
 const history = require('history');
@@ -17,6 +18,7 @@ const routes = theme.completedRoutes.map(
     React.createElement(Route, {
       key: `route-${index}`,
       path: item.route,
+      onEnter: () => NProgress.start(),
       getComponents: templateWrapper(item.template, item.dataPath),
     })
 );
