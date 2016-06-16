@@ -23,10 +23,10 @@ function generateQuery(config) {
 function transformPlugins(plugins) {
   return plugins.map((plugin) => {
     if (typeof plugin === 'string') {
-      return plugin;
+      return require.resolve(plugin);
     }
 
-    return `${plugin[0]}?${generateQuery(plugin[1])}`;
+    return `${require.resolve(plugin[0])}?${generateQuery(plugin[1])}`;
   });
 }
 
@@ -49,10 +49,10 @@ exports.start = function start(program) {
     `${path.join(__dirname, 'dora-plugin-bisheng')}?config=${configFile}`,
     require.resolve('dora-plugin-browser-history'),
   ];
+  doraConfig.plugins = doraConfig.plugins.concat(transformPlugins(usersDoraPlugin));
   if (program.livereload) {
     doraConfig.plugins.push(require.resolve('dora-plugin-livereload'));
   }
-  doraConfig.plugins = doraConfig.plugins.concat(transformPlugins(usersDoraPlugin));
 
   require('babel-polyfill');
   dora(doraConfig);
