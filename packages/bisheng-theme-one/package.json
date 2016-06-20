@@ -2,7 +2,7 @@
   "name": "bisheng-theme-one",
   "description": "The one theme for bisheng.",
   "scripts": {
-    "start": "bisheng",
+    "start": "bisheng start",
     "deploy": "bisheng gh-pages",
     "lint": "eslint ./_theme",
     "eslint-fix": "eslint --fix ./_theme",
@@ -33,6 +33,7 @@
   "dependencies": {
     "bisheng": "^0.7.0",
     "bisheng-plugin-description": "^0.1.0",
+    "bluebird": "^3.4.1",
     "react": "^15.0.2",
     "react-document-title": "^2.0.1",
     "react-router": "^2.4.0"
