@@ -53,6 +53,6 @@ module.exports = function templateWrapper(template, dataPath = '') {
       callback(err, (props) => {
         return React.createElement(Comp, Object.assign({}, props, nextProps));
       });
-    });
+    }, callback, NProgress);
   };
 };
