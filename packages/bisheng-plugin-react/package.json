@@ -25,10 +25,15 @@
   "homepage": "https://github.com/benjycui/bisheng-plugin-react#readme",
   "devDependencies": {
     "eslint": "^2.10.2",
-    "eslint-config-egg": "^2.0.0"
+    "eslint-config-egg": "^2.0.0",
+    "mocha": "^2.5.3"
   },
   "dependencies": {
-    "esprima-fb": "^15001.1001.0-dev-harmony-fb",
-    "recast": "^0.11.5"
+    "babel-generator": "^6.11.0",
+    "babel-traverse": "^6.10.4",
+    "babel-types": "^6.11.1",
+    "babylon": "^6.8.4",
+    "loader-utils": "^0.2.15",
+    "react": "~15.2.1"
   }
 }
