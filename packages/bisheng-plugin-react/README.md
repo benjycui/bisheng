@@ -47,6 +47,12 @@ The above example will be rendered as:
 
 > default: 'react-component'
 
+### noreact: Boolean
+
+> default: false
+
+Whether to import `React` and `ReactDOM` automatically.
+
 ## License
 
 MIT
