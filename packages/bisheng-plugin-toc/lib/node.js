@@ -25,12 +25,10 @@ module.exports = (markdownData, config) => {
     }).join('');
     const headingTextId = headingText.trim().replace(/\s+/g, '-');
     return [
-      'li',
-      [
+      'li', [
         'a',
         { href: `#${headingTextId}` },
-        headingText,
-      ],
+      ].concat(config.keepElem ? headingNodeChildren : [headingText]),
     ];
   });
 

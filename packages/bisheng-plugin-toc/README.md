@@ -37,6 +37,12 @@ In template:
 
 > default: 6
 
+### keepElem: Boolean
+
+> default: false
+
+Whether to keep elements in heading text.
+
 ## License
 
 MIT

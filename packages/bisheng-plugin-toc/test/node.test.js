@@ -21,4 +21,20 @@ describe('./lib/node.js', function() {
       [ 'li', [ 'a', { href: '#Heading' }, 'Heading' ] ],
     ]);
   });
+
+  it('should generate slugged id', function() {
+    const data = addToc(markdownData, { maxDepth: 3 });
+    assert.deepEqual(data.toc.slice(4), [
+      [ 'li', [ 'a', { href: '#hello-world' }, 'hello world'] ],
+      [ 'li', [ 'a', { href: '#hello-world' }, 'hello world'] ],
+    ]);
+  });
+
+  it('should keep elements in heading text', function() {
+    const data = addToc(markdownData, { maxDepth: 3, keepElem: true });
+    assert.deepEqual(data.toc.slice(4), [
+      [ 'li', [ 'a', { href: '#hello-world' }, 'hello world'] ],
+      [ 'li', [ 'a', { href: '#hello-world' }, 'hello ', [ 'a', { href: './world', title: null}, 'world'] ] ],
+    ]);
+  });
 });
