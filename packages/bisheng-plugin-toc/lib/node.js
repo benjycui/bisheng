@@ -13,12 +13,22 @@ module.exports = (markdownData, config) => {
     const tagName = JsonML.getTagName(node);
     return isHeading(tagName) && +tagName.charAt(1) <= maxDepth;
   }).map((node) => {
-    const headingText = JsonML.getChildren(node)[0];
+    const headingNodeChildren = JsonML.getChildren(node);
+    const headingText = headingNodeChildren.map((node) => {
+      if (JsonML.isElement(node)) {
+        if (JsonML.hasAttributes(node)) {
+          return node[2] || '';
+        }
+        return node[1] || '';
+      }
+      return node;
+    }).join('');
+    const headingTextId = headingText.trim().replace(/\s+/g, '-');
     return [
       'li',
       [
         'a',
-        { href: `#${headingText}` },
+        { href: `#${headingTextId}` },
         headingText,
       ],
     ];
