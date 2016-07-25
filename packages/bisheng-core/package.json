@@ -1,6 +1,6 @@
 {
   "name": "bisheng",
-  "version": "0.8.0-beta.2",
+  "version": "0.7.7",
   "description": "Transform Markdown files into a SPA website using React.",
   "bin": {
     "bisheng": "./bin/bisheng"
@@ -35,9 +35,9 @@
     "babel-polyfill": "^6.9.1",
     "bluebird": "^3.4.0",
     "commander": "^2.9.0",
-    "dora": "^0.3.2",
+    "dora": "^0.4.0",
     "dora-plugin-browser-history": "^0.1.1",
-    "dora-plugin-livereload": "^0.3.0",
+    "dora-plugin-livereload": "^0.5.2",
     "dora-plugin-webpack": "^0.6.4",
     "exist.js": "^0.2.0",
     "gh-pages": "^0.11.0",
