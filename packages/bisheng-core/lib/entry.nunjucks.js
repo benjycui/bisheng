@@ -37,11 +37,16 @@ processedRoutes.push({
   getComponents: templateWrapper('./template/NotFound'),
 });
 
+function createElement(Component, props) {
+  return React.createElement(Component, Object.assign({}, props, Component.dynamicProps));
+}
+
 const router = React.createElement(ReactRouter.Router, {
   history: ReactRouter.useRouterHistory(history.createHistory)({
     basename: '{{ root }}',
   }),
   routes: processedRoutes,
+  createElement,
 });
 ReactDOM.render(
   router,

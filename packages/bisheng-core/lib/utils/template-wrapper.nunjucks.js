@@ -1,7 +1,5 @@
 'use strict';
 
-const React = require('react');
-
 const chain = require('ramda/src/chain');
 const toReactComponent = require('jsonml-to-react-component');
 const exist = require('exist.js');
@@ -50,9 +48,8 @@ module.exports = function templateWrapper(template, dataPath = '') {
       NProgress.done();
       const Comp = !hasParams(dataPath) || pageData ?
               Template.default || Template : NotFound;
-      callback(err, (props) => {
-        return React.createElement(Comp, Object.assign({}, props, nextProps));
-      });
+      Comp.dynamicProps = nextProps;
+      callback(err, Comp);
     }, callback, NProgress);
   };
 };
