@@ -13,7 +13,7 @@ function has404(filesPath) {
 
 function flattenRoutes(routes) {
   let flattenedRoutes = [];
-  routes.forEach((item) => {
+  (Array.isArray(routes) ? routes : [routes]).forEach((item) => {
     if (!item.childRoutes) {
       const copy = Object.assign({}, item);
       if (!copy.dataPath) {
@@ -34,7 +34,7 @@ function flattenRoutes(routes) {
 }
 
 module.exports = function generateFilesPath(routes, markdown) {
-  const flattenedRoutes = flattenRoutes(Array.isArray(routes) ? routes : [routes]);
+  const flattenedRoutes = flattenRoutes(routes);
 
   const filesPath = R.chain((item) => {
     if (hasParams(item.path)) {
