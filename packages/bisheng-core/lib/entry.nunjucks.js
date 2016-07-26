@@ -19,7 +19,14 @@ function processRoutes(route) {
   return Object.assign({}, route, {
     onEnter: () => NProgress.start(),
     component: undefined,
-    getComponents: templateWrapper(route.component, route.dataPath || route.path),
+    getComponent: templateWrapper(route.component, route.dataPath || route.path),
+    indexRoute: route.indexRoute && Object.assign({}, route.indexRoute, {
+      component: undefined,
+      getComponent: templateWrapper(
+        route.indexRoute.component,
+        route.indexRoute.dataPath || route.indexRoute.path
+      ),
+    }),
     childRoutes: route.childRoutes && route.childRoutes.map(processRoutes),
   });
 }
