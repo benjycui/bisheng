@@ -2,6 +2,7 @@
 
 const R = require('ramda');
 const exist = require('exist.js');
+const join = require('path').join;
 
 function hasParams(path) {
   return path.split('/').some((snippet) => snippet.startsWith(':'));
@@ -14,21 +15,20 @@ function has404(filesPath) {
 function flattenRoutes(routes) {
   let flattenedRoutes = [];
   (Array.isArray(routes) ? routes : [routes]).forEach((item) => {
-    if (!item.childRoutes) {
-      const copy = Object.assign({}, item);
-      if (!copy.dataPath) {
-        copy.dataPath = copy.path;
-      }
-      flattenedRoutes.push(copy);
-      return;
+    const copy = Object.assign({}, item);
+    if (!copy.dataPath) {
+      copy.dataPath = copy.path;
     }
+    flattenedRoutes.push(copy);
 
-    const nestedRoutes = R.chain(flattenRoutes, item.childRoutes.map((child) => {
-      return Object.assign({}, child, {
-        path: item.path + '/' + child.path,
-      });
-    }));
-    flattenedRoutes = flattenedRoutes.concat(nestedRoutes);
+    if (item.childRoutes) {
+      const nestedRoutes = R.chain(flattenRoutes, item.childRoutes.map((child) => {
+        return Object.assign({}, child, {
+          path: join(item.path, child.path),
+        });
+      }));
+      flattenedRoutes = flattenedRoutes.concat(nestedRoutes);
+    }
   });
   return flattenedRoutes;
 }
