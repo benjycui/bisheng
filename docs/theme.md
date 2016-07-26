@@ -22,15 +22,13 @@ e.g. [bisheng-theme-one](https://github.com/benjycui/bisheng-theme-one)
 module.exports = {
   // routes is required
   routes: {
-    '/': './template/Archive',
+    path: '/',
+    component: './template/Archive',
+    
+    // optional, it's equal to `path` if omitted.
+    dataPath: 'path-to-markdwon-file',
     ...
   },
-
-  // redirects is optional
-  redirects: {
-    from: 'to',
-    ...
-  }
 
   // theme's own config goes here...
   config1: ...,
@@ -39,21 +37,10 @@ module.exports = {
 };
 ```
 
-`routes` could be an array, something like this:
+The configuration of `routes` is similar with [react-router's](https://github.com/reactjs/react-router/blob/master/docs/guides/RouteConfiguration.md#configuration-with-plain-routes). The differences are:
 
-```js
-[{
-  route: '/posts/:post',
-  dataPath: '/_posts/:post',
-  template: './template/Post',
-},
-  ...
-]
-```
-
-This means when a user visits `/post/hello-world`, `bisheng` will render `./template/Post` with page data `data['_post']['hello-world']`.
-
-If `routes` is an object, `bisheng` will process key as `route` and `dataPath`, and value as template.
+* `component` should be a string which is a path of a component.
+* `dataPath` means which Markdown file need to be rendered.
 
 ## Templates
 
