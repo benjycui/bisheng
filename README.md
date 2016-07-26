@@ -153,6 +153,7 @@ module.exports = {
 ## Sites built with BiSheng
 
 * [Ant Design](http://ant.design)
+* [Ant Motion](http://motion.ant.design)
 
 ## Liscense
 
