@@ -9,9 +9,14 @@ module.exports = {
   // footer: 'Copyright and so on...',
   // hideBisheng: true,
   github: 'https://github.com/benjycui/bisheng-theme-one',
-  routes: {
-    '/': './template/Archive',
-    '/posts/:post': './template/Post',
-    '/tags': './template/TagCloud',
-  },
+  routes: [{
+    path: '/',
+    component: './template/Archive',
+  }, {
+    path: '/posts/:post',
+    component: './template/Post',
+  }, {
+    path: '/tags',
+    component: './template/TagCloud',
+  }],
 };
