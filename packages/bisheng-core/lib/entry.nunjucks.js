@@ -13,27 +13,17 @@ const templateWrapper = require('./utils/template-wrapper.nunjucks');
 
 const theme = require('{{ themePath }}');
 theme.completedRoutes = toCompletedRoutes(theme.routes);
-const dataToArray = (children) => {
-  if (!children && children !== 0) {
-    return [];
-  }
-  if (Array.isArray(children)) {
-    return children;
-  }
-  return [children];
-};
-const getChildrenRoutes = (item, index) => {
-  const children = item.children && dataToArray(item.children).map(getChildrenRoutes);
-  const path = item.route || item.dataPath;
-  return React.createElement(Route, Object.assign({}, item.props, {
+function generateReactRouter(item, index) {
+  const children = item.children && item.children.map(generateReactRouter);
+  return React.createElement(Route, Object.assign({}, item.props || {}, {
     key: `route-${index}`,
-    path,
+    path: item.route,
     onEnter: () => NProgress.start(),
-    getComponents: templateWrapper(item.template, item.dataPath),
+    getComponents: templateWrapper(item.template, item.dataPath || item.route),
     children,
   }));
-};
-const routes = theme.completedRoutes.map(getChildrenRoutes);
+}
+const routes = theme.completedRoutes.map(generateReactRouter);
 
 routes.push(React.createElement(Route, {
   key: 'not-found',

@@ -54,7 +54,6 @@ exports.start = function start(program) {
     doraConfig.plugins.push(require.resolve('dora-plugin-livereload'));
   }
 
-  require('babel-polyfill');
   dora(doraConfig);
 };
 
