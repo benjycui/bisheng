@@ -46,7 +46,7 @@ module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild
   const customizedWebpackConfig = config.webpackConfig(webpackConfig, webpack);
 
   Object.keys(config.entry).forEach((key) => {
-    const entryPath = path.join(bishengLib, 'entry.' + key + '.js');
+    const entryPath = path.join(bishengLib, '..', 'tmp', 'entry.' + key + '.js');
     if (customizedWebpackConfig.entry[key]) {
       throw new Error('Should not set `webpackConfig.entry.' + key + '`!');
     }
