@@ -13,6 +13,7 @@ module.exports = (markdownData, config) => {
     const tagName = JsonML.getTagName(node);
     return isHeading(tagName) && +tagName.charAt(1) <= maxDepth;
   }).map((node) => {
+    const tagName = JsonML.getTagName(node);
     const headingNodeChildren = JsonML.getChildren(node);
     const headingText = headingNodeChildren.map((node) => {
       if (JsonML.isElement(node)) {
@@ -27,7 +28,10 @@ module.exports = (markdownData, config) => {
     return [
       'li', [
         'a',
-        { href: `#${headingTextId}` },
+        {
+          className: `bisheng-toc-${tagName}`,
+          href: `#${headingTextId}`,
+        },
       ].concat(config.keepElem ? headingNodeChildren : [headingText]),
     ];
   });
