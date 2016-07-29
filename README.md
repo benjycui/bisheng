@@ -56,7 +56,7 @@ module.exports = {
 };
 ```
 
-**Note:** please make sure that `source` and `theme` exists, and `theme` should not be an empty directory. Just copy [bisheng-theme-one](https://github.com/benjycui/bisheng-theme-one) to `theme`, if you don't konw how to develop a theme.
+**Note:** please make sure that `source` and `theme` exists, and `theme` should not be an empty directory. Just copy [bisheng-theme-one](https://github.com/benjycui/bisheng-theme-one) to `theme`, if you don't know how to develop a theme.
 
 Now, just run `npm start`.
 
@@ -64,7 +64,7 @@ Now, just run `npm start`.
 
 ### CLI
 
-We can install `bisheng` as a cli command and explore what it can do by `bisheng -h`. However, the recommanded way to use `bisheng` is that install it as `devDependencies`.
+We can install `bisheng` as a cli command and explore what it can do by `bisheng -h`. However, the recommended way to use `bisheng` is to install it as `devDependencies`.
 
 ```bash
 $ npm install -g bisheng
@@ -125,11 +125,11 @@ To set directory where we put the theme of website.
 
 #### port: Number
 
-To set the port which will be used when start a local server.
+To set the port which will be used when we start a local server.
 
 #### root: String
 
-If the website will be deploy under a sub-directory of a domain(something like `http://benjycui.github.io/bisheng-theme-one/`), we must set it(such as `/bisheng-theme-one/`).
+If the website will be deployed under a sub-directory of a domain (something like `http://benjycui.github.io/bisheng-theme-one/`), we must set it (such as `/bisheng-theme-one/`).
 
 #### plugins: Array[String]
 
@@ -155,6 +155,6 @@ module.exports = {
 * [Ant Design](http://ant.design)
 * [Ant Motion](http://motion.ant.design)
 
-## Liscense
+## License
 
 MIT
