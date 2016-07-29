@@ -13,32 +13,29 @@ const markdownData = require('./utils/markdown-data');
 const generateFilesPath = require('./utils/generate-files-path');
 const updateWebpackConfig = require('./utils/update-webpack-config');
 
-function getPluginNameFormString(plugin) {
-  return plugin.split('?')[0].split('/')
-    .filter((snippet) => /dora-plugin/.test(snippet))[0];
-}
-function mergeDoraPlugins(defaultDoraPlugins, usersDoraPlugin) {
-  const notInUsers = defaultDoraPlugins.filter((plugin) => {
-    const pluginName = getPluginNameFormString(plugin);
-
-    return !usersDoraPlugin.some((p) => {
-      if (Array.isArray) {
-        return pluginName === p[0];
-      }
-      return pluginName === getPluginNameFormString(p);
-    });
-  });
-  return notInUsers.concat(usersDoraPlugin);
-}
-
 exports.start = function start(program) {
   const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
   const config = getConfig(configFile);
 
-  const template = fs.readFileSync(config.htmlTemplate).toString();
-  const indexPath = path.join(process.cwd(), config.output, 'index.html');
   mkdirp.sync(config.output);
-  fs.writeFileSync(indexPath, nunjucks.renderString(template, { root: '/' }));
+
+  const entryTemplate = fs.readFileSync(path.join(__dirname, 'entry.nunjucks.js')).toString();
+  Object.keys(config.entry).forEach((key) => {
+    // Generate html files for each entry.
+    const item = config.entry[key];
+    const template = fs.readFileSync(item.htmlTemplate).toString();
+    const templatePath = path.join(process.cwd(), config.output, key + '.html');
+    fs.writeFileSync(templatePath, nunjucks.renderString(template, { root: '/' }));
+
+    const entryTemplatePath = path.join(__dirname, 'entry.' + key + '.js');
+    fs.writeFileSync(
+      entryTemplatePath,
+      nunjucks.renderString(entryTemplate, {
+        themePath: path.join(process.cwd(), item.theme),
+        root: '/',
+      })
+    );
+  });
 
   const doraConfig = Object.assign({}, {
     cwd: path.join(process.cwd(), config.output),
@@ -46,17 +43,29 @@ exports.start = function start(program) {
   }, config.doraConfig);
   const usersDoraPlugin = config.doraConfig.plugins || [];
   doraConfig.plugins = [
-    `${require.resolve('dora-plugin-webpack')}?disableNpmInstall&cwd=${process.cwd()}&config=bisheng-inexistent.config.js`,
-    `${path.join(__dirname, 'dora-plugin-bisheng')}?config=${configFile}`,
-    require.resolve('dora-plugin-browser-history'),
+    [require.resolve('dora-plugin-webpack'), {
+      disableNpmInstall: true,
+      cwd: process.cwd(),
+      config: 'bisheng-inexistent.config.js',
+    }],
+    [path.join(__dirname, 'dora-plugin-bisheng'), {
+      config: configFile,
+    }],
+    [require.resolve('dora-plugin-browser-history'), {
+      rewrites: Object.keys(config.entry).map((key) => {
+        return {
+          from: new RegExp('/' + key),
+          to: '/' + key + '.html',
+        };
+      }),
+    }],
   ];
 
-  doraConfig.plugins = mergeDoraPlugins(doraConfig.plugins, usersDoraPlugin);
+  doraConfig.plugins = doraConfig.plugins.concat(usersDoraPlugin);
 
   if (program.livereload) {
     doraConfig.plugins.push(require.resolve('dora-plugin-livereload'));
   }
-
   dora(doraConfig);
 };
 

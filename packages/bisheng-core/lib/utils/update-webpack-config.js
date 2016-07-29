@@ -8,7 +8,6 @@ const bishengLib = path.join(__dirname, '..');
 const bishengLibLoaders = path.join(bishengLib, 'loaders');
 
 module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild) {
-  const entryPath = path.join(bishengLib, 'entry.nunjucks.js');
   const config = getConfig(configFile);
 
   /* eslint-disable no-param-reassign */
@@ -17,11 +16,6 @@ module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild
     webpackConfig.output.path = config.output;
   }
   webpackConfig.output.publicPath = isBuild ? config.root : '/';
-  webpackConfig.module.loaders.push({
-    test: /\.nunjucks\.js$/i,
-    loader: `babel!${path.join(bishengLibLoaders, 'bisheng-nunjucks-loader')}` +
-      `?config=${configFile}&isBuild=${isBuild}`,
-  });
   webpackConfig.module.loaders.push({
     test(filename) {
       return filename === path.join(bishengLib, 'utils', 'data.js');
@@ -51,9 +45,12 @@ module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild
 
   const customizedWebpackConfig = config.webpackConfig(webpackConfig, webpack);
 
-  if (customizedWebpackConfig.entry.index) {
-    throw new Error('Should not set `webpackConfig.entry.index`!');
-  }
-  customizedWebpackConfig.entry.index = entryPath;
+  Object.keys(config.entry).forEach((key) => {
+    const entryPath = path.join(bishengLib, 'entry.' + key + '.js');
+    if (customizedWebpackConfig.entry[key]) {
+      throw new Error('Should not set `webpackConfig.entry.' + key + '`!');
+    }
+    customizedWebpackConfig.entry[key] = entryPath;
+  });
   return customizedWebpackConfig;
 };
