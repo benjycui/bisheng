@@ -95,7 +95,7 @@ function createElement(Component, props) {
 
 const router = React.createElement(ReactRouter.Router, {
   history: ReactRouter.useRouterHistory(history.createHistory)({
-    basename: '{{ root }}',
+    basename: '{{ root }}{{ entryName }}',
   }),
   routes: processedRoutes,
   createElement,
