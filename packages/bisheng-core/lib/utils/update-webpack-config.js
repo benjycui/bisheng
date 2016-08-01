@@ -53,9 +53,6 @@ module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild
     customizedWebpackConfig.entry[key] = entryPath;
     customizedWebpackConfig.module.loaders.push({
       test: (filename) => {
-        if (filename === entryPath) {
-          console.log(filename, entryPath);
-        }
         return filename === entryPath;
       },
       loader: 'babel',
