@@ -86,6 +86,7 @@ exports.build = function build(program, callback) {
       nunjucks.renderString(entryTemplate, {
         themePath: path.join(process.cwd(), item.theme),
         root: config.root,
+        entryName: key === 'index' ? '' : key,
       })
     );
 
