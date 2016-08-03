@@ -20,8 +20,9 @@ module.exports = function bishengDataLoader(/* content */) {
       `require('${plugin[0]}')(${JSON.stringify(plugin[1])})`
   ).join(',\n');
 
-  return 'module.exports = {' +
-    `\n  markdown: ${markdownData.stringify(markdown)},` +
+  return 'var Promise = require(\'bluebird\');\n' +
+    'module.exports = {' +
+    `\n  markdown: ${markdownData.stringify(markdown, config.lazyLoad)},` +
     `\n  plugins: [\n${pluginsString}\n],` +
     `\n};`;
 };
