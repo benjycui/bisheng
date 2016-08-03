@@ -48,6 +48,7 @@ function templateWrapper(template, dataPath = '') {
     const collect = Template.collect || defaultCollect;
     collect(Object.assign({}, nextState, {
       data: data.markdown,
+      picked: data.picked,
       pageData,
       utils,
     }), (err, nextProps) => {
