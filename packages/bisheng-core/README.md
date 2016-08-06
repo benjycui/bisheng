@@ -154,6 +154,7 @@ module.exports = {
 
 * [Ant Design](http://ant.design)
 * [Ant Motion](http://motion.ant.design)
+* [Ant Design Mobile](http://mobile.ant.design/)
 
 ## License
 
