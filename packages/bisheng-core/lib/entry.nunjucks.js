@@ -52,10 +52,10 @@ function templateWrapper(template, dataPath = '') {
       pageData,
       utils,
     }), (err, nextProps) => {
-      const Comp = !hasParams(dataPath) || pageData ?
+      const Comp = (!hasParams(dataPath) || pageData) && err !== 404 ?
               Template.default || Template : NotFound;
       Comp.dynamicProps = nextProps;
-      callback(err, Comp);
+      callback(err === 404 ? null : err, Comp);
     });
   };
 }
