@@ -125,7 +125,15 @@ exports.build = function build(program, callback) {
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
   }));
 
-  webpack(webpackConfig).run(callback || noop);
+  webpack(webpackConfig, function(err, stats) {
+    if (err !== undefined) {
+      return console.error(err);
+    }
+
+    if (stats.hasErrors()) {
+      console.log(stats.toString('errors-only'));
+    }
+  }).run(callback || noop);
 };
 
 exports.deploy = function deploy(program) {
