@@ -99,7 +99,7 @@ function stringify(nodePath, nodeValue, lazyLoad, depth) {
 }
 
 exports.generate = function generate(source) {
-  if (R.is(Object, source)) {
+  if (R.is(Object, source) && !Array.isArray(source)) {
     return R.mapObjIndexed((value) => generate(value), source);
   } else {
     const mds = findMDFile(ensureToBeArray(source));
