@@ -101,7 +101,7 @@ module.exports = {
 };
 ```
 
-#### source: String|Array[String]
+#### source: String | Array[String] | Object{ [category]: String | Array[String]}
 
 To set directory/directories where we place Markdown files.
 
@@ -109,11 +109,15 @@ To set directory/directories where we place Markdown files.
 
 To set directory where `bisheng` will generate (HTML & CSS & JavaScript) files to.
 
-#### lazyLoad: Boolean
+#### lazyLoad: Boolean | (nodePath, nodeValue) => Boolean
 
-Whether to load Markdown data lazily.
+If `lazyLoad` is `false`, it means that all the Markdown data will be load while users visit any page.
 
-**Note:** when `lazyLoad` is `true`, each page data will be a function which will return a promise.
+If `lazyLoad` is `true`, it meas that Markdown data will only be loaded while it's needed.
+
+And `lazyLoad` could be a function, it's similar to `ture`, but you can determine whether a subtree will be loaded lazily as one Markdown data.
+
+**Note:** when `lazyLoad` or the returned value of `lazyLoad()` is `true`, the Markdown data will be a function which will return a promise.
 
 #### theme: String
 

@@ -22,6 +22,25 @@ describe('utils/markdown-data', function() {
         },
       });
     });
+
+    it('should generate files trees while `config.source` is an object', function() {
+      const filesTree = markdownData.generate({ mockData: './test/fixtures/posts' });
+      assert.deepEqual(filesTree, {
+        mockData: {
+          test: {
+            fixtures: {
+              posts: {
+                a: {
+                  'en-US': 'test/fixtures/posts/a.en-US.md',
+                  'zh-CN': 'test/fixtures/posts/a.zh-CN.md',
+                },
+                b: 'test/fixtures/posts/b.md',
+              },
+            },
+          },
+        },
+      });
+    });
   });
 
   describe('#stringify', function() {
