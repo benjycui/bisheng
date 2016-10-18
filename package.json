@@ -6,9 +6,16 @@
     "bisheng": "./bin/bisheng"
   },
   "scripts": {
-    "lint": "eslint .eslintrc.js ./lib ./test",
-    "eslint-fix": "eslint .eslintrc.js --fix ./lib ./test",
-    "test": "npm run lint && mocha --recursive"
+    "lint": "eslint .eslintrc.js ./src ./test",
+    "eslint-fix": "eslint .eslintrc.js --fix ./src ./test",
+    "test": "npm run lint && mocha --recursive",
+    "prepublish": "babel src --out-dir lib && cp src/template.html lib/template.html"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
   },
   "pre-commit": [
     "lint"
@@ -58,6 +65,10 @@
     "resolve": "^1.1.7"
   },
   "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.16.0",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
     "eslint": "^2.9.0",
     "eslint-config-egg": "^2.0.0",
     "mocha": "^2.4.5",

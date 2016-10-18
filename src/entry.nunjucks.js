@@ -1,7 +1,9 @@
 'use strict';
 
 require('babel-polyfill');
+/* eslint-disable no-unused-vars */
 const React = require('react');
+/* eslint-enable no-unused-vars */
 const ReactDOM = require('react-dom');
 const ReactRouter = require('react-router');
 const NProgress = require('nprogress');
@@ -91,16 +93,17 @@ processedRoutes.push({
 
 function createElement(Component, props) {
   NProgress.done();
-  return React.createElement(Component, Object.assign({}, props, Component.dynamicProps));
+  return <Component {...props} {...Component.dynamicProps} />;
 }
 
-const router = React.createElement(ReactRouter.Router, {
-  history: ReactRouter.useRouterHistory(history.createHistory)({
-    basename: '{{ root }}{{ entryName }}',
-  }),
-  routes: processedRoutes,
-  createElement,
-});
+const router =
+  <ReactRouter.Router
+    history={ReactRouter.useRouterHistory(history.createHistory)({
+      basename: '{{ root }}{{ entryName }}',
+    })}
+    routes={processedRoutes}
+    createElement={createElement}
+  />;
 ReactDOM.render(
   router,
   document.getElementById('react-content')
