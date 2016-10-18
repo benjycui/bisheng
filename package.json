@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/benjycui/bisheng#readme",
   "dependencies": {
-    "atool-build": "^0.8.0",
+    "atool-build": "^0.9.0",
     "babel-polyfill": "^6.9.1",
     "bluebird": "^3.4.0",
     "commander": "^2.9.0",
@@ -49,7 +49,7 @@
     "mkdirp": "^0.5.1",
     "node-prismjs": "^0.1.0",
     "nprogress": "^0.2.0",
-    "nunjucks": "^2.4.2",
+    "nunjucks": "^2.5.2",
     "prismjs": "^1.4.1",
     "ramda": "^0.22.0",
     "react": "^15.0.2",
