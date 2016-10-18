@@ -47,12 +47,6 @@ module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild
       throw new Error('Should not set `webpackConfig.entry.' + key + '`!');
     }
     customizedWebpackConfig.entry[key] = entryPath;
-    customizedWebpackConfig.module.loaders.push({
-      test: (filename) => {
-        return filename === entryPath;
-      },
-      loader: 'babel',
-    });
   });
   return customizedWebpackConfig;
 };
