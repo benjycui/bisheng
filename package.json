@@ -1,6 +1,6 @@
 {
   "name": "bisheng",
-  "version": "0.12.11",
+  "version": "0.13.0",
   "description": "Transform Markdown files into a SPA website using React.",
   "bin": {
     "bisheng": "./bin/bisheng"
