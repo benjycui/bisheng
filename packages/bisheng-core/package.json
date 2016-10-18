@@ -9,7 +9,8 @@
     "lint": "eslint .eslintrc.js ./src ./test",
     "eslint-fix": "eslint .eslintrc.js --fix ./src ./test",
     "test": "npm run lint && mocha --recursive",
-    "prepublish": "babel src --out-dir lib && cp src/template.html lib/template.html"
+    "prepublish": "babel src --out-dir lib && cp src/template.html lib/template.html",
+    "postpublish": "rm -rf lib"
   },
   "babel": {
     "presets": [
