@@ -98,11 +98,15 @@ function stringify(nodePath, nodeValue, lazyLoad, depth) {
   ])(nodeValue);
 }
 
-exports.generate = R.useWith((source) => {
-  const mds = findMDFile(source);
-  const filesTree = filesToTreeStructure(mds);
-  return filesTree;
-}, [ensureToBeArray]);
+exports.generate = function generate(source) {
+  if (R.is(Object, source)) {
+    return R.mapObjIndexed((value) => generate(value), source);
+  } else {
+    const mds = findMDFile(ensureToBeArray(source));
+    const filesTree = filesToTreeStructure(mds);
+    return filesTree;
+  }
+};
 
 exports.stringify = (filesTree, lazyLoad) =>
   stringify('/', filesTree, lazyLoad, 0);
