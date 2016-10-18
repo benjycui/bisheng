@@ -6,7 +6,8 @@
     "bisheng": "./bin/bisheng"
   },
   "files": [
-    "lib"
+    "lib",
+    "bin"
   ],
   "scripts": {
     "lint": "eslint .eslintrc.js ./src ./test",
