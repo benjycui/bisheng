@@ -17,6 +17,6 @@ module.exports = function markdownLoader(content) {
   const query = loaderUtils.parseQuery(this.query);
   const plugins = resolvePlugins(getConfig(query.config).plugins, 'node');
 
-  const parsedMarkdown = markdownData.process(filename, content, plugins);
+  const parsedMarkdown = markdownData.process(filename, content, plugins, query.isBuild);
   return `module.exports = ${JSON.stringify(parsedMarkdown, null, 2)};`;
 };
