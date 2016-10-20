@@ -32,7 +32,7 @@ exports.start = function start(program) {
     fs.writeFileSync(
       entryTemplatePath,
       nunjucks.renderString(entryTemplate, {
-        themePath: path.join(process.cwd(), item.theme).replace(/\\/g,'/'),
+        themePath: path.join(process.cwd(), item.theme).replace(/\\/g, '/'),
         root: '/',
         entryName: key === 'index' ? '' : key,
       })
@@ -84,7 +84,7 @@ exports.build = function build(program, callback) {
     fs.writeFileSync(
       entryTemplatePath,
       nunjucks.renderString(entryTemplate, {
-        themePath: path.join(process.cwd(), item.theme).replace(/\\/g,'/'),
+        themePath: path.join(process.cwd(), item.theme).replace(/\\/g, '/'),
         root: config.root,
         entryName: key === 'index' ? '' : key,
       })
