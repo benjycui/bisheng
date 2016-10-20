@@ -21,7 +21,7 @@ module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild
       return filename === path.join(bishengLib, 'utils', 'data.js');
     },
     loader: `${path.join(bishengLibLoaders, 'bisheng-data-loader')}` +
-      `?config=${configFile}`,
+      `?config=${configFile}&isBuild=${isBuild}`,
   });
 
   webpackConfig.module.loaders.push({
@@ -29,7 +29,8 @@ module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild
     exclude: /node_modules/,
     loaders: [
       'babel',
-      `${path.join(bishengLibLoaders, 'markdown-loader')}?config=${configFile}`,
+      `${path.join(bishengLibLoaders, 'markdown-loader')}` +
+        `?config=${configFile}&isBuild=${isBuild}`,
     ],
   });
   /* eslint-enable no-param-reassign */

@@ -123,12 +123,12 @@ exports.traverse = function traverse(filesTree, fn) {
   });
 };
 
-exports.process = (filename, fileContent, plugins) => {
+exports.process = (filename, fileContent, plugins, isBuild) => {
   const markdown = markTwain(fileContent);
   markdown.meta.filename = filename;
   const parsedMarkdown = plugins.reduce(
     (markdownData, plugin) =>
-      require(plugin[0])(markdownData, plugin[1]),
+      require(plugin[0])(markdownData, plugin[1], isBuild),
     markdown
   );
   return parsedMarkdown;

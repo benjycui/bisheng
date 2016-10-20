@@ -27,7 +27,7 @@ module.exports = function bishengDataLoader(/* content */) {
     const nodePlugins = resolvePlugins(config.plugins, 'node');
     markdownData.traverse(markdown, (filename) => {
       const fileContent = fs.readFileSync(path.join(process.cwd(), filename)).toString();
-      const parsedMarkdown = markdownData.process(filename, fileContent, nodePlugins);
+      const parsedMarkdown = markdownData.process(filename, fileContent, nodePlugins, query.isBuild);
 
       Object.keys(config.pick).forEach((key) => {
         if (!picked[key]) {
