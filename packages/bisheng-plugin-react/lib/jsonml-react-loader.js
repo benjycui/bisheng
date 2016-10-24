@@ -86,7 +86,11 @@ module.exports = function jsonmlReactLoader(content) {
           astProgramBody.push(renderReturn);
         }
 
-        const coceFunction = types.functionExpression(null, [], codeBlock);
+        const coceFunction = types.functionExpression(
+          types.Identifier('jsonmlReactLoader'),
+          [],
+          codeBlock
+        );
         path.replaceWith(coceFunction);
       }
     },

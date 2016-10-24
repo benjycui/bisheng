@@ -29,11 +29,11 @@
     "mocha": "^2.5.3"
   },
   "dependencies": {
-    "babel-generator": "^6.11.0",
-    "babel-traverse": "^6.10.4",
-    "babel-types": "^6.11.1",
-    "babylon": "^6.8.4",
-    "loader-utils": "^0.2.15",
+    "babel-generator": "~6.11.0",
+    "babel-traverse": "~6.10.4",
+    "babel-types": "~6.11.1",
+    "babylon": "~6.8.4",
+    "loader-utils": "~0.2.15",
     "react": "~15.2.1"
   }
 }
