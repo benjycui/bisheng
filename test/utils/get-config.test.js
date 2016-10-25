@@ -14,12 +14,9 @@ describe('utils/get-config', function() {
     assert.deepEqual(config, {
       source: './posts',
       output: './_site',
-      entry: {
-        index: {
-          theme: './_theme',
-          htmlTemplate: path.join(__dirname, '../../lib/template.html'),
-        },
-      },
+      entryName: 'index',
+      theme: './_theme',
+      htmlTemplate: path.join(__dirname, '../../lib/template.html'),
       port: 8000,
       root: '/',
       plugins: [path.join(__dirname, '..', '..', 'lib', 'bisheng-plugin-highlight')],
@@ -33,12 +30,9 @@ describe('utils/get-config', function() {
     assert.deepEqual(config, {
       source: './content',
       output: './_site',
-      entry: {
-        index: {
-          theme: './_theme',
-          htmlTemplate: path.join(__dirname, '../../lib/template.html'),
-        },
-      },
+      entryName: 'index',
+      theme: './_theme',
+      htmlTemplate: path.join(__dirname, '../../lib/template.html'),
       port: 8000,
       root: '/',
       plugins: [
@@ -46,16 +40,6 @@ describe('utils/get-config', function() {
         'bisheng-plugin-description',
       ],
       doraConfig: {},
-    });
-  });
-
-  it('should reserve customized `entry.index`', function() {
-    const config = getConfig(path.join(__dirname, '../fixtures/bisheng.entry.config.js'));
-    assert.deepEqual(config.entry, {
-      index: {
-        theme: './mock-theme',
-        htmlTemplate: './mock-template',
-      },
     });
   });
 });

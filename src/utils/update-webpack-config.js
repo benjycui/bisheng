@@ -42,12 +42,10 @@ module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild
 
   const customizedWebpackConfig = config.webpackConfig(webpackConfig, webpack);
 
-  Object.keys(config.entry).forEach((key) => {
-    const entryPath = path.join(bishengLib, '..', 'tmp', 'entry.' + key + '.js');
-    if (customizedWebpackConfig.entry[key]) {
-      throw new Error('Should not set `webpackConfig.entry.' + key + '`!');
-    }
-    customizedWebpackConfig.entry[key] = entryPath;
-  });
+  const entryPath = path.join(bishengLib, '..', 'tmp', 'entry.' + config.entryName + '.js');
+  if (customizedWebpackConfig.entry[config.entryName]) {
+    throw new Error('Should not set `webpackConfig.entry.' + config.entryName + '`!');
+  }
+  customizedWebpackConfig.entry[config.entryName] = entryPath;
   return customizedWebpackConfig;
 };

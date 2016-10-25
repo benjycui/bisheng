@@ -21,23 +21,19 @@ exports.start = function start(program) {
   const config = getConfig(configFile);
 
   mkdirp.sync(config.output);
-  Object.keys(config.entry).forEach((key) => {
-    // Generate html files for each entry.
-    const item = config.entry[key];
-    const template = fs.readFileSync(item.htmlTemplate).toString();
-    const templatePath = path.join(process.cwd(), config.output, key + '.html');
-    fs.writeFileSync(templatePath, nunjucks.renderString(template, { root: '/' }));
 
-    const entryTemplatePath = path.join(__dirname, '..', 'tmp', 'entry.' + key + '.js');
-    fs.writeFileSync(
-      entryTemplatePath,
-      nunjucks.renderString(entryTemplate, {
-        themePath: path.join(process.cwd(), item.theme),
-        root: '/',
-        entryName: key === 'index' ? '' : key,
-      })
-    );
-  });
+  const template = fs.readFileSync(config.htmlTemplate).toString();
+  const templatePath = path.join(process.cwd(), config.output, 'index.html');
+  fs.writeFileSync(templatePath, nunjucks.renderString(template, { root: '/' }));
+
+  const entryTemplatePath = path.join(__dirname, '..', 'tmp', 'entry.' + config.entryName + '.js');
+  fs.writeFileSync(
+    entryTemplatePath,
+    nunjucks.renderString(entryTemplate, {
+      themePath: path.join(process.cwd(), config.theme),
+      root: '/',
+    })
+  );
 
   const doraConfig = Object.assign({}, {
     cwd: path.join(process.cwd(), config.output),
@@ -53,14 +49,7 @@ exports.start = function start(program) {
     [path.join(__dirname, 'dora-plugin-bisheng'), {
       config: configFile,
     }],
-    [require.resolve('dora-plugin-browser-history'), {
-      rewrites: Object.keys(config.entry).map((key) => {
-        return {
-          from: new RegExp('/' + key),
-          to: '/' + key + '.html',
-        };
-      }),
-    }],
+    require.resolve('dora-plugin-browser-history'),
   ];
 
   doraConfig.plugins = doraConfig.plugins.concat(usersDoraPlugin);
@@ -77,37 +66,27 @@ exports.build = function build(program, callback) {
   const config = getConfig(configFile);
 
   const markdown = markdownData.generate(config.source);
-  Object.keys(config.entry).forEach((key) => {
-    const item = config.entry[key];
-
-    const entryTemplatePath = path.join(__dirname, '..', 'tmp', 'entry.' + key + '.js');
-    fs.writeFileSync(
+  const entryTemplatePath = path.join(__dirname, '..', 'tmp', 'entry.' + config.entryName + '.js');
+  fs.writeFileSync(
       entryTemplatePath,
       nunjucks.renderString(entryTemplate, {
-        themePath: path.join(process.cwd(), item.theme),
+        themePath: path.join(process.cwd(), config.theme),
         root: config.root,
-        entryName: key === 'index' ? '' : key,
       })
     );
 
-    const themeConfig = require(path.join(process.cwd(), item.theme));
+  const themeConfig = require(path.join(process.cwd(), config.theme));
 
-    const filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map((filename) => {
-      if (key === 'index') {
-        return filename;
-      }
-      return path.join('/', key, filename);
-    });
+  const filesNeedCreated = generateFilesPath(themeConfig.routes, markdown);
 
-    const template = fs.readFileSync(item.htmlTemplate).toString();
-    const fileContent = nunjucks.renderString(template, { root: config.root });
+  const template = fs.readFileSync(config.htmlTemplate).toString();
+  const fileContent = nunjucks.renderString(template, { root: config.root });
 
-    filesNeedCreated.forEach((file) => {
-      const output = path.join(config.output, file);
-      mkdirp.sync(path.dirname(output));
-      fs.writeFileSync(output, fileContent);
-      console.log('Created: ', output);
-    });
+  filesNeedCreated.forEach((file) => {
+    const output = path.join(config.output, file);
+    mkdirp.sync(path.dirname(output));
+    fs.writeFileSync(output, fileContent);
+    console.log('Created: ', output);
   });
 
   const webpackConfig =
