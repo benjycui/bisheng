@@ -115,28 +115,35 @@ exports.build = function build(program, callback) {
   }).run(callback || noop);
 };
 
+function pushToGhPages(basePath) {
+  const options = {
+    depth: 1,
+    logger(message) {
+      console.log(message);
+    },
+  };
+  if (process.env.RUN_ENV_USER) {
+    options.user = {
+      name: process.env.RUN_ENV_USER,
+      email: process.env.RUN_ENV_EMAIL,
+    };
+  }
+  ghPages.publish(basePath, options, (err) => {
+    if (err) {
+      throw err;
+    }
+    console.log('Site has been published!');
+  });
+}
 exports.deploy = function deploy(program) {
-  exports.build(program, () => {
+  if (program.pushOnly) {
+    const output = typeof program.pushOnly === 'string' ? program.pushOnly : './_site';
+    const basePath = path.join(process.cwd(), output);
+    pushToGhPages(basePath);
+  } else {
     const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
     const config = getConfig(configFile);
-
-    const options = {
-      depth: 1,
-      logger(message) {
-        console.log(message);
-      },
-    };
-    if (process.env.RUN_ENV_USER) {
-      options.user = {
-        name: process.env.RUN_ENV_USER,
-        email: process.env.RUN_ENV_EMAIL,
-      };
-    }
-    ghPages.publish(path.join(process.cwd(), config.output), options, (err) => {
-      if (err) {
-        throw err;
-      }
-      console.log('Site has been published!');
-    });
-  });
+    const basePath = path.join(process.cwd(), config.output);
+    exports.build(program, () => pushToGhPages(basePath));
+  }
 };
