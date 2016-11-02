@@ -6,11 +6,24 @@ const getConfig = require('../utils/get-config');
 const resolvePlugins = require('../utils/resolve-plugins');
 const markdownData = require('../utils/markdown-data');
 
-function extractCode(key, value) {
-  if (value && value.__BISHENG_EMBEDED_CODE) {
-    return value.code;
+function stringify(node) {
+  if (Array.isArray(node)) {
+    return '[\n  ' +
+      node.map(stringify).join(',\n  ') +
+      '\n]';
   }
-  return value;
+  if (typeof node === 'object' && !(node instanceof Date)) {
+    if (node && node.__BISHENG_EMBEDED_CODE) {
+      return node.code;
+    }
+    return '{\n  ' +
+      Object.keys(node).map((key) => {
+        const value = node[key];
+        return `  ${key}: ${stringify(value)},\n`;
+      }).join('') +
+      '\n}';
+  }
+  return JSON.stringify(node, null, 2);
 }
 
 module.exports = function markdownLoader(content) {
@@ -25,5 +38,5 @@ module.exports = function markdownLoader(content) {
   const plugins = resolvePlugins(getConfig(query.config).plugins, 'node');
 
   const parsedMarkdown = markdownData.process(filename, content, plugins, query.isBuild);
-  return `module.exports = ${JSON.stringify(parsedMarkdown, extractCode, 2)};`;
+  return `module.exports = ${stringify(parsedMarkdown)};`;
 };
