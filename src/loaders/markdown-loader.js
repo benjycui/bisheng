@@ -12,8 +12,12 @@ function stringify(node) {
       node.map(stringify).join(',\n  ') +
       '\n]';
   }
-  if (typeof node === 'object' && !(node instanceof Date)) {
-    if (node && node.__BISHENG_EMBEDED_CODE) {
+  if (
+    typeof node === 'object' &&
+      node !== null &&
+      !(node instanceof Date)
+  ) {
+    if (node.__BISHENG_EMBEDED_CODE) {
       return node.code;
     }
     return '{\n  ' +
