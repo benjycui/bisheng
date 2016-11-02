@@ -2,7 +2,6 @@
 
 const babylon = require('babylon');
 const types = require('babel-types');
-const generator = require('babel-generator').default;
 const traverse = require('babel-traverse').default;
 
 function parser(content) {

@@ -1,6 +1,7 @@
 'use strict';
 
 const loaderUtils = require('loader-utils');
+const generator = require('babel-generator').default;
 const transformer = require('./transformer');
 
 module.exports = function jsonmlReactLoader(content) {
