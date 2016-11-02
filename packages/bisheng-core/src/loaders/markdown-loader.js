@@ -6,6 +6,13 @@ const getConfig = require('../utils/get-config');
 const resolvePlugins = require('../utils/resolve-plugins');
 const markdownData = require('../utils/markdown-data');
 
+function extractCode(key, value) {
+  if (value.__BISHENG_EMBEDED_CODE) {
+    return value.code;
+  }
+  return value;
+}
+
 module.exports = function markdownLoader(content) {
   if (this.cacheable) {
     this.cacheable();
@@ -18,5 +25,5 @@ module.exports = function markdownLoader(content) {
   const plugins = resolvePlugins(getConfig(query.config).plugins, 'node');
 
   const parsedMarkdown = markdownData.process(filename, content, plugins, query.isBuild);
-  return `module.exports = ${JSON.stringify(parsedMarkdown, null, 2)};`;
+  return `module.exports = ${JSON.stringify(parsedMarkdown, extractCode, 2)};`;
 };
