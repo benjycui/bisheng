@@ -7,7 +7,7 @@ const resolvePlugins = require('../utils/resolve-plugins');
 const markdownData = require('../utils/markdown-data');
 
 function extractCode(key, value) {
-  if (value.__BISHENG_EMBEDED_CODE) {
+  if (value && value.__BISHENG_EMBEDED_CODE) {
     return value.code;
   }
   return value;
