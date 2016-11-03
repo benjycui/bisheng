@@ -68,3 +68,23 @@ module.exports = (markdownData, config) => {
 `markdownData` is the returned value of [mark-twain](https://github.com/benjycui/mark-twain).
 
 `config` is the same as `browser.js`'s `config`.
+
+In `node.js`, you can add or remove or modify fields in `markdownData`, and the final Markdown data which will be pass to template had been processed by all the plugins.
+
+**Note:** we cannot add function to `markdownData` directly, for `markdownData` will be `JSON.stringify` to write to file. However, `bisheng` has extended the behaviour of `stringify`, so we can insert code into `markdownData` by the following syntax:
+
+```js
+markdownData.method = {
+  __BISHENG_EMBEDED_CODE: true,
+  code: 'function(message) { console.log(message) }',
+};
+```
+
+Then, the stringified `markdownData` will be:
+
+```js
+{
+  method: function(message) { console.log(message) },
+  ...
+}
+```
