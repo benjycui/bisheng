@@ -4,18 +4,20 @@ const fs = require('fs');
 const path = require('path');
 
 const defaultConfig = {
+  port: 8000,
   source: './posts',
   output: './_site',
-  entryName: 'index',
   theme: './_theme',
   htmlTemplate: path.join(__dirname, '../template.html'),
-  port: 8000,
-  root: '/',
+  lazyLoad: false,
   plugins: [],
   doraConfig: {},
   webpackConfig(config) {
     return config;
   },
+
+  entryName: 'index',
+  root: '/',
 };
 
 const pluginHighlight = path.join(__dirname, '..', 'bisheng-plugin-highlight');
