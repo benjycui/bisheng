@@ -65,4 +65,4 @@ Call `callback` and pass `error`(if any) and processed `nextProps` to it, then i
 
 `lazyLoad: true` will make each Markdown data as a file to load lazily. But if we want to merge several Markdown data into one file to load lazily(which will reduce HTTP request), we can pass a function to `lazyload` to do this.
 
-`bisheng` will traverse every node of the Markdown data tree, and pass node's path and value to `lazyLoad`. If the returned value of `lazyLoad` is `true`, the whole subtree of the node will be merge in one file and the corresponding field will becoome a lazy load function. IF the return value is `false`, `bisheng` will keep traversing the subtree of this node.
+`bisheng` will traverse every node of the Markdown data tree, and pass node's path and value to `lazyLoad`. If the returned value of `lazyLoad` is `true`, the whole subtree of the node will be merge in one file and the corresponding field will becoome a lazy load function. If the return value is `false`, `bisheng` will keep traversing the subtree of this node.

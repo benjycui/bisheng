@@ -192,6 +192,14 @@ And `lazyLoad` could be a function, it's similar to `ture`, but you can determin
 
 [**More about lazy load**](https://github.com/benjycui/bisheng/tree/master/docs/lazy-load.md).
 
+#### pick: Object { [field]: Function }
+
+> default: {}
+
+To get part of data from Markdown data, and then put all the snippets into `props.picked` and pass it to template.
+
+[**More about pick**](https://github.com/benjycui/bisheng/tree/master/docs/pick.md).
+
 #### plugins: Array[String]
 
 > default: []
