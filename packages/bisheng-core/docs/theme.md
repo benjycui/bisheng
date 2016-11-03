@@ -24,13 +24,21 @@ module.exports = {
   routes: {
     path: '/',
     component: './template/Archive',
-    
+
     // optional, it's equal to `path` if omitted.
     dataPath: 'path-to-markdwon-file',
     ...
+    childRoutes: [{
+      path: 'posts/:post',
+      component: './template/Post',
+
+      // we can use variables in `dataPath`, and values of variables are equal to them in path
+      dataPath: 'posts/:post',
+    }],
   },
 
   // theme's own config goes here...
+  // and it's recommended to extract variables from theme to here
   config1: ...,
   config2: ...,
   ...
@@ -46,18 +54,12 @@ The configuration of `routes` is similar with [react-router's](https://github.co
 
 A template is just a React component, `bisheng` will pass `data` `pageData` `utils` and all the [react-router](https://github.com/reactjs/react-router) props to it.
 
-* `data` is generated from Markdown files in `source`(see: `bisheng.config.js`), and the structure of `data` is the same as directories' structure:
-
-  ```js
-  {
-    posts: {
-      'hello-world': ...,
-      ...
-    },
-  }
-  ```
-
-  Every Markdown file will be parsed as an object by [mark-twain](https://github.com/benjycui/mark-twain).
-* `pageData` is the content of a specific Markdown file. Actually, `bisheng` just get it from `data`.
+* `data` contains the whole Markdown data tree which is generated from [`source`](https://github.com/benjycui/bisheng#source-string--arraystring--object-category-string--arraystring).
+* `pageData` is the content of a specific Markdown file. Actually, `bisheng` just get it from `data`. `bisheng` will determine which Markdown data should be pass as `pageData` by the configuration of `path` & `dataPath` in routes, for example:
+  1. User visits `/posts/hello-world`.
+  2. The URL matches the route `/posts/:post`.
+  3. The corresponding `dataPath` is `/posts/:post`.
+  4. So, `bisheng` will get `data.posts['hello-world']` and pass it as `pageData` to template.
 * `uitls` includes `bisheng`'s and plugins' utilities:
   * `utils.toReactComponent` to convert JsonML to React component.
+  * `utils.get` to get nested value from an object, it's from [exist.js](https://github.com/benjycui/exist.js#existgetobj-nestedprop-defaultvalue).
