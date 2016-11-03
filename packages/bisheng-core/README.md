@@ -13,6 +13,8 @@
 
 ## Features
 
+`bisheng` is based on [dora](https://github.com/dora-js/dora) & [webpack](https://webpack.github.io/) & [React](https://facebook.github.io/react/) & [react-router](https://github.com/ReactTraining/react-router), and it has the following features:
+
 * Support [`browserHistory`](https://github.com/reactjs/react-router/blob/master/docs/API.md#browserhistory), even in [GitHub Pages](https://pages.github.com/).
 * Lazy load for Markdown data.
 * [Plugin](https://github.com/benjycui/bisheng#plugins-arraystring) system to extend default behaviour.
@@ -204,7 +206,19 @@ module.exports = {
 * [bisheng-plugin-toc](https://github.com/benjycui/bisheng-plugin-toc)
 * [bisheng-plugin-react](https://github.com/benjycui/bisheng-plugin-react)
 
-#### entryName: string
+#### doraConfig: Object
+
+> default: {}
+
+You can consult [dora's documentation](https://github.com/dora-js/dora).
+
+#### webpackConfig: (config) => config
+
+> default: (config) => config
+
+To modify the webpack config, you can extend the config like [this](https://github.com/ant-tool/atool-build#配置扩展).
+
+#### entryName: String
 
 > default: 'index'
 
