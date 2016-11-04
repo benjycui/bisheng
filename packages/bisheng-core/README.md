@@ -26,6 +26,10 @@ You can create a PR to extend this list with your amazing website which is built
 * Lazy load for Markdown data.
 * [Plugin](https://github.com/benjycui/bisheng#plugins-arraystring) system to extend default behaviour.
 
+## Big picture
+
+![Big picture of BiSheng](https://raw.githubusercontent.com/benjycui/bisheng/master/big-picture.jpeg)
+
 ## Usage
 
 ### Use `bisheng` in a new project
