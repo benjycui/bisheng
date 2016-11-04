@@ -28,7 +28,7 @@ You can create a PR to extend this list with your amazing website which is built
 
 ## Big picture
 
-![Big picture of BiSheng](https://raw.githubusercontent.com/benjycui/bisheng/master/big-picture.jpeg)
+![Big picture of BiSheng](https://raw.githubusercontent.com/benjycui/bisheng/master/big-picture.jpg)
 
 ## Usage
 
