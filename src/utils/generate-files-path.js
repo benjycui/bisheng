@@ -9,8 +9,8 @@ function hasParams(path) {
   return path.split('/').some((snippet) => snippet.startsWith(':'));
 }
 
-function has404(filesPath) {
-  return filesPath.indexOf('/404.html') >= 0;
+function has404(files) {
+  return files.some(f => f.path.indexOf('/404.html') >= 0);
 }
 
 function flattenRoutes(routes) {
@@ -45,15 +45,12 @@ function getFileContent(file) {
   } else if (typeof file === 'object') {
     filePaths = Object.keys(file).map(key => file[key]);
   }
-  return filePaths.map(p => fs.readFileSync(p).toString()).join('\n');
+  return filePaths.map(p => fs.readFileSync(p).toString()).filter(content => !!content).join('\n');
 }
-
 
 function camelCase(name) {
   return name.charAt(0).toUpperCase() +
-    name.slice(1).replace(/-(\w)/g, (m, n) => {
-      return n.toUpperCase();
-    });
+    name.slice(1).replace(/-(\w)/g, (m, n) => n.toUpperCase());
 }
 
 module.exports = function generateFilesPath(routes, markdown) {
@@ -70,26 +67,27 @@ module.exports = function generateFilesPath(routes, markdown) {
         const pathSnippet = key.replace(/\.md/, '');
         const path = item.path.replace(firstParam, pathSnippet);
         const dataPath = item.dataPath.replace(firstParam, pathSnippet);
-        return { path, dataPath, title: camelCase(key), content: getFileContent(dataSet[key]) };
+        return { path, dataPath };
       });
-
       return generateFilesPath(processedCompleteRoutes, markdown);
-    } else if (item.path.endsWith('/')) {
-      return [{
-        path: `${item.path}index.html`,
-        title: item.title,
-        content: item.content,
-      }];
+    }
+
+    const splitDataPaths = item.dataPath.split('/').filter(p => !!p);
+    let content = '';
+    let title = '';
+    if (splitDataPaths.length > 0) {
+      content = getFileContent(exist.get(markdown, splitDataPaths, {}));
+      title = camelCase(splitDataPaths.slice(-1)[0]);
     }
     return [{
-      path: `${item.path}.html`,
-      title: item.title,
-      content: item.content,
+      path: item.path.endsWith('/') ? `${item.path}index.html` : `${item.path}.html`,
+      title: title,
+      content: content,
     }];
   }, flattenedRoutes);
 
-  return has404(filesPath) ? filesPath : filesPath.concat({
+  return has404(filesPath) ? filesPath : filesPath.concat([{
     path: '/404.html',
     title: '404 Not Found',
-  });
+  }]);
 };
