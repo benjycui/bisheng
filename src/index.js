@@ -80,11 +80,15 @@ exports.build = function build(program, callback) {
   const filesNeedCreated = generateFilesPath(themeConfig.routes, markdown);
 
   const template = fs.readFileSync(config.htmlTemplate).toString();
-  const fileContent = nunjucks.renderString(template, { root: config.root });
 
   filesNeedCreated.forEach((file) => {
-    const output = path.join(config.output, file);
+    const output = path.join(config.output, file.path);
     mkdirp.sync(path.dirname(output));
+    const fileContent = nunjucks.renderString(template, {
+      root: config.root,
+      title: file.title,
+      description: file.description,
+    });
     fs.writeFileSync(output, fileContent);
     console.log('Created: ', output);
   });

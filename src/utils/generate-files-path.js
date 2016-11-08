@@ -47,15 +47,26 @@ module.exports = function generateFilesPath(routes, markdown) {
         const pathSnippet = key.replace(/\.md/, '');
         const path = item.path.replace(firstParam, pathSnippet);
         const dataPath = item.dataPath.replace(firstParam, pathSnippet);
-        return { path, dataPath };
+        return { path, dataPath, title: key };
       });
 
       return generateFilesPath(processedCompleteRoutes, markdown);
     } else if (item.path.endsWith('/')) {
-      return [`${item.path}index.html`];
+      return [{
+        path: `${item.path}index.html`,
+        title: item.title,
+        description: item.description,
+      }];
     }
-    return [`${item.path}.html`];
+    return [{
+      path: `${item.path}.html`,
+      title: item.title,
+      description: item.description,
+    }];
   }, flattenedRoutes);
 
-  return has404(filesPath) ? filesPath : filesPath.concat('/404.html');
+  return has404(filesPath) ? filesPath : filesPath.concat({
+    path: '/404.html',
+    title: '404 Not Found',
+  });
 };
