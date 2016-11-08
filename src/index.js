@@ -87,7 +87,7 @@ exports.build = function build(program, callback) {
     const fileContent = nunjucks.renderString(template, {
       root: config.root,
       title: file.title,
-      description: file.description,
+      content: file.content,
     });
     fs.writeFileSync(output, fileContent);
     console.log('Created: ', output);

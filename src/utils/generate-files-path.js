@@ -2,6 +2,7 @@
 
 const R = require('ramda');
 const exist = require('exist.js');
+const fs = require('fs');
 const join = require('path').join;
 
 function hasParams(path) {
@@ -33,6 +34,28 @@ function flattenRoutes(routes) {
   return flattenedRoutes;
 }
 
+function getFileContent(file) {
+  let filePaths = [];
+  if (typeof file === 'string') {
+    filePaths = [file];
+  } else if (typeof file.index === 'string') {
+    filePaths = [file.index];
+  } else if (typeof file.index === 'object') {
+    filePaths = Object.keys(file.index).map(key => file.index[key]);
+  } else if (typeof file === 'object') {
+    filePaths = Object.keys(file).map(key => file[key]);
+  }
+  return filePaths.map(p => fs.readFileSync(p).toString()).join('\n');
+}
+
+
+function camelCase(name) {
+  return name.charAt(0).toUpperCase() +
+    name.slice(1).replace(/-(\w)/g, (m, n) => {
+      return n.toUpperCase();
+    });
+}
+
 module.exports = function generateFilesPath(routes, markdown) {
   const flattenedRoutes = flattenRoutes(routes);
 
@@ -47,7 +70,7 @@ module.exports = function generateFilesPath(routes, markdown) {
         const pathSnippet = key.replace(/\.md/, '');
         const path = item.path.replace(firstParam, pathSnippet);
         const dataPath = item.dataPath.replace(firstParam, pathSnippet);
-        return { path, dataPath, title: key };
+        return { path, dataPath, title: camelCase(key), content: getFileContent(dataSet[key]) };
       });
 
       return generateFilesPath(processedCompleteRoutes, markdown);
@@ -55,13 +78,13 @@ module.exports = function generateFilesPath(routes, markdown) {
       return [{
         path: `${item.path}index.html`,
         title: item.title,
-        description: item.description,
+        content: item.content,
       }];
     }
     return [{
       path: `${item.path}.html`,
       title: item.title,
-      description: item.description,
+      content: item.content,
     }];
   }, flattenedRoutes);
 
