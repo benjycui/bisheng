@@ -14,23 +14,33 @@ const generateFilesPath = require('./utils/generate-files-path');
 const updateWebpackConfig = require('./utils/update-webpack-config');
 
 const entryTemplate = fs.readFileSync(path.join(__dirname, 'entry.nunjucks.js')).toString();
+const routesTemplate = fs.readFileSync(path.join(__dirname, 'routes.nunjucks.js')).toString();
 mkdirp.sync(path.join(__dirname, '..', 'tmp'));
+
+function getRoutesPath(themePath) {
+  const routesPath = path.join(__dirname, '..', 'tmp', 'routes.js');
+  fs.writeFileSync(
+    routesPath,
+    nunjucks.renderString(routesTemplate, { themePath })
+  );
+  return routesPath;
+}
 
 exports.start = function start(program) {
   const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
   const config = getConfig(configFile);
-
   mkdirp.sync(config.output);
 
   const template = fs.readFileSync(config.htmlTemplate).toString();
   const templatePath = path.join(process.cwd(), config.output, 'index.html');
   fs.writeFileSync(templatePath, nunjucks.renderString(template, { root: '/' }));
 
-  const entryTemplatePath = path.join(__dirname, '..', 'tmp', 'entry.' + config.entryName + '.js');
+  const entryPath = path.join(__dirname, '..', 'tmp', 'entry.' + config.entryName + '.js');
+  const routesPath = getRoutesPath(path.join(process.cwd(), config.theme));
   fs.writeFileSync(
-    entryTemplatePath,
+    entryPath,
     nunjucks.renderString(entryTemplate, {
-      themePath: path.join(process.cwd(), config.theme),
+      routesPath,
       root: '/',
     })
   );
@@ -39,7 +49,6 @@ exports.start = function start(program) {
     cwd: path.join(process.cwd(), config.output),
     port: config.port,
   }, config.doraConfig);
-  const usersDoraPlugin = config.doraConfig.plugins || [];
   doraConfig.plugins = [
     [require.resolve('dora-plugin-webpack'), {
       disableNpmInstall: true,
@@ -51,7 +60,7 @@ exports.start = function start(program) {
     }],
     require.resolve('dora-plugin-browser-history'),
   ];
-
+  const usersDoraPlugin = config.doraConfig.plugins || [];
   doraConfig.plugins = doraConfig.plugins.concat(usersDoraPlugin);
 
   if (program.livereload) {
@@ -66,17 +75,17 @@ exports.build = function build(program, callback) {
   const config = getConfig(configFile);
 
   const markdown = markdownData.generate(config.source);
-  const entryTemplatePath = path.join(__dirname, '..', 'tmp', 'entry.' + config.entryName + '.js');
+  const entryPath = path.join(__dirname, '..', 'tmp', 'entry.' + config.entryName + '.js');
+  const routesPath = getRoutesPath(path.join(process.cwd(), config.theme));
   fs.writeFileSync(
-      entryTemplatePath,
+      entryPath,
       nunjucks.renderString(entryTemplate, {
-        themePath: path.join(process.cwd(), config.theme),
+        routesPath,
         root: config.root,
       })
     );
 
   const themeConfig = require(path.join(process.cwd(), config.theme));
-
   const filesNeedCreated = generateFilesPath(themeConfig.routes, markdown);
 
   const template = fs.readFileSync(config.htmlTemplate).toString();
