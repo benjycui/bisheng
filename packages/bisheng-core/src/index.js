@@ -26,6 +26,15 @@ function getRoutesPath(themePath) {
   return routesPath;
 }
 
+function generateEntryFile(configTheme, configEntryName, root) {
+  const entryPath = path.join(__dirname, '..', 'tmp', 'entry.' + configEntryName + '.js');
+  const routesPath = getRoutesPath(path.join(process.cwd(), configTheme));
+  fs.writeFileSync(
+    entryPath,
+    nunjucks.renderString(entryTemplate, { routesPath, root })
+  );
+}
+
 exports.start = function start(program) {
   const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
   const config = getConfig(configFile);
@@ -35,15 +44,7 @@ exports.start = function start(program) {
   const templatePath = path.join(process.cwd(), config.output, 'index.html');
   fs.writeFileSync(templatePath, nunjucks.renderString(template, { root: '/' }));
 
-  const entryPath = path.join(__dirname, '..', 'tmp', 'entry.' + config.entryName + '.js');
-  const routesPath = getRoutesPath(path.join(process.cwd(), config.theme));
-  fs.writeFileSync(
-    entryPath,
-    nunjucks.renderString(entryTemplate, {
-      routesPath,
-      root: '/',
-    })
-  );
+  generateEntryFile(config.theme, config.entryName, '/');
 
   const doraConfig = Object.assign({}, {
     cwd: path.join(process.cwd(), config.output),
@@ -74,17 +75,9 @@ exports.build = function build(program, callback) {
   const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
   const config = getConfig(configFile);
 
-  const markdown = markdownData.generate(config.source);
-  const entryPath = path.join(__dirname, '..', 'tmp', 'entry.' + config.entryName + '.js');
-  const routesPath = getRoutesPath(path.join(process.cwd(), config.theme));
-  fs.writeFileSync(
-      entryPath,
-      nunjucks.renderString(entryTemplate, {
-        routesPath,
-        root: config.root,
-      })
-    );
+  generateEntryFile(config.theme, config.entryName, config.root);
 
+  const markdown = markdownData.generate(config.source);
   const themeConfig = require(path.join(process.cwd(), config.theme));
   const filesNeedCreated = generateFilesPath(themeConfig.routes, markdown);
 
