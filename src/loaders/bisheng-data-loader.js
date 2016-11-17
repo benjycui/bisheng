@@ -12,6 +12,10 @@ module.exports = function bishengDataLoader(/* content */) {
     this.cacheable();
   }
 
+  const webpackRemainingChain = loaderUtils.getRemainingRequest(this).split('!');
+  const fullPath = webpackRemainingChain[webpackRemainingChain.length - 1];
+  const isSSR = fullPath.endsWith('ssr-data.js');
+
   const query = loaderUtils.parseQuery(this.query);
   const config = getConfig(query.config);
 
@@ -45,7 +49,7 @@ module.exports = function bishengDataLoader(/* content */) {
 
   return 'var Promise = require(\'bluebird\');\n' +
     'module.exports = {' +
-    `\n  markdown: ${markdownData.stringify(markdown, config.lazyLoad)},` +
+    `\n  markdown: ${markdownData.stringify(markdown, config.lazyLoad, isSSR)},` +
     `\n  plugins: [\n${pluginsString}\n],` +
     `\n  picked: ${JSON.stringify(picked, null, 2)},` +
     `\n};`;

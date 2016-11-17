@@ -41,24 +41,24 @@ function filesToTreeStructure(files) {
   }, {});
 }
 
-function stringifyObject(nodePath, obj, lazyLoad, depth) {
+function stringifyObject(nodePath, obj, lazyLoad, isSSR, depth) {
   const indent = '  '.repeat(depth);
   const kvStrings = R.pipe(
     R.toPairs,
     /* eslint-disable no-use-before-define */
     R.map((kv) =>
-          `${indent}  '${kv[0]}': ${stringify(nodePath + '/' + kv[0], kv[1], lazyLoad, depth + 1)},`)
+          `${indent}  '${kv[0]}': ${stringify(nodePath + '/' + kv[0], kv[1], lazyLoad, isSSR, depth + 1)},`)
     /* eslint-enable no-use-before-define */
   )(obj);
   return kvStrings.join('\n');
 }
 
-function lazyLoadWrapper(filePath, filename) {
+function lazyLoadWrapper(filePath, filename, isSSR) {
   return 'function () {\n' +
     '  return new Promise(function (resolve) {\n' +
-    '    require.ensure([], function (require) {\n' +
+    (isSSR ? '' : '    require.ensure([], function (require) {\n') +
     `      resolve(require('${filePath}'));\n` +
-    `    }, '${filename}');\n` +
+    (isSSR ? '' : `    }, '${filename}');\n`) +
     '  });\n' +
     '}';
 }
@@ -71,7 +71,7 @@ function shouldLazyLoad(nodePath, nodeValue, lazyLoad) {
   return typeof nodeValue === 'object' ? false : lazyLoad;
 }
 
-function stringify(nodePath, nodeValue, lazyLoad, depth) {
+function stringify(nodePath, nodeValue, lazyLoad, isSSR, depth) {
   const indent = '  '.repeat(depth);
   const shouldBeLazy = shouldLazyLoad(nodePath, nodeValue, lazyLoad);
   return R.cond([
@@ -82,16 +82,16 @@ function stringify(nodePath, nodeValue, lazyLoad, depth) {
           nodePath.replace(/^\/+/, '').replace(/\//g, '-')
         );
         const fileContent = 'module.exports = ' +
-                `{\n${stringifyObject(nodePath, obj, false, 1)}\n}`;
+                `{\n${stringifyObject(nodePath, obj, false, isSSR, 1)}\n}`;
         fs.writeFileSync(filePath, fileContent);
-        return lazyLoadWrapper(filePath, nodePath.replace(/^\/+/, ''));
+        return lazyLoadWrapper(filePath, nodePath.replace(/^\/+/, ''), isSSR);
       }
-      return `{\n${stringifyObject(nodePath, obj, lazyLoad, depth)}\n${indent}}`;
+      return `{\n${stringifyObject(nodePath, obj, lazyLoad, isSSR, depth)}\n${indent}}`;
     }],
     [R.T, (filename) => {
       const filePath = path.join(process.cwd(), filename);
       if (shouldBeLazy) {
-        return lazyLoadWrapper(filePath, filename);
+        return lazyLoadWrapper(filePath, filename, isSSR);
       }
       return `require('${filePath}')`;
     }],
@@ -108,8 +108,8 @@ exports.generate = function generate(source) {
   }
 };
 
-exports.stringify = (filesTree, lazyLoad) =>
-  stringify('/', filesTree, lazyLoad, 0);
+exports.stringify = (filesTree, lazyLoad, isSSR) =>
+  stringify('/', filesTree, lazyLoad, isSSR, 0);
 
 exports.traverse = function traverse(filesTree, fn) {
   Object.keys(filesTree).forEach((key) => {

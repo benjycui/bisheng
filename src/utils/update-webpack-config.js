@@ -18,7 +18,8 @@ module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild
   webpackConfig.output.publicPath = isBuild ? config.root : '/';
   webpackConfig.module.loaders.push({
     test(filename) {
-      return filename === path.join(bishengLib, 'utils', 'data.js');
+      return filename === path.join(bishengLib, 'utils', 'data.js') ||
+        filename === path.join(bishengLib, 'utils', 'ssr-data.js');
     },
     loader: `${path.join(bishengLibLoaders, 'bisheng-data-loader')}` +
       `?config=${configFile}&isBuild=${isBuild}`,
