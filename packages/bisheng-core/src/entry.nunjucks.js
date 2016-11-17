@@ -10,7 +10,8 @@ const ReactDOM = require('react-dom');
 const ReactRouter = require('react-router');
 const NProgress = require('nprogress');
 const history = require('history');
-const routes = require('{{ routesPath }}');
+const data = require('../lib/utils/data.js');
+const routes = require('{{ routesPath }}')(data);
 
 function createElement(Component, props) {
   NProgress.done();
