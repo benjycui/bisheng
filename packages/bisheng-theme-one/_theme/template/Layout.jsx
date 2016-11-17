@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router';
-import '../static/style';
+
+if (typeof window !== 'undefined') {
+  require('../static/style');
+}
 
 const config = require('..');
 

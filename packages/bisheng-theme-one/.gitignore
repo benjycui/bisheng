@@ -3,3 +3,4 @@
 .DS_Store
 /npm-debug.log
 /_site
+/_theme/template/*.js
