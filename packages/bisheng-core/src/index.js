@@ -7,6 +7,7 @@ const nunjucks = require('nunjucks');
 const dora = require('dora');
 const webpack = require('atool-build/lib/webpack');
 const getWebpackCommonConfig = require('atool-build/lib/getWebpackCommonConfig');
+const Promise = require('bluebird');
 const ghPages = require('gh-pages');
 const getConfig = require('./utils/get-config');
 const markdownData = require('./utils/markdown-data');
@@ -70,27 +71,18 @@ exports.start = function start(program) {
   dora(doraConfig);
 };
 
-const noop = () => {};
+const ssr = require('./ssr');
+function filenameToUrl(filename) {
+  if (filename.endsWith('index.html')) {
+    return filename.replace(/index\.html$/, '');
+  }
+  return filename.replace(/\.html$/, '');
+}
 exports.build = function build(program, callback) {
   const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
   const config = getConfig(configFile);
 
   generateEntryFile(config.theme, config.entryName, config.root);
-
-  const markdown = markdownData.generate(config.source);
-  const themeConfig = require(path.join(process.cwd(), config.theme));
-  const filesNeedCreated = generateFilesPath(themeConfig.routes, markdown);
-
-  const template = fs.readFileSync(config.htmlTemplate).toString();
-  const fileContent = nunjucks.renderString(template, { root: config.root });
-
-  filesNeedCreated.forEach((file) => {
-    const output = path.join(config.output, file);
-    mkdirp.sync(path.dirname(output));
-    fs.writeFileSync(output, fileContent);
-    console.log('Created: ', output);
-  });
-
   const webpackConfig =
           updateWebpackConfig(getWebpackCommonConfig({ cwd: process.cwd() }), configFile, true);
   webpackConfig.UglifyJsPluginConfig = {
@@ -101,20 +93,76 @@ exports.build = function build(program, callback) {
       warnings: false,
     },
   };
-  webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin(webpackConfig.UglifyJsPluginConfig));
+  // webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin(webpackConfig.UglifyJsPluginConfig));
   webpackConfig.plugins.push(new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
   }));
 
-  webpack(webpackConfig, function(err, stats) {
+  const ssrWebpackConfig = Object.assign({}, webpackConfig);
+  ssrWebpackConfig.entry = {
+    data: path.join(__dirname, './utils/ssr-data.js'),
+  };
+  ssrWebpackConfig.target = 'node';
+  const ssrDataPath = path.join(__dirname, '..', 'tmp');
+  ssrWebpackConfig.output = Object.assign({}, ssrWebpackConfig.output, {
+    path: ssrDataPath,
+    libraryTarget: 'commonjs',
+  });
+  ssrWebpackConfig.plugins = ssrWebpackConfig.plugins
+    .filter(plugin => !(plugin instanceof webpack.optimize.CommonsChunkPlugin));
+
+  webpack([webpackConfig, ssrWebpackConfig], function(err, stats) {
     if (err !== null) {
       return console.error(err);
     }
 
     if (stats.hasErrors()) {
       console.log(stats.toString('errors-only'));
+      return;
     }
-  }).run(callback || noop);
+
+    const markdown = markdownData.generate(config.source);
+    const themeConfig = require(path.join(process.cwd(), config.theme));
+    const filesNeedCreated = generateFilesPath(themeConfig.routes, markdown);
+
+    const template = fs.readFileSync(config.htmlTemplate).toString();
+    if (program.ssr) {
+      const routesPath = getRoutesPath(path.join(process.cwd(), config.theme));
+      const data = require(path.join(ssrDataPath, 'data'));
+      const routes = require(routesPath)(data);
+      const fileCreatedPromises = filesNeedCreated.map((file) => {
+        const output = path.join(config.output, file);
+        mkdirp.sync(path.dirname(output));
+        return new Promise((resolve) => {
+          ssr(routes, filenameToUrl(file), (content) => {
+            const fileContent = nunjucks
+                    .renderString(template, { root: config.root, content });
+            fs.writeFileSync(output, fileContent);
+            console.log('Created: ', output);
+            resolve();
+          });
+        });
+      });
+      Promise.all(fileCreatedPromises)
+        .then(() => {
+          if (callback) {
+            callback();
+          }
+        });
+    } else {
+      const fileContent = nunjucks.renderString(template, { root: config.root });
+      filesNeedCreated.forEach((file) => {
+        const output = path.join(config.output, file);
+        mkdirp.sync(path.dirname(output));
+        fs.writeFileSync(output, fileContent);
+        console.log('Created: ', output);
+      });
+
+      if (callback) {
+        callback();
+      }
+    }
+  });
 };
 
 function pushToGhPages(basePath) {

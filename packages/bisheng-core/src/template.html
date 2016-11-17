@@ -10,7 +10,7 @@
     <![endif]-->
   </head>
   <body>
-    <div id="react-content">{{ content }}</div>
+    <div id="react-content">{{ content | safe }}</div>
   </body>
   <script src="{{ root }}common.js"></script>
   <script src="{{ root }}index.js"></script>

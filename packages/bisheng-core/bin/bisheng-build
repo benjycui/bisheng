@@ -5,8 +5,7 @@ const BiSheng = require('../lib');
 
 program
   .option('-c, --config <path>', 'set config path. defaults to ./bisheng.config.js')
-  // TODO
-  // .option('-s, --server-render', 'build static files with \'react-dom/server\'')
+  .option('--ssr', 'whether to enable ssr while building pages.')
   .parse(process.argv);
 
 BiSheng.build(program);
