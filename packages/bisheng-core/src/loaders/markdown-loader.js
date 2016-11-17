@@ -6,11 +6,12 @@ const getConfig = require('../utils/get-config');
 const resolvePlugins = require('../utils/resolve-plugins');
 const markdownData = require('../utils/markdown-data');
 
-function stringify(node) {
+function stringify(node, depth) {
+  const indent = ' '.repeat(depth);
   if (Array.isArray(node)) {
-    return '[\n  ' +
-      node.map(stringify).join(',\n  ') +
-      '\n]';
+    return `${indent}[\n${indent}  ` +
+      node.map(item => stringify(item, depth + 1)).join(`,\n${indent}  `) +
+      `${indent}\n]`;
   }
   if (
     typeof node === 'object' &&
@@ -20,12 +21,12 @@ function stringify(node) {
     if (node.__BISHENG_EMBEDED_CODE) {
       return node.code;
     }
-    return '{\n  ' +
+    return `${indent}{\n` +
       Object.keys(node).map((key) => {
         const value = node[key];
-        return `  ${key}: ${stringify(value)},\n`;
-      }).join('') +
-      '\n}';
+        return `${indent}  '${key}': ${stringify(value, depth + 1)},`;
+      }).join('\n') +
+      `${indent}\n}`;
   }
   return JSON.stringify(node, null, 2);
 }
@@ -42,5 +43,5 @@ module.exports = function markdownLoader(content) {
   const plugins = resolvePlugins(getConfig(query.config).plugins, 'node');
 
   const parsedMarkdown = markdownData.process(filename, content, plugins, query.isBuild);
-  return `module.exports = ${stringify(parsedMarkdown)};`;
+  return `module.exports = ${stringify(parsedMarkdown, 0)};`;
 };
