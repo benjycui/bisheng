@@ -81,6 +81,7 @@ function filenameToUrl(filename) {
 exports.build = function build(program, callback) {
   const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
   const config = getConfig(configFile);
+  mkdirp.sync(config.output);
 
   generateEntryFile(config.theme, config.entryName, config.root);
   const webpackConfig =
