@@ -26,7 +26,7 @@ module.exports = {
     component: './template/Archive',
 
     // optional, it's equal to `path` if omitted.
-    dataPath: 'path-to-markdwon-file',
+    dataPath: 'path-to-markdown-file',
     ...
     childRoutes: [{
       path: 'posts/:post',
