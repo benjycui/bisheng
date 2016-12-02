@@ -18,6 +18,9 @@ const defaultConfig = {
 
   entryName: 'index',
   root: '/',
+  filePathMapper(filePath) {
+    return filePath;
+  },
 };
 
 const pluginHighlight = path.join(__dirname, '..', 'bisheng-plugin-highlight');

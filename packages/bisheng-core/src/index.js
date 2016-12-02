@@ -8,6 +8,7 @@ const dora = require('dora');
 const webpack = require('atool-build/lib/webpack');
 const getWebpackCommonConfig = require('atool-build/lib/getWebpackCommonConfig');
 const Promise = require('bluebird');
+const R = require('ramda');
 const ghPages = require('gh-pages');
 const getConfig = require('./utils/get-config');
 const markdownData = require('./utils/markdown-data');
@@ -124,7 +125,8 @@ exports.build = function build(program, callback) {
 
     const markdown = markdownData.generate(config.source);
     const themeConfig = require(path.join(process.cwd(), config.theme));
-    const filesNeedCreated = generateFilesPath(themeConfig.routes, markdown);
+    let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(config.filePathMapper);
+    filesNeedCreated = R.unnest(filesNeedCreated);
 
     const template = fs.readFileSync(config.htmlTemplate).toString();
     if (program.ssr) {
