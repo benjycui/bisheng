@@ -46,7 +46,7 @@ module.exports = function getRoutes(data) {
         pageData,
         utils,
       }), (err, nextProps) => {
-        const Comp = (!hasParams(dataPath) || pageData) && err !== 404 ?
+        const Comp = (hasParams(dataPath) || pageData) && err !== 404 ?
                 Template.default || Template : NotFound;
         Comp.dynamicProps = nextProps;
         callback(err === 404 ? null : err, Comp);
