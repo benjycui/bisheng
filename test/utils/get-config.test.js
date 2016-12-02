@@ -10,6 +10,7 @@ describe('utils/get-config', function() {
 
     assert.strictEqual(config.webpackConfig(1), 1);
     delete config.webpackConfig;
+    delete config.filePathMapper;
 
     assert.deepEqual(config, {
       source: './posts',
@@ -28,6 +29,8 @@ describe('utils/get-config', function() {
   it('should merge custom config to default config', function() {
     const config = getConfig(path.join(__dirname, '../fixtures/bisheng.config.js'));
     delete config.webpackConfig;
+    delete config.filePathMapper;
+
     assert.deepEqual(config, {
       source: './content',
       output: './_site',
