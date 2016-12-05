@@ -5,12 +5,7 @@ const React = require('react');
 /* eslint-enable no-unused-vars */
 const ReactDOMServer = require('react-dom/server');
 const ReactRouter = require('react-router');
-const NProgress = require('nprogress');
-
-function createElement(Component, props) {
-  NProgress.done();
-  return <Component {...props} {...Component.dynamicProps} />;
-}
+const createElement = require('./utils/create-element');
 
 module.exports = function ssr(routes, url, callback) {
   ReactRouter.match({ routes, location: url }, (error, redirectLocation, renderProps) => {
