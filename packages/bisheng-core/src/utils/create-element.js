@@ -7,5 +7,6 @@ const NProgress = require('nprogress');
 
 module.exports = function createElement(Component, props) {
   NProgress.done();
-  return <Component {...props} {...Component.dynamicProps} />;
+  const dynamicPropsKey = props.location.pathname;
+  return <Component {...props} {...Component[dynamicPropsKey]} />;
 };
