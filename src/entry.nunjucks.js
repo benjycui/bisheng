@@ -8,15 +8,10 @@ const React = require('react');
 /* eslint-enable no-unused-vars */
 const ReactDOM = require('react-dom');
 const ReactRouter = require('react-router');
-const NProgress = require('nprogress');
 const history = require('history');
 const data = require('../lib/utils/data.js');
+const createElement = require('../lib/utils/create-element');
 const routes = require('{{ routesPath }}')(data);
-
-function createElement(Component, props) {
-  NProgress.done();
-  return <Component {...props} {...Component.dynamicProps} />;
-}
 
 const { pathname, search, hash } = window.location;
 const location = `${pathname}${search}${hash}`;
