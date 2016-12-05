@@ -43,7 +43,7 @@
     "eslint-plugin-react": "^5.0.1"
   },
   "dependencies": {
-    "bisheng": "^0.17.0",
+    "bisheng": "^0.18.0",
     "bisheng-plugin-description": "^0.1.0",
     "bluebird": "^3.4.1",
     "react": "^15.0.2",
