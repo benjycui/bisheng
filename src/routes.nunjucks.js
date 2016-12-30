@@ -7,14 +7,16 @@ const NProgress = require('nprogress');
 const NotFound = require('{{ themePath }}/template/NotFound');
 
 function calcPropsPath(dataPath, params) {
-  return Object.keys(params).reduce(
+  return typeof dataPath === 'function' ?
+    dataPath(params) :
+    Object.keys(params).reduce(
     (path, param) => path.replace(`:${param}`, params[param]),
     dataPath
   );
 }
 
 function hasParams(dataPath) {
-  return dataPath.split('/').some((snippet) => snippet.startsWith(':'));
+  return typeof dataPath === 'function' || dataPath.split('/').some((snippet) => snippet.startsWith(':'));
 }
 
 function defaultCollect(nextProps, callback) {
