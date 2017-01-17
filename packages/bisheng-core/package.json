@@ -46,7 +46,6 @@
   "dependencies": {
     "atool-build": "^0.9.0",
     "babel-polyfill": "^6.9.1",
-    "bluebird": "^3.4.0",
     "commander": "^2.9.0",
     "dora": "^0.4.0",
     "dora-plugin-browser-history": "^0.2.0",

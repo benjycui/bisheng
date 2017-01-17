@@ -47,8 +47,7 @@ module.exports = function bishengDataLoader(/* content */) {
     });
   }
 
-  return 'var Promise = require(\'bluebird\');\n' +
-    'module.exports = {' +
+  return 'module.exports = {' +
     `\n  markdown: ${markdownData.stringify(markdown, config.lazyLoad, isSSR)},` +
     `\n  plugins: [\n${pluginsString}\n],` +
     `\n  picked: ${JSON.stringify(picked, null, 2)},` +

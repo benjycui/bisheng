@@ -7,7 +7,6 @@ const nunjucks = require('nunjucks');
 const dora = require('dora');
 const webpack = require('atool-build/lib/webpack');
 const getWebpackCommonConfig = require('atool-build/lib/getWebpackCommonConfig');
-const Promise = require('bluebird');
 const R = require('ramda');
 const ghPages = require('gh-pages');
 const getConfig = require('./utils/get-config');
