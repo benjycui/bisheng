@@ -54,7 +54,7 @@
     "exist.js": "^0.3.0",
     "gh-pages": "^0.11.0",
     "history": "^3.0.0",
-    "jsonml-to-react-component": "^0.2.2",
+    "jsonml-to-react-element": "^1.0.0",
     "jsonml.js": "^0.1.0",
     "loader-utils": "^0.2.14",
     "mark-twain": "^1.1.4",
