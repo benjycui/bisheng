@@ -19,8 +19,8 @@ const entryTemplate = fs.readFileSync(path.join(__dirname, 'entry.nunjucks.js'))
 const routesTemplate = fs.readFileSync(path.join(__dirname, 'routes.nunjucks.js')).toString();
 mkdirp.sync(path.join(__dirname, '..', 'tmp'));
 
-function getRoutesPath(themePath) {
-  const routesPath = path.join(__dirname, '..', 'tmp', 'routes.js');
+function getRoutesPath(themePath, configEntryName) {
+  const routesPath = path.join(__dirname, '..', 'tmp', 'routes.' + configEntryName + 'js');
   fs.writeFileSync(
     routesPath,
     nunjucks.renderString(routesTemplate, { themePath })
@@ -30,7 +30,7 @@ function getRoutesPath(themePath) {
 
 function generateEntryFile(configTheme, configEntryName, root) {
   const entryPath = path.join(__dirname, '..', 'tmp', 'entry.' + configEntryName + '.js');
-  const routesPath = getRoutesPath(path.join(process.cwd(), configTheme));
+  const routesPath = getRoutesPath(path.join(process.cwd(), configTheme), configEntryName);
   fs.writeFileSync(
     entryPath,
     nunjucks.renderString(entryTemplate, { routesPath, root })
