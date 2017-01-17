@@ -1,7 +1,7 @@
 'use strict';
 
 const chain = require('ramda/src/chain');
-const toReactComponent = require('jsonml-to-react-component');
+const toReactElement = require('jsonml-to-react-element');
 const exist = require('exist.js');
 const NProgress = require('nprogress');
 const NotFound = require('{{ themePath }}/template/NotFound');
@@ -29,7 +29,7 @@ module.exports = function getRoutes(data) {
   const utils = {
     get: exist.get,
     toReactComponent(jsonml) {
-      return toReactComponent(jsonml, converters);
+      return toReactElement(jsonml, converters);
     },
   };
   plugins.map((plugin) => plugin.utils || {})
