@@ -39,5 +39,8 @@ module.exports = (function() {
       }
       arrange(task);
     },
+    jobDone() {
+      workers.forEach(w => w.kill());
+    },
   };
 })();
