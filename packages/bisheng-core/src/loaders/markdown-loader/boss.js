@@ -23,7 +23,7 @@ module.exports = (function() {
     const worker = workers.pop();
     const { callback } = task;
     worker.send(task);
-    worker.on('message', result => {
+    worker.once('message', result => {
       callback(null, result);
       workers.push(worker); // mission completed
       if (tasksQueue.length > 0) {
