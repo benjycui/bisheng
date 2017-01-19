@@ -3,7 +3,6 @@
 const path = require('path');
 const webpack = require('atool-build/lib/webpack');
 const getConfig = require('./get-config');
-const resolvePlugins = require('./resolve-plugins');
 const bishengLib = path.join(__dirname, '..');
 const bishengLibLoaders = path.join(bishengLib, 'loaders');
 
@@ -34,11 +33,6 @@ module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild
     ],
   });
   /* eslint-enable no-param-reassign */
-
-  const pluginsConfig = resolvePlugins(config.plugins, 'config');
-  pluginsConfig.forEach((pluginConfig) => {
-    require(pluginConfig[0])(pluginConfig[1]).webpackConfig(webpackConfig, webpack);
-  });
 
   const customizedWebpackConfig = config.webpackConfig(webpackConfig, webpack);
 
