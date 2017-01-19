@@ -12,7 +12,6 @@ module.exports = {
     // hideBisheng: true,
     github: 'https://github.com/benjycui/bisheng-theme-one',
   },
-  lazyLoad: true,
   root: '/bisheng-theme-one/',
   plugins: ['bisheng-plugin-description'],
   pick: {

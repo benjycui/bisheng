@@ -1,4 +1,5 @@
 module.exports = {
+  lazyLoad: true,
   routes: [{
     path: '/',
     component: './template/Archive',
