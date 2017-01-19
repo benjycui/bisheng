@@ -5,6 +5,7 @@ const toReactElement = require('jsonml-to-react-element');
 const exist = require('exist.js');
 const NProgress = require('nprogress');
 const NotFound = require('{{ themePath }}/template/NotFound');
+const themeConfig = require('{{ configPath }}').themeConfig || {};
 
 function calcPropsPath(dataPath, params) {
   return typeof dataPath === 'function' ?
@@ -43,6 +44,7 @@ module.exports = function getRoutes(data) {
       const pageData = exist.get(data.markdown, propsPath.replace(/^\//, '').split('/'));
       const collect = Template.collect || defaultCollect;
       collect(Object.assign({}, nextState, {
+        themeConfig,
         data: data.markdown,
         picked: data.picked,
         pageData,
