@@ -1,91 +1,62 @@
 'use strict';
 
-const babylon = require('babylon');
+const babel = require('babel-core');
 const types = require('babel-types');
 const traverse = require('babel-traverse').default;
+const generator = require('babel-generator').default;
 
-function parser(content) {
-  return babylon.parse(content, {
-    sourceType: 'module',
-    plugins: [
-      'jsx',
-      'flow',
-      'asyncFunctions',
-      'classConstructorCall',
-      'doExpressions',
-      'trailingFunctionCommas',
-      'objectRestSpread',
-      'decorators',
-      'classProperties',
-      'exportExtensions',
-      'exponentiationOperator',
-      'asyncGenerators',
-      'functionBind',
-      'functionSent',
-    ],
-  });
+function requireGenerator(varName, moduleName) {
+  return types.variableDeclaration('var', [
+    types.variableDeclarator(
+      types.identifier(varName),
+      types.callExpression(
+        types.identifier('require'),
+        [types.stringLiteral(moduleName)]
+      )
+    ),
+  ]);
 }
 
-module.exports = function transformer(content, lang) {
-  let imports = [];
-  const inputAst = parser(content);
-  traverse(inputAst, {
-    ArrayExpression: function(path) {
-      const node = path.node;
-      const firstItem = node.elements[0];
-      const secondItem = node.elements[1];
-      let renderReturn;
-      if (firstItem &&
-        firstItem.type === 'StringLiteral' &&
-        firstItem.value === 'pre' &&
-        secondItem.properties[0].value.value === lang) {
-        let codeNode = node.elements[2].elements[1];
-        let code = codeNode.value;
+module.exports = function transformer(code, noreact) {
+  const { ast: codeAst } = babel.transform(code, {
+    presets: ['es2015-ie', 'react', 'stage-0'],
+  });
 
-        const codeAst = parser(code);
+  let renderReturn = null;
+  traverse(codeAst, {
+    CallExpression: function(callPath) {
+      const callPathNode = callPath.node;
+      if (callPathNode.callee &&
+          callPathNode.callee.object &&
+          callPathNode.callee.object.name === 'ReactDOM' &&
+          callPathNode.callee.property &&
+          callPathNode.callee.property.name === 'render') {
 
-        traverse(codeAst, {
-          ImportDeclaration: function(importPath) {
-            imports.push(importPath.node);
-            importPath.remove();
-          },
-          CallExpression: function(CallPath) {
-            const CallPathNode = CallPath.node;
-            if (CallPathNode.callee &&
-              CallPathNode.callee.object &&
-              CallPathNode.callee.object.name === 'ReactDOM' &&
-              CallPathNode.callee.property &&
-              CallPathNode.callee.property.name === 'render') {
-
-              renderReturn = types.returnStatement(
-                CallPathNode.arguments[0]
-              );
-
-              CallPath.remove();
-            }
-          },
-        });
-
-        const astProgramBody = codeAst.program.body;
-        const codeBlock = types.BlockStatement(astProgramBody);
-
-        // ReactDOM.render always at the last of preview method
-        if (renderReturn) {
-          astProgramBody.push(renderReturn);
-        }
-
-        const coceFunction = types.functionExpression(
-          types.Identifier('jsonmlReactLoader'),
-          [],
-          codeBlock
+        renderReturn = types.returnStatement(
+          callPathNode.arguments[0]
         );
-        path.replaceWith(coceFunction);
+
+        callPath.remove();
       }
     },
   });
 
-  return {
-    imports: imports,
-    inputAst: inputAst,
-  };
+  const astProgramBody = codeAst.program.body;
+  if (!noreact) {
+    astProgramBody.unshift(requireGenerator('ReactDOM', 'react-dom'));
+    astProgramBody.unshift(requireGenerator('React', 'react'));
+  }
+  // ReactDOM.render always at the last of preview method
+  if (renderReturn) {
+    astProgramBody.push(renderReturn);
+  }
+
+  const codeBlock = types.BlockStatement(astProgramBody);
+  const previewFunction = types.functionDeclaration(
+    types.Identifier('bishengPluginReactPreviewer'),
+    [],
+    codeBlock
+  );
+
+  return generator(types.program([previewFunction]), null, code).code;
 };

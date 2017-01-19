@@ -24,18 +24,23 @@
   },
   "homepage": "https://github.com/benjycui/bisheng-plugin-react#readme",
   "devDependencies": {
+    "babel-preset-es2015-ie": "^6.6.2",
+    "babel-preset-react": "6.5.x",
+    "babel-preset-stage-0": "6.5.x",
     "eslint": "^2.10.2",
     "eslint-config-egg": "^2.0.0",
     "mocha": "^2.5.3"
   },
   "dependencies": {
+    "babel-core": "^6.21.0",
     "babel-generator": "~6.11.0",
     "babel-traverse": "~6.10.4",
-    "babel-types": "~6.11.1",
-    "babylon": "~6.8.4",
-    "loader-utils": "~0.2.15"
+    "babel-types": "~6.11.1"
   },
   "peerDependencies": {
+    "babel-preset-es2015-ie": "^6.6.2",
+    "babel-preset-react": "6.5.x",
+    "babel-preset-stage-0": "6.5.x",
     "react": "^0.14.0 || ^15.0.0"
   }
 }
