@@ -38,19 +38,19 @@ function generateEntryFile(configTheme, configEntryName, root) {
 
 exports.start = function start(program) {
   const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
-  const config = getConfig(configFile);
-  mkdirp.sync(config.output);
+  const bishengConfig = getConfig(configFile);
+  mkdirp.sync(bishengConfig.output);
 
-  const template = fs.readFileSync(config.htmlTemplate).toString();
-  const templatePath = path.join(process.cwd(), config.output, 'index.html');
+  const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
+  const templatePath = path.join(process.cwd(), bishengConfig.output, 'index.html');
   fs.writeFileSync(templatePath, nunjucks.renderString(template, { root: '/' }));
 
-  generateEntryFile(config.theme, config.entryName, '/');
+  generateEntryFile(bishengConfig.theme, bishengConfig.entryName, '/');
 
   const doraConfig = Object.assign({}, {
-    cwd: path.join(process.cwd(), config.output),
-    port: config.port,
-  }, config.doraConfig);
+    cwd: path.join(process.cwd(), bishengConfig.output),
+    port: bishengConfig.port,
+  }, bishengConfig.doraConfig);
   doraConfig.plugins = [
     [require.resolve('dora-plugin-webpack'), {
       disableNpmInstall: true,
@@ -62,7 +62,7 @@ exports.start = function start(program) {
     }],
     require.resolve('dora-plugin-browser-history'),
   ];
-  const usersDoraPlugin = config.doraConfig.plugins || [];
+  const usersDoraPlugin = bishengConfig.doraConfig.plugins || [];
   doraConfig.plugins = doraConfig.plugins.concat(usersDoraPlugin);
 
   if (program.livereload) {
@@ -80,10 +80,10 @@ function filenameToUrl(filename) {
 }
 exports.build = function build(program, callback) {
   const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
-  const config = getConfig(configFile);
-  mkdirp.sync(config.output);
+  const bishengConfig = getConfig(configFile);
+  mkdirp.sync(bishengConfig.output);
 
-  generateEntryFile(config.theme, config.entryName, config.root);
+  generateEntryFile(bishengConfig.theme, bishengConfig.entryName, bishengConfig.root);
   const webpackConfig =
           updateWebpackConfig(getWebpackCommonConfig({ cwd: process.cwd() }), configFile, true);
   webpackConfig.UglifyJsPluginConfig = {
@@ -123,23 +123,23 @@ exports.build = function build(program, callback) {
       return;
     }
 
-    const markdown = markdownData.generate(config.source);
-    const themeConfig = require(path.join(process.cwd(), config.theme));
-    let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(config.filePathMapper);
+    const markdown = markdownData.generate(bishengConfig.source);
+    const themeConfig = require(path.join(process.cwd(), bishengConfig.theme));
+    let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(bishengConfig.filePathMapper);
     filesNeedCreated = R.unnest(filesNeedCreated);
 
-    const template = fs.readFileSync(config.htmlTemplate).toString();
+    const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
     if (program.ssr) {
-      const routesPath = getRoutesPath(path.join(process.cwd(), config.theme));
+      const routesPath = getRoutesPath(path.join(process.cwd(), bishengConfig.theme));
       const data = require(path.join(ssrDataPath, 'data'));
       const routes = require(routesPath)(data);
       const fileCreatedPromises = filesNeedCreated.map((file) => {
-        const output = path.join(config.output, file);
+        const output = path.join(bishengConfig.output, file);
         mkdirp.sync(path.dirname(output));
         return new Promise((resolve) => {
           ssr(routes, filenameToUrl(file), (content) => {
             const fileContent = nunjucks
-                    .renderString(template, { root: config.root, content });
+                    .renderString(template, { root: bishengConfig.root, content });
             fs.writeFileSync(output, fileContent);
             console.log('Created: ', output);
             resolve();
@@ -153,9 +153,9 @@ exports.build = function build(program, callback) {
           }
         });
     } else {
-      const fileContent = nunjucks.renderString(template, { root: config.root });
+      const fileContent = nunjucks.renderString(template, { root: bishengConfig.root });
       filesNeedCreated.forEach((file) => {
-        const output = path.join(config.output, file);
+        const output = path.join(bishengConfig.output, file);
         mkdirp.sync(path.dirname(output));
         fs.writeFileSync(output, fileContent);
         console.log('Created: ', output);
@@ -195,8 +195,8 @@ exports.deploy = function deploy(program) {
     pushToGhPages(basePath);
   } else {
     const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
-    const config = getConfig(configFile);
-    const basePath = path.join(process.cwd(), config.output);
+    const bishengConfig = getConfig(configFile);
+    const basePath = path.join(process.cwd(), bishengConfig.output);
     exports.build(program, () => pushToGhPages(basePath));
   }
 };
