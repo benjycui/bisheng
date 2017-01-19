@@ -29,7 +29,6 @@ module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild
     test: /\.md$/,
     exclude: /node_modules/,
     loaders: [
-      'babel',
       `${path.join(bishengLibLoaders, 'markdown-loader')}` +
         `?config=${configFile}&isBuild=${isBuild}`,
     ],
