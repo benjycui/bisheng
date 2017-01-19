@@ -28,18 +28,18 @@ module.exports = function bishengDataLoader(/* content */) {
   ).join(',\n');
 
   const picked = {};
-  if (config.pick) {
+  if (themeConfig.pick) {
     const nodePlugins = resolvePlugins(config.plugins, 'node');
     markdownData.traverse(markdown, (filename) => {
       const fileContent = fs.readFileSync(path.join(process.cwd(), filename)).toString();
       const parsedMarkdown = markdownData.process(filename, fileContent, nodePlugins, query.isBuild);
 
-      Object.keys(config.pick).forEach((key) => {
+      Object.keys(themeConfig.pick).forEach((key) => {
         if (!picked[key]) {
           picked[key] = [];
         }
 
-        const picker = config.pick[key];
+        const picker = themeConfig.pick[key];
         const pickedData = picker(parsedMarkdown);
         if (pickedData) {
           picked[key].push(pickedData);
