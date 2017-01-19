@@ -22,7 +22,6 @@ describe('utils/get-config', function() {
       root: '/',
       plugins: [path.join(__dirname, '..', '..', 'lib', 'bisheng-plugin-highlight')],
       doraConfig: {},
-      lazyLoad: false,
     });
   });
 
@@ -44,7 +43,6 @@ describe('utils/get-config', function() {
         'bisheng-plugin-description',
       ],
       doraConfig: {},
-      lazyLoad: false,
     });
   });
 });

@@ -9,7 +9,6 @@ const defaultConfig = {
   output: './_site',
   theme: './_theme',
   htmlTemplate: path.join(__dirname, '../template.html'),
-  lazyLoad: false,
   plugins: [],
   doraConfig: {},
   webpackConfig(config) {
