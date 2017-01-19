@@ -18,6 +18,7 @@ module.exports = function bishengDataLoader(/* content */) {
 
   const query = loaderUtils.parseQuery(this.query);
   const config = getConfig(query.config);
+  const themeConfig = require(path.join(process.cwd(), config.theme));
 
   const markdown = markdownData.generate(config.source);
   const browserPlugins = resolvePlugins(config.plugins, 'browser');
@@ -48,7 +49,7 @@ module.exports = function bishengDataLoader(/* content */) {
   }
 
   return 'module.exports = {' +
-    `\n  markdown: ${markdownData.stringify(markdown, config.lazyLoad, isSSR)},` +
+    `\n  markdown: ${markdownData.stringify(markdown, themeConfig.lazyLoad, isSSR)},` +
     `\n  plugins: [\n${pluginsString}\n],` +
     `\n  picked: ${JSON.stringify(picked, null, 2)},` +
     `\n};`;
