@@ -1,0 +1,10 @@
+{
+  "name": "example",
+  "scripts": {
+    "start": "bisheng start",
+    "deploy": "bisheng gh-pages"
+  },
+  "depencencies": {
+    "bisheng": "^0.19.0"
+  }
+}

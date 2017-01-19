@@ -2,5 +2,6 @@
 /index.html
 .DS_Store
 /npm-debug.log
-/_site
-/_theme/template/*.js
+/example/_site
+/lib
+/example/npm-debug.log
