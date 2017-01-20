@@ -9,7 +9,6 @@ const defaultConfig = {
   output: './_site',
   theme: './_theme',
   htmlTemplate: path.join(__dirname, '../template.html'),
-  plugins: [],
   doraConfig: {},
   webpackConfig(config) {
     return config;
@@ -22,18 +21,8 @@ const defaultConfig = {
   },
 };
 
-const pluginHighlight = path.join(__dirname, '..', 'bisheng-plugin-highlight');
-
-function isRelative(filepath) {
-  return filepath.charAt(0) === '.';
-}
-
-module.exports = function getConfig(configFile) {
+module.exports = function getBishengConfig(configFile) {
   const customizedConfig = fs.existsSync(configFile) ? require(configFile) : {};
   const config = Object.assign({}, defaultConfig, customizedConfig);
-  config.plugins = [pluginHighlight].concat(config.plugins.map(
-    (plugin) => isRelative(plugin) ? path.join(process.cwd(), plugin) : plugin
-  ));
-
   return config;
 };

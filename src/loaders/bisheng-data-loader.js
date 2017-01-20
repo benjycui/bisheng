@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const loaderUtils = require('loader-utils');
 const getBishengConfig = require('../utils/get-bisheng-config');
+const getThemeConfig = require('../utils/get-theme-config');
 const markdownData = require('../utils/markdown-data');
 const resolvePlugins = require('../utils/resolve-plugins');
 
@@ -18,10 +19,10 @@ module.exports = function bishengDataLoader(/* content */) {
 
   const query = loaderUtils.parseQuery(this.query);
   const bishengConfig = getBishengConfig(query.config);
-  const themeConfig = require(path.join(process.cwd(), bishengConfig.theme));
+  const themeConfig = getThemeConfig(path.join(process.cwd(), bishengConfig.theme));
 
   const markdown = markdownData.generate(bishengConfig.source);
-  const browserPlugins = resolvePlugins(bishengConfig.plugins, 'browser');
+  const browserPlugins = resolvePlugins(themeConfig.plugins, 'browser');
   const pluginsString = browserPlugins.map(
     (plugin) =>
       `require('${plugin[0]}')(${JSON.stringify(plugin[1])})`
@@ -29,7 +30,7 @@ module.exports = function bishengDataLoader(/* content */) {
 
   const picked = {};
   if (themeConfig.pick) {
-    const nodePlugins = resolvePlugins(bishengConfig.plugins, 'node');
+    const nodePlugins = resolvePlugins(themeConfig.plugins, 'node');
     markdownData.traverse(markdown, (filename) => {
       const fileContent = fs.readFileSync(path.join(process.cwd(), filename)).toString();
       const parsedMarkdown = markdownData.process(filename, fileContent, nodePlugins, query.isBuild);
