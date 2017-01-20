@@ -1,5 +1,9 @@
 # bisheng-theme-one
 
+[![npm package](https://img.shields.io/npm/v/bisheng-theme-one.svg?style=flat-square)](https://www.npmjs.org/package/bisheng-theme-one)
+[![NPM downloads](http://img.shields.io/npm/dm/bisheng-theme-one.svg?style=flat-square)](https://npmjs.org/package/bisheng-theme-one)
+[![Dependency Status](https://david-dm.org/benjycui/bisheng-theme-one.svg?style=flat-square)](https://david-dm.org/benjycui/bisheng-theme-one)
+
 The one theme for [bisheng](https://github.com/benjycui/bisheng).
 
 ## Features
