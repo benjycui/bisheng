@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const resolve = require('resolve');
 
 const defaultConfig = {
   port: 8000,
@@ -24,5 +25,6 @@ const defaultConfig = {
 module.exports = function getBishengConfig(configFile) {
   const customizedConfig = fs.existsSync(configFile) ? require(configFile) : {};
   const config = Object.assign({}, defaultConfig, customizedConfig);
+  config.theme = resolve.sync(config.theme, { basedir: process.cwd() });
   return config;
 };
