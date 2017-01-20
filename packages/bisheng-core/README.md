@@ -33,16 +33,6 @@ You can create a PR to extend this list with your amazing website which is built
 
 ## Usage
 
-### Use `bisheng` in a new project
-
-```bash
-git clone git@github.com:benjycui/bisheng-theme-one.git myblog && cd myblog
-rm -rf .git && npm i && npm start
-open http://127.0.0.1:8000/
-```
-
-### Use `bisheng` in current project
-
 Installation:
 
 ```bash
@@ -70,7 +60,7 @@ module.exports = {
 };
 ```
 
-**Note:** please make sure that `source` and `theme` exists, and `theme` should not be an empty directory. Just copy [bisheng-theme-one](https://github.com/benjycui/bisheng-theme-one) to `theme`, if you don't know how to develop a theme.
+**Note:** please make sure that `source` and `theme` exists, and `theme` should not be an empty directory. Just use [bisheng-theme-one](https://github.com/benjycui/bisheng-theme-one), if you don't know how to develop a theme.
 
 Now, just run `npm start`.
 
