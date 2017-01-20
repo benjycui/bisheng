@@ -12,6 +12,33 @@ theme
     └── Template.jsx
 ```
 
+e.g. [ant-design](https://github.com/ant-design/ant-design/tree/master/site/theme)
+
+## Theme as NPM Package
+
+We can also publish our theme as a NPM package, so that other can install it as a dependency.
+
+Directory structure:
+
+```bash
+lib
+├── index.js # config file, required
+├── static # style files
+│   └── style.css
+└── template # templates are JSX files
+    ├── NotFound.jsx # required
+    └── Template.jsx
+```
+
+`package.json`:
+
+```json
+{
+  "main": "./lib/index.js",
+  "files": ["lib", ...]
+}
+```
+
 e.g. [bisheng-theme-one](https://github.com/benjycui/bisheng-theme-one)
 
 ## `index.js`
@@ -37,11 +64,13 @@ module.exports = {
     }],
   },
 
-  // theme's own config goes here...
-  // and it's recommended to extract variables from theme to here
-  config1: ...,
-  config2: ...,
-  ...
+  // the following configs are optional
+  lazyLoad: true,
+  pick: {
+    archive(markdownData) { ... },
+    ...
+  },
+  plugins: ['bisheng-plugin-react', ...],
 };
 ```
 
@@ -96,7 +125,7 @@ module.exports = {
 
 ## Templates
 
-A template is just a React component, `bisheng` will pass `data` `pageData` `utils` and all the [react-router](https://github.com/reactjs/react-router) props to it.
+A template is just a React component, `bisheng` will pass [`themeConfig`](https://github.com/benjycui/bisheng#themeconfig-any) `data` `pageData` `utils` and all the [react-router](https://github.com/reactjs/react-router) props to it.
 
 * `data` contains the whole Markdown data tree which is generated from [`source`](https://github.com/benjycui/bisheng#source-string--arraystring--object-category-string--arraystring).
 * `pageData` is the content of a specific Markdown file. Actually, `bisheng` just get it from `data`. `bisheng` will determine which Markdown data should be pass as `pageData` by the configuration of `path` & `dataPath` in routes, for example:
