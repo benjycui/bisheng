@@ -1,3 +1,3 @@
-import './yue.css';
-import './syntax.css';
-import './site.css';
+require('./yue.css');
+require('./syntax.css');
+require('./site.css');
