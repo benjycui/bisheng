@@ -9,7 +9,7 @@ const webpack = require('atool-build/lib/webpack');
 const getWebpackCommonConfig = require('atool-build/lib/getWebpackCommonConfig');
 const R = require('ramda');
 const ghPages = require('gh-pages');
-const getConfig = require('./utils/get-config');
+const getBishengConfig = require('./utils/get-bisheng-config');
 const markdownData = require('./utils/markdown-data');
 const generateFilesPath = require('./utils/generate-files-path');
 const updateWebpackConfig = require('./utils/update-webpack-config');
@@ -42,7 +42,7 @@ function generateEntryFile(configPath, configTheme, configEntryName, root) {
 
 exports.start = function start(program) {
   const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
-  const bishengConfig = getConfig(configFile);
+  const bishengConfig = getBishengConfig(configFile);
   mkdirp.sync(bishengConfig.output);
 
   const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
@@ -89,7 +89,7 @@ function filenameToUrl(filename) {
 }
 exports.build = function build(program, callback) {
   const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
-  const bishengConfig = getConfig(configFile);
+  const bishengConfig = getBishengConfig(configFile);
   mkdirp.sync(bishengConfig.output);
 
   generateEntryFile(
@@ -212,7 +212,7 @@ exports.deploy = function deploy(program) {
     pushToGhPages(basePath);
   } else {
     const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
-    const bishengConfig = getConfig(configFile);
+    const bishengConfig = getBishengConfig(configFile);
     const basePath = path.join(process.cwd(), bishengConfig.output);
     exports.build(program, () => pushToGhPages(basePath));
   }

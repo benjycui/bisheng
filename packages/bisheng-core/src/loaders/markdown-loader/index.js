@@ -2,7 +2,7 @@
 
 const path = require('path');
 const loaderUtils = require('loader-utils');
-const getConfig = require('../../utils/get-config');
+const getBishengConfig = require('../../utils/get-bisheng-config');
 const resolvePlugins = require('../../utils/resolve-plugins');
 const markdownData = require('../../utils/markdown-data');
 const stringify = require('../../utils/stringify');
@@ -17,7 +17,7 @@ module.exports = function markdownLoader(content) {
   const filename = path.relative(process.cwd(), fullPath);
 
   const query = loaderUtils.parseQuery(this.query);
-  const plugins = resolvePlugins(getConfig(query.config).plugins, 'node');
+  const plugins = resolvePlugins(getBishengConfig(query.config).plugins, 'node');
 
   const callback = this.async();
   if (!callback) {
