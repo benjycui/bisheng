@@ -13,5 +13,4 @@ module.exports = {
     github: 'https://github.com/benjycui/bisheng-theme-one',
   },
   root: '/bisheng-theme-one/',
-  plugins: ['bisheng-plugin-description'],
 };

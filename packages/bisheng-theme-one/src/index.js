@@ -8,6 +8,7 @@ module.exports = {
       };
     }
   },
+  plugins: ['bisheng-plugin-description'],
   routes: [{
     path: '/',
     component: './template/Archive',
