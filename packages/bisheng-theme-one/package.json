@@ -1,5 +1,6 @@
 {
   "name": "bisheng-theme-one",
+  "version": "0.1.0",
   "description": "The one theme for bisheng.",
   "scripts": {
     "prepublish": "babel ./src --out-dir ./lib && cp -R src/static/* lib/static",
