@@ -19,7 +19,7 @@ module.exports = function bishengDataLoader(/* content */) {
 
   const query = loaderUtils.parseQuery(this.query);
   const bishengConfig = getBishengConfig(query.config);
-  const themeConfig = getThemeConfig(path.join(process.cwd(), bishengConfig.theme));
+  const themeConfig = getThemeConfig(bishengConfig.theme);
 
   const markdown = markdownData.generate(bishengConfig.source);
   const browserPlugins = resolvePlugins(themeConfig.plugins, 'browser');

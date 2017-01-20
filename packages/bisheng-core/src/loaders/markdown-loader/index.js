@@ -19,7 +19,7 @@ module.exports = function markdownLoader(content) {
 
   const query = loaderUtils.parseQuery(this.query);
   const bishengConfig = getBishengConfig(query.config);
-  const themeConfig = getThemeConfig(path.join(process.cwd(), bishengConfig.theme));
+  const themeConfig = getThemeConfig(bishengConfig.theme);
   const plugins = resolvePlugins(themeConfig.plugins, 'node');
 
   const callback = this.async();
