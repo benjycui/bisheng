@@ -1,7 +1,9 @@
 {
   "name": "bisheng-theme-one",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The one theme for bisheng.",
+  "main": "./lib/index.js",
+  "files": ["lib"],
   "scripts": {
     "prepublish": "babel ./src --out-dir ./lib && cp -R src/static/* lib/static",
     "postpublish": "rm -rf lib",
