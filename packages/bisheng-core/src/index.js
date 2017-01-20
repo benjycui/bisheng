@@ -19,7 +19,7 @@ const routesTemplate = fs.readFileSync(path.join(__dirname, 'routes.nunjucks.js'
 mkdirp.sync(path.join(__dirname, '..', 'tmp'));
 
 function getRoutesPath(configPath, themePath, configEntryName) {
-  const routesPath = path.join(__dirname, '..', 'tmp', 'routes.' + configEntryName + 'js');
+  const routesPath = path.join(__dirname, '..', 'tmp', 'routes.' + configEntryName + '.js');
   fs.writeFileSync(
     routesPath,
     nunjucks.renderString(routesTemplate, { configPath, themePath })
@@ -144,7 +144,7 @@ exports.build = function build(program, callback) {
 
     const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
     if (program.ssr) {
-      const routesPath = getRoutesPath(configFile, bishengConfig.theme);
+      const routesPath = getRoutesPath(configFile, path.dirname(bishengConfig.theme));
       const data = require(path.join(ssrDataPath, 'data'));
       const routes = require(routesPath)(data);
       const fileCreatedPromises = filesNeedCreated.map((file) => {
