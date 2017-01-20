@@ -6,7 +6,7 @@ module.exports = {
         meta: markdownData.meta,
         description: markdownData.description,
       };
-    }
+    },
   },
   plugins: ['bisheng-plugin-description'],
   routes: [{

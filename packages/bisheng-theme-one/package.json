@@ -3,6 +3,7 @@
   "description": "The one theme for bisheng.",
   "scripts": {
     "prepublish": "babel ./src --out-dir ./lib && cp -R src/static/* lib/static",
+    "postpublish": "rm -rf lib",
     "lint": "eslint ./src",
     "eslint-fix": "eslint --fix ./src"
   },
