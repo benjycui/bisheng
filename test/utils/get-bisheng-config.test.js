@@ -2,17 +2,17 @@
 
 const assert = require('assert');
 const path = require('path');
-const getConfig = require('../../lib/utils/get-config');
+const getBishengConfig = require('../../lib/utils/get-bisheng-config');
 
 describe('utils/get-config', function() {
   it('should return default config when no custom config is provided', function() {
-    const config = getConfig('./no-such.config.js.');
+    const bishengConfig = getBishengConfig('./no-such.config.js.');
 
-    assert.strictEqual(config.webpackConfig(1), 1);
-    delete config.webpackConfig;
-    delete config.filePathMapper;
+    assert.strictEqual(bishengConfig.webpackConfig(1), 1);
+    delete bishengConfig.webpackConfig;
+    delete bishengConfig.filePathMapper;
 
-    assert.deepEqual(config, {
+    assert.deepEqual(bishengConfig, {
       source: './posts',
       output: './_site',
       entryName: 'index',
@@ -26,11 +26,11 @@ describe('utils/get-config', function() {
   });
 
   it('should merge custom config to default config', function() {
-    const config = getConfig(path.join(__dirname, '../fixtures/bisheng.config.js'));
-    delete config.webpackConfig;
-    delete config.filePathMapper;
+    const bishengConfig = getBishengConfig(path.join(__dirname, '../fixtures/bisheng.config.js'));
+    delete bishengConfig.webpackConfig;
+    delete bishengConfig.filePathMapper;
 
-    assert.deepEqual(config, {
+    assert.deepEqual(bishengConfig, {
       source: './content',
       output: './_site',
       entryName: 'index',

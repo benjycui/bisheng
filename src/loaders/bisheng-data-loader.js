@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const loaderUtils = require('loader-utils');
-const getConfig = require('../utils/get-config');
+const getBishengConfig = require('../utils/get-bisheng-config');
 const markdownData = require('../utils/markdown-data');
 const resolvePlugins = require('../utils/resolve-plugins');
 
@@ -17,11 +17,11 @@ module.exports = function bishengDataLoader(/* content */) {
   const isSSR = fullPath.endsWith('ssr-data.js');
 
   const query = loaderUtils.parseQuery(this.query);
-  const config = getConfig(query.config);
-  const themeConfig = require(path.join(process.cwd(), config.theme));
+  const bishengConfig = getBishengConfig(query.config);
+  const themeConfig = require(path.join(process.cwd(), bishengConfig.theme));
 
-  const markdown = markdownData.generate(config.source);
-  const browserPlugins = resolvePlugins(config.plugins, 'browser');
+  const markdown = markdownData.generate(bishengConfig.source);
+  const browserPlugins = resolvePlugins(bishengConfig.plugins, 'browser');
   const pluginsString = browserPlugins.map(
     (plugin) =>
       `require('${plugin[0]}')(${JSON.stringify(plugin[1])})`
@@ -29,7 +29,7 @@ module.exports = function bishengDataLoader(/* content */) {
 
   const picked = {};
   if (themeConfig.pick) {
-    const nodePlugins = resolvePlugins(config.plugins, 'node');
+    const nodePlugins = resolvePlugins(bishengConfig.plugins, 'node');
     markdownData.traverse(markdown, (filename) => {
       const fileContent = fs.readFileSync(path.join(process.cwd(), filename)).toString();
       const parsedMarkdown = markdownData.process(filename, fileContent, nodePlugins, query.isBuild);
