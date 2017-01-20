@@ -65,7 +65,6 @@ Create `bisheng.config.js`, otherwise `bisheng` will use the default config:
 module.exports = {
   source: './posts',
   output: './_site',
-  lazyLoad: false,
   theme: './_theme',
   port: 8000,
 };
@@ -112,8 +111,6 @@ module.exports = {
   output: './_site',
   theme: './_theme',
   htmlTemplate: path.join(__dirname, '../template.html'),
-  lazyLoad: false,
-  plugins: [],
   doraConfig: {},
   webpackConfig(config) {
     return config;
@@ -167,11 +164,17 @@ To set directory where `bisheng` will generate (HTML & CSS & JavaScript) files t
 
 > default: './_theme'
 
-To set directory where we put the theme of website.
+To set directory where we put the theme of website, and it also can be a npm package name.
 
 [**More about theme**](https://github.com/benjycui/bisheng/tree/master/docs/theme.md).
 
 * [bisheng-theme-one](https://github.com/benjycui/bisheng-theme-one)
+
+#### themeConfig: any
+
+> undefined
+
+A set of configuration that your theme provides, and then your theme can read it from `props.themeConfig`.
 
 #### htmlTemplate: String
 
@@ -182,49 +185,6 @@ The HTML template which will be use to generate HTML files which will be sent to
 **Note:** template will be parsed by [nunjucks](https://mozilla.github.io/nunjucks/), and you can use the following variables in this template:
 
 * [`root`](https://github.com/benjycui/bisheng#root-string)
-
-#### lazyLoad: Boolean | (nodePath, nodeValue) => Boolean
-
-> default: false
-
-If `lazyLoad` is `false`, it means that the whole Markdown data tree will be load while users visit any page.
-
-If `lazyLoad` is `true`, it meas that Markdown data will only be loaded while it's needed.
-
-And `lazyLoad` could be a function, it's similar to `ture`, but you can determine whether a subtree of the Markdown data tree should be loaded lazily as one file.
-
-**Note:** when `lazyLoad` or the returned value of `lazyLoad()` is `true`, the Markdown data(or subtree) will be wrapped in a function which will return a promise.
-
-[**More about lazy load**](https://github.com/benjycui/bisheng/tree/master/docs/lazy-load.md).
-
-#### pick: Object { [field]: Function }
-
-> default: {}
-
-To get part of data from Markdown data, and then put all the snippets into `props.picked` and pass it to template.
-
-[**More about pick**](https://github.com/benjycui/bisheng/tree/master/docs/pick.md).
-
-#### plugins: Array[String]
-
-> default: []
-
-A list of plugins.
-
-```js
-module.exports = {
-  plugins: [
-    'pluginName?config1=value1&config2=value2',
-    'anotherPluginName',
-  ],
-};
-```
-
-[**More about plugin**](https://github.com/benjycui/bisheng/tree/master/docs/plugin.md).
-
-* [bisheng-plugin-description](https://github.com/benjycui/bisheng-plugin-description)
-* [bisheng-plugin-toc](https://github.com/benjycui/bisheng-plugin-toc)
-* [bisheng-plugin-react](https://github.com/benjycui/bisheng-plugin-react)
 
 #### doraConfig: Object
 

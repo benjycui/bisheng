@@ -50,6 +50,50 @@ The configuration of `routes` is similar with [react-router's](https://github.co
 * `component` should be a string which is a path of a component.
 * `dataPath` means which Markdown file need to be rendered.
 
+### lazyLoad: Boolean | (nodePath, nodeValue) => Boolean
+
+> default: false
+
+If `lazyLoad` is `false`, it means that the whole Markdown data tree will be load while users visit any page.
+
+If `lazyLoad` is `true`, it meas that Markdown data will only be loaded while it's needed.
+
+And `lazyLoad` could be a function, it's similar to `ture`, but you can determine whether a subtree of the Markdown data tree should be loaded lazily as one file.
+
+**Note:** when `lazyLoad` or the returned value of `lazyLoad()` is `true`, the Markdown data(or subtree) will be wrapped in a function which will return a promise.
+
+[**More about lazy load**](https://github.com/benjycui/bisheng/tree/master/docs/lazy-load.md).
+
+### pick: Object { [field]: Function }
+
+> default: {}
+
+To get part of data from Markdown data, and then put all the snippets into `props.picked` and pass it to template.
+
+[**More about pick**](https://github.com/benjycui/bisheng/tree/master/docs/pick.md).
+
+### plugins: Array[String]
+
+> default: []
+
+A list of plugins.
+
+```js
+module.exports = {
+  plugins: [
+    'pluginName?config1=value1&config2=value2',
+    'anotherPluginName',
+  ],
+};
+```
+
+[**More about plugin**](https://github.com/benjycui/bisheng/tree/master/docs/plugin.md).
+
+* [bisheng-plugin-description](https://github.com/benjycui/bisheng-plugin-description)
+* [bisheng-plugin-toc](https://github.com/benjycui/bisheng-plugin-toc)
+* [bisheng-plugin-react](https://github.com/benjycui/bisheng-plugin-react)
+
+
 ## Templates
 
 A template is just a React component, `bisheng` will pass `data` `pageData` `utils` and all the [react-router](https://github.com/reactjs/react-router) props to it.
