@@ -31,7 +31,7 @@ function generateEntryFile(configPath, configTheme, configEntryName, root) {
   const entryPath = path.join(__dirname, '..', 'tmp', 'entry.' + configEntryName + '.js');
   const routesPath = getRoutesPath(
     configPath,
-    path.join(process.cwd(), configTheme),
+    configTheme,
     configEntryName)
   ;
   fs.writeFileSync(
@@ -138,16 +138,13 @@ exports.build = function build(program, callback) {
     }
 
     const markdown = markdownData.generate(bishengConfig.source);
-    const themeConfig = require(path.join(process.cwd(), bishengConfig.theme));
+    const themeConfig = require(bishengConfig.theme);
     let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(bishengConfig.filePathMapper);
     filesNeedCreated = R.unnest(filesNeedCreated);
 
     const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
     if (program.ssr) {
-      const routesPath = getRoutesPath(
-        configFile,
-        path.join(process.cwd(), bishengConfig.theme)
-      );
+      const routesPath = getRoutesPath(configFile, bishengConfig.theme);
       const data = require(path.join(ssrDataPath, 'data'));
       const routes = require(routesPath)(data);
       const fileCreatedPromises = filesNeedCreated.map((file) => {
