@@ -31,7 +31,7 @@ function generateEntryFile(configPath, configTheme, configEntryName, root) {
   const entryPath = path.join(__dirname, '..', 'tmp', 'entry.' + configEntryName + '.js');
   const routesPath = getRoutesPath(
     configPath,
-    configTheme,
+    path.dirname(configTheme),
     configEntryName)
   ;
   fs.writeFileSync(
