@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const {escapeWinPath, toUriPath} = require('./escape-win-path');
 const R = require('ramda');
 const markTwain = require('mark-twain');
 
@@ -33,7 +34,7 @@ function findMDFile(source) {
   )(source);
 }
 
-const rxSep = new RegExp(`[${path.sep}.]`);
+const rxSep = new RegExp(`[${ escapeWinPath(path.sep)}.]`);
 function filesToTreeStructure(files) {
   return files.reduce((filesTree, filename) => {
     const propLens = R.lensPath(filename.replace(/\.md$/i, '').split(rxSep));
@@ -57,8 +58,8 @@ function lazyLoadWrapper(filePath, filename, isSSR) {
   return 'function () {\n' +
     '  return new Promise(function (resolve) {\n' +
     (isSSR ? '' : '    require.ensure([], function (require) {\n') +
-    `      resolve(require('${filePath}'));\n` +
-    (isSSR ? '' : `    }, '${filename}');\n`) +
+    `      resolve(require('${escapeWinPath(filePath)}'));\n` +
+    (isSSR ? '' : `    }, '${toUriPath(filename)}');\n`) +
     '  });\n' +
     '}';
 }
@@ -93,7 +94,7 @@ function stringify(nodePath, nodeValue, lazyLoad, isSSR, depth) {
       if (shouldBeLazy) {
         return lazyLoadWrapper(filePath, filename, isSSR);
       }
-      return `require('${filePath}')`;
+      return `require('${escapeWinPath(filePath)}')`;
     }],
   ])(nodeValue);
 }
@@ -125,7 +126,7 @@ exports.traverse = function traverse(filesTree, fn) {
 
 exports.process = (filename, fileContent, plugins, isBuild/* 'undefined' | true */) => {
   const markdown = markTwain(fileContent);
-  markdown.meta.filename = filename;
+  markdown.meta.filename = toUriPath(filename);
   const parsedMarkdown = plugins.reduce(
     (markdownData, plugin) =>
       require(plugin[0])(markdownData, plugin[1], isBuild === true),

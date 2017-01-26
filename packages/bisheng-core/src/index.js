@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const {escapeWinPath} = require('./utils/escape-win-path');
 const mkdirp = require('mkdirp');
 const nunjucks = require('nunjucks');
 const dora = require('dora');
@@ -22,7 +23,10 @@ function getRoutesPath(configPath, themePath, configEntryName) {
   const routesPath = path.join(__dirname, '..', 'tmp', 'routes.' + configEntryName + '.js');
   fs.writeFileSync(
     routesPath,
-    nunjucks.renderString(routesTemplate, { configPath, themePath })
+    nunjucks.renderString(routesTemplate, {
+      configPath: escapeWinPath(configPath),
+      themePath: escapeWinPath(themePath),
+    })
   );
   return routesPath;
 }
@@ -33,10 +37,13 @@ function generateEntryFile(configPath, configTheme, configEntryName, root) {
     configPath,
     path.dirname(configTheme),
     configEntryName)
-  ;
+    ;
   fs.writeFileSync(
     entryPath,
-    nunjucks.renderString(entryTemplate, { routesPath, root })
+    nunjucks.renderString(entryTemplate, {
+      routesPath: escapeWinPath(routesPath),
+      root: escapeWinPath(root),
+    })
   );
 }
 
@@ -99,7 +106,7 @@ exports.build = function build(program, callback) {
     bishengConfig.root
   );
   const webpackConfig =
-          updateWebpackConfig(getWebpackCommonConfig({ cwd: process.cwd() }), configFile, true);
+    updateWebpackConfig(getWebpackCommonConfig({ cwd: process.cwd() }), configFile, true);
   webpackConfig.UglifyJsPluginConfig = {
     output: {
       ascii_only: true,
@@ -153,7 +160,7 @@ exports.build = function build(program, callback) {
         return new Promise((resolve) => {
           ssr(routes, filenameToUrl(file), (content) => {
             const fileContent = nunjucks
-                    .renderString(template, { root: bishengConfig.root, content });
+              .renderString(template, { root: bishengConfig.root, content });
             fs.writeFileSync(output, fileContent);
             console.log('Created: ', output);
             resolve();

@@ -54,4 +54,5 @@ module.exports = function bishengDataLoader(/* content */) {
     `\n  plugins: [\n${pluginsString}\n],` +
     `\n  picked: ${JSON.stringify(picked, null, 2)},` +
     `\n};`;
+
 };
