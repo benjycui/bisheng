@@ -83,5 +83,8 @@
     "pre-commit": "^1.1.2",
     "rimraf": "^2.5.4",
     "run-sequence": "^1.2.2"
+  },
+  "engines": {
+    "node": ">=6.0.0"
   }
 }
