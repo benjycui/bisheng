@@ -1,8 +1,7 @@
 'use strict';
 
-// require('D:\ant-design') will throw a module not found error
-// need to escape \ to \\. Note that this is only required when you persist
-// windows to a file
+// require('D:\ant-design') will throw a module not found error need to escape `\` to `\\`.
+// Note that this is only required when you persist code to file
 function escapeWinPath(path) {
   return path.replace(/\\/g, '\\\\');
 }

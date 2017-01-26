@@ -49,12 +49,10 @@ module.exports = function bishengDataLoader(/* content */) {
     });
   }
 
-  const content = 'module.exports = {' +
+  return 'module.exports = {' +
     `\n  markdown: ${markdownData.stringify(markdown, themeConfig.lazyLoad, isSSR)},` +
     `\n  plugins: [\n${pluginsString}\n],` +
     `\n  picked: ${JSON.stringify(picked, null, 2)},` +
     `\n};`;
-  // fs.writeFileSync('./markdown-tree.debug', content);
-  return content;
 
 };

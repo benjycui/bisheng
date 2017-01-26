@@ -55,12 +55,11 @@ function stringifyObject(nodePath, obj, lazyLoad, isSSR, depth) {
 }
 
 function lazyLoadWrapper(filePath, filename, isSSR) {
-  const uriPath = filename.replace(/\\/g, '\/');
   return 'function () {\n' +
     '  return new Promise(function (resolve) {\n' +
     (isSSR ? '' : '    require.ensure([], function (require) {\n') +
     `      resolve(require('${escapeWinPath(filePath)}'));\n` +
-    (isSSR ? '' : `    }, '${uriPath}');\n`) +
+    (isSSR ? '' : `    }, '${toUriPath(filename)}');\n`) +
     '  });\n' +
     '}';
 }
