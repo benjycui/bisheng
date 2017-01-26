@@ -2,7 +2,9 @@
 
 const assert = require('assert');
 const path = require('path');
+const {escapeWinPath} = require('../../src/utils/escape-win-path');
 const markdownData = require('../../lib/utils/markdown-data');
+const pathSep = path.sep;
 
 describe('utils/markdown-data', function() {
   describe('#generate', function() {
@@ -13,10 +15,10 @@ describe('utils/markdown-data', function() {
           fixtures: {
             posts: {
               a: {
-                'en-US': 'test/fixtures/posts/a.en-US.md',
-                'zh-CN': 'test/fixtures/posts/a.zh-CN.md',
+                'en-US': `test${(pathSep)}fixtures${(pathSep)}posts${(pathSep)}a.en-US.md`,
+                'zh-CN': `test${(pathSep)}fixtures${(pathSep)}posts${(pathSep)}a.zh-CN.md`,
               },
-              b: 'test/fixtures/posts/b.md',
+              b: `test${(pathSep)}fixtures${(pathSep)}posts${(pathSep)}b.md`,
             },
           },
         },
@@ -30,10 +32,10 @@ describe('utils/markdown-data', function() {
           fixtures: {
             posts: {
               a: {
-                'en-US': 'test/fixtures/posts/a.en-US.md',
-                'zh-CN': 'test/fixtures/posts/a.zh-CN.md',
+                'en-US': `test${(path.sep)}fixtures${(pathSep)}posts${(pathSep)}a.en-US.md`,
+                'zh-CN': `test${(path.sep)}fixtures${(pathSep)}posts${(pathSep)}a.zh-CN.md`,
               },
-              b: 'test/fixtures/posts/b.md',
+              b: `test${(path.sep)}fixtures${(pathSep)}posts${(pathSep)}b.md`,
             },
           },
         },
@@ -48,10 +50,10 @@ describe('utils/markdown-data', function() {
             fixtures: {
               posts: {
                 a: {
-                  'en-US': 'test/fixtures/posts/a.en-US.md',
-                  'zh-CN': 'test/fixtures/posts/a.zh-CN.md',
+                  'en-US': `test${(path.sep)}fixtures${(pathSep)}posts${(pathSep)}a.en-US.md`,
+                  'zh-CN': `test${(path.sep)}fixtures${(pathSep)}posts${(pathSep)}a.zh-CN.md`,
                 },
-                b: 'test/fixtures/posts/b.md',
+                b: `test${(path.sep)}fixtures${(pathSep)}posts${(pathSep)}b.md`,
               },
             },
           },
@@ -69,10 +71,10 @@ describe('utils/markdown-data', function() {
                          '    \'fixtures\': {\n' +
                          '      \'posts\': {\n' +
                          '        \'a\': {\n' +
-                         `          'en-US': require('${path.join(__dirname, '../fixtures/posts/a.en-US.md')}'),\n` +
-                         `          'zh-CN': require('${path.join(__dirname, '../fixtures/posts/a.zh-CN.md')}'),\n` +
+                         `          'en-US': require('${escapeWinPath(path.join(__dirname, '../fixtures/posts/a.en-US.md'))}'),\n` +
+                         `          'zh-CN': require('${escapeWinPath(path.join(__dirname, '../fixtures/posts/a.zh-CN.md'))}'),\n` +
                          '        },\n' +
-                         `        'b': require('${path.join(__dirname, '../fixtures/posts/b.md')}'),\n` +
+                         `        'b': require('${escapeWinPath(path.join(__dirname, '../fixtures/posts/b.md'))}'),\n` +
                          '      },\n' +
                          '    },\n' +
                          '  },\n' +

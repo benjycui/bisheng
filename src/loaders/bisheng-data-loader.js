@@ -34,7 +34,7 @@ module.exports = function bishengDataLoader(/* content */) {
     markdownData.traverse(markdown, (filename) => {
       const fileContent = fs.readFileSync(path.join(process.cwd(), filename)).toString();
       const parsedMarkdown = markdownData.process(filename, fileContent, nodePlugins, query.isBuild);
-
+      
       Object.keys(themeConfig.pick).forEach((key) => {
         if (!picked[key]) {
           picked[key] = [];
@@ -49,9 +49,12 @@ module.exports = function bishengDataLoader(/* content */) {
     });
   }
 
-  return 'module.exports = {' +
+  const content = 'module.exports = {' +
     `\n  markdown: ${markdownData.stringify(markdown, themeConfig.lazyLoad, isSSR)},` +
     `\n  plugins: [\n${pluginsString}\n],` +
     `\n  picked: ${JSON.stringify(picked, null, 2)},` +
     `\n};`;
+  //fs.writeFileSync('./markdown-tree.debug', content);
+  return content;
+
 };
