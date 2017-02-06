@@ -5,7 +5,7 @@ const toReactElement = require('jsonml-to-react-element');
 const exist = require('exist.js');
 const NProgress = require('nprogress');
 const NotFound = require('{{ themePath }}/template/NotFound');
-const themeConfig = require('{{ configPath }}').themeConfig || {};
+const themeConfig = JSON.parse('{{ themeConfig | safe }}');
 
 function calcPropsPath(dataPath, params) {
   return typeof dataPath === 'function' ?

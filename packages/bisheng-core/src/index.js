@@ -21,10 +21,11 @@ mkdirp.sync(path.join(__dirname, '..', 'tmp'));
 
 function getRoutesPath(configPath, themePath, configEntryName) {
   const routesPath = path.join(__dirname, '..', 'tmp', 'routes.' + configEntryName + '.js');
+  const themeConfig = require(escapeWinPath(configPath)).themeConfig || {};
   fs.writeFileSync(
     routesPath,
     nunjucks.renderString(routesTemplate, {
-      configPath: escapeWinPath(configPath),
+      themeConfig: JSON.stringify(themeConfig),
       themePath: escapeWinPath(themePath),
     })
   );
