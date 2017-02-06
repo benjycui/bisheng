@@ -2,7 +2,13 @@
 
 const transformer = require('./transformer');
 
-module.exports = function(markdownData, { lang = 'react-example', noreact }) {
+module.exports = function(markdownData, {
+  lang = 'react-example',
+  babelConfig = {
+    presets: ['es2015-ie', 'react', 'stage-0'],
+  },
+  noreact,
+}) {
   const { content } = markdownData;
 
   // ignore customized content
@@ -12,7 +18,7 @@ module.exports = function(markdownData, { lang = 'react-example', noreact }) {
       const attr = node[1];
       if (tagName === 'pre' && attr && attr.lang === lang) {
         const code = node[2][1];
-        const processedCode = transformer(code, noreact);
+        const processedCode = transformer(code, babelConfig, noreact);
         return {
           __BISHENG_EMBEDED_CODE: true,
           code: processedCode,

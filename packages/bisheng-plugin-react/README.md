@@ -47,6 +47,10 @@ The above example will be rendered as:
 
 > default: 'react-component'
 
+### babelConfig: Object
+
+> default: { presets: ['es2015-ie', 'react', 'stage-0'] }
+
 ### noreact: Boolean
 
 > default: false

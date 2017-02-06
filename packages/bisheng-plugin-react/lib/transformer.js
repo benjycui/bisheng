@@ -17,10 +17,8 @@ function requireGenerator(varName, moduleName) {
   ]);
 }
 
-module.exports = function transformer(code, noreact) {
-  const { ast: codeAst } = babel.transform(code, {
-    presets: ['es2015-ie', 'react', 'stage-0'],
-  });
+module.exports = function transformer(code, babelConfig, noreact) {
+  const { ast: codeAst } = babel.transform(code, babelConfig);
 
   let renderReturn = null;
   traverse(codeAst, {
