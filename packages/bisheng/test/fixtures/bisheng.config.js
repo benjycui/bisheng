@@ -1,6 +1,6 @@
-
+const path = require('path');
 
 module.exports = {
   source: './content',
-  theme: './test/fixtures/_theme',
+  theme: path.join(__dirname, './_theme'),
 };

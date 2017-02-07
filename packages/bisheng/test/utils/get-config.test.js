@@ -4,7 +4,7 @@ const getBishengConfig = require('../../lib/utils/get-bisheng-config');
 const getThemeConfig = require('../../lib/utils/get-theme-config');
 
 describe('bisheng/utils/get-bisheng-config', () => {
-  it.skip('should merge custom config to default config', () => {
+  it('should merge custom config to default config', () => {
     const bishengConfig = getBishengConfig(path.join(__dirname, '../fixtures/bisheng.config.js'));
     delete bishengConfig.webpackConfig;
     delete bishengConfig.filePathMapper;
@@ -13,7 +13,7 @@ describe('bisheng/utils/get-bisheng-config', () => {
       source: './content',
       output: './_site',
       entryName: 'index',
-      theme: path.join(process.cwd(), './test/fixtures/_theme/index.js'),
+      theme: path.join(__dirname, '../fixtures/_theme/index.js'),
       htmlTemplate: path.join(__dirname, '../../lib/template.html'),
       port: 8000,
       root: '/',
