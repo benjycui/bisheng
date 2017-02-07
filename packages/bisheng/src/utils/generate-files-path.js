@@ -1,11 +1,11 @@
-'use strict';
+
 
 const R = require('ramda');
 const exist = require('exist.js');
 const join = require('path').join;
 
 function hasParams(path) {
-  return path.split('/').some((snippet) => snippet.startsWith(':'));
+  return path.split('/').some(snippet => snippet.startsWith(':'));
 }
 
 function has404(filesPath) {
@@ -22,11 +22,9 @@ function flattenRoutes(routes) {
     flattenedRoutes.push(copy);
 
     if (item.childRoutes) {
-      const nestedRoutes = R.chain(flattenRoutes, item.childRoutes.map((child) => {
-        return Object.assign({}, child, {
-          path: join(item.path, child.path),
-        });
-      }));
+      const nestedRoutes = R.chain(flattenRoutes, item.childRoutes.map(child => Object.assign({}, child, {
+        path: join(item.path, child.path),
+      })));
       flattenedRoutes = flattenedRoutes.concat(nestedRoutes);
     }
   });
@@ -39,7 +37,7 @@ module.exports = function generateFilesPath(routes, markdown) {
   const filesPath = R.chain((item) => {
     if (hasParams(item.path)) {
       const dataPathSnippets = item.dataPath.split('/').slice(1);
-      const firstParamIndex = dataPathSnippets.findIndex((snippet) => snippet.startsWith(':'));
+      const firstParamIndex = dataPathSnippets.findIndex(snippet => snippet.startsWith(':'));
       const firstParam = dataPathSnippets[firstParamIndex];
 
       const dataSet = exist.get(markdown, dataPathSnippets.slice(0, firstParamIndex), {});

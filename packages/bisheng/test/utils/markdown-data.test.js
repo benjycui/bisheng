@@ -1,14 +1,14 @@
-'use strict';
+
 
 const assert = require('assert');
 const path = require('path');
-const {escapeWinPath} = require('../../src/utils/escape-win-path');
+const { escapeWinPath } = require('../../src/utils/escape-win-path');
 const markdownData = require('../../lib/utils/markdown-data');
 const pathSep = path.sep;
 
-describe('utils/markdown-data', function() {
-  describe('#generate', function() {
-    it('should generate a files tree from `config.source`', function() {
+describe('utils/markdown-data', () => {
+  describe('#generate', () => {
+    it('should generate a files tree from `config.source`', () => {
       const filesTree = markdownData.generate('./test/fixtures/posts');
       assert.deepEqual(filesTree, {
         test: {
@@ -25,7 +25,7 @@ describe('utils/markdown-data', function() {
       });
     });
 
-    it('should generate a files tree from `config.source`', function() {
+    it('should generate a files tree from `config.source`', () => {
       const filesTree = markdownData.generate(['./test/fixtures/posts']);
       assert.deepEqual(filesTree, {
         test: {
@@ -42,7 +42,7 @@ describe('utils/markdown-data', function() {
       });
     });
 
-    it('should generate files trees while `config.source` is an object', function() {
+    it('should generate files trees while `config.source` is an object', () => {
       const filesTree = markdownData.generate({ mockData: './test/fixtures/posts' });
       assert.deepEqual(filesTree, {
         mockData: {
@@ -62,8 +62,8 @@ describe('utils/markdown-data', function() {
     });
   });
 
-  describe('#stringify', function() {
-    it('should stringify value to `require` sentence', function() {
+  describe('#stringify', () => {
+    it('should stringify value to `require` sentence', () => {
       const filesTree = markdownData.generate('./test/fixtures/posts');
       const stringified = markdownData.stringify(filesTree);
       assert.strictEqual(stringified, '{\n' +

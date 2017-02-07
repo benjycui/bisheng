@@ -1,11 +1,11 @@
-'use strict';
+
 
 const Prism = require('node-prismjs');
 const JsonML = require('jsonml.js/lib/utils');
 
 function getCode(node) {
   return JsonML.getChildren(
-    JsonML.getChildren(node)[0] || ''
+    JsonML.getChildren(node)[0] || '',
   )[0] || '';
 }
 

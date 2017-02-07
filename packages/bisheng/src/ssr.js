@@ -1,4 +1,4 @@
-'use strict';
+
 
 /* eslint-disable no-unused-vars */
 const React = require('react');
@@ -15,7 +15,7 @@ module.exports = function ssr(routes, url, callback) {
       callback(''); // TODO
     } else if (renderProps) {
       const content = ReactDOMServer.renderToString(
-        <ReactRouter.RouterContext {...renderProps} createElement={createElement} />
+        <ReactRouter.RouterContext {...renderProps} createElement={createElement} />,
       );
       callback(content);
     } else {

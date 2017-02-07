@@ -1,4 +1,4 @@
-'use strict';
+
 
 const path = require('path');
 const webpack = require('atool-build/lib/webpack');
@@ -36,9 +36,9 @@ module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild
 
   const customizedWebpackConfig = bishengConfig.webpackConfig(webpackConfig, webpack);
 
-  const entryPath = path.join(bishengLib, '..', 'tmp', 'entry.' + bishengConfig.entryName + '.js');
+  const entryPath = path.join(bishengLib, '..', 'tmp', `entry.${bishengConfig.entryName}.js`);
   if (customizedWebpackConfig.entry[bishengConfig.entryName]) {
-    throw new Error('Should not set `webpackConfig.entry.' + bishengConfig.entryName + '`!');
+    throw new Error(`Should not set \`webpackConfig.entry.${bishengConfig.entryName}\`!`);
   }
   customizedWebpackConfig.entry[bishengConfig.entryName] = entryPath;
   return customizedWebpackConfig;

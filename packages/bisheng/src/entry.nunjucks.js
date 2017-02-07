@@ -1,4 +1,4 @@
-'use strict';
+
 
 require('babel-polyfill');
 require('nprogress/nprogress.css');
@@ -18,13 +18,13 @@ const location = `${pathname}${search}${hash}`;
 const basename = '{{ root }}';
 ReactRouter.match({ routes, location, basename }, () => {
   const router =
-    <ReactRouter.Router
+    (<ReactRouter.Router
       history={ReactRouter.useRouterHistory(history.createHistory)({ basename })}
       routes={routes}
       createElement={createElement}
-    />;
+    />);
   ReactDOM.render(
     router,
-    document.getElementById('react-content')
+    document.getElementById('react-content'),
   );
 });

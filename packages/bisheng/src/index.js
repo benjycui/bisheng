@@ -1,8 +1,8 @@
-'use strict';
+
 
 const fs = require('fs');
 const path = require('path');
-const {escapeWinPath} = require('./utils/escape-win-path');
+const { escapeWinPath } = require('./utils/escape-win-path');
 const mkdirp = require('mkdirp');
 const nunjucks = require('nunjucks');
 const dora = require('dora');
@@ -20,20 +20,20 @@ const routesTemplate = fs.readFileSync(path.join(__dirname, 'routes.nunjucks.js'
 mkdirp.sync(path.join(__dirname, '..', 'tmp'));
 
 function getRoutesPath(configPath, themePath, configEntryName) {
-  const routesPath = path.join(__dirname, '..', 'tmp', 'routes.' + configEntryName + '.js');
+  const routesPath = path.join(__dirname, '..', 'tmp', `routes.${configEntryName}.js`);
   const themeConfig = require(escapeWinPath(configPath)).themeConfig || {};
   fs.writeFileSync(
     routesPath,
     nunjucks.renderString(routesTemplate, {
       themeConfig: JSON.stringify(themeConfig),
       themePath: escapeWinPath(themePath),
-    })
+    }),
   );
   return routesPath;
 }
 
 function generateEntryFile(configPath, configTheme, configEntryName, root) {
-  const entryPath = path.join(__dirname, '..', 'tmp', 'entry.' + configEntryName + '.js');
+  const entryPath = path.join(__dirname, '..', 'tmp', `entry.${configEntryName}.js`);
   const routesPath = getRoutesPath(
     configPath,
     path.dirname(configTheme),
@@ -44,7 +44,7 @@ function generateEntryFile(configPath, configTheme, configEntryName, root) {
     nunjucks.renderString(entryTemplate, {
       routesPath: escapeWinPath(routesPath),
       root: escapeWinPath(root),
-    })
+    }),
   );
 }
 
@@ -61,7 +61,7 @@ exports.start = function start(program) {
     configFile,
     bishengConfig.theme,
     bishengConfig.entryName,
-    '/'
+    '/',
   );
 
   const doraConfig = Object.assign({}, {
@@ -104,7 +104,7 @@ exports.build = function build(program, callback) {
     configFile,
     bishengConfig.theme,
     bishengConfig.entryName,
-    bishengConfig.root
+    bishengConfig.root,
   );
   const webpackConfig =
     updateWebpackConfig(getWebpackCommonConfig({ cwd: process.cwd() }), configFile, true);
@@ -134,7 +134,7 @@ exports.build = function build(program, callback) {
   ssrWebpackConfig.plugins = ssrWebpackConfig.plugins
     .filter(plugin => !(plugin instanceof webpack.optimize.CommonsChunkPlugin));
 
-  webpack([webpackConfig, ssrWebpackConfig], function(err, stats) {
+  webpack([webpackConfig, ssrWebpackConfig], (err, stats) => {
     require('./loaders/markdown-loader/boss').jobDone();
     if (err !== null) {
       return console.error(err);

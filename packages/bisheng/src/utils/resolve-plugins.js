@@ -1,10 +1,10 @@
-'use strict';
+
 
 const path = require('path');
 const R = require('ramda');
 const loaderUtils = require('loader-utils');
 const resolve = require('resolve');
-const {escapeWinPath} = require('./escape-win-path');
+const { escapeWinPath } = require('./escape-win-path');
 
 function resolvePlugin(plugin) {
   let result;

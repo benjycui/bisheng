@@ -1,4 +1,4 @@
-'use strict';
+
 
 const path = require('path');
 
@@ -12,7 +12,7 @@ module.exports = function getThemeConfig(configFile) {
   const customizedConfig = require(configFile);
   const config = Object.assign({ plugins: [] }, customizedConfig);
   config.plugins = [pluginHighlight].concat(config.plugins.map(
-    (plugin) => isRelative(plugin) ? path.join(process.cwd(), plugin) : plugin
+    plugin => isRelative(plugin) ? path.join(process.cwd(), plugin) : plugin,
   ));
 
   return config;

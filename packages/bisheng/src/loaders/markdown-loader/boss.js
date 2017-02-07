@@ -1,4 +1,4 @@
-'use strict';
+
 
 const os = require('os');
 const path = require('path');
@@ -16,14 +16,14 @@ function createWorkers(count) {
 
 const workersCount = os.cpus().length - 1;
 
-module.exports = (function() {
+module.exports = (function () {
   const workers = createWorkers(workersCount);
   const tasksQueue = [];
   function arrange(task) {
     const worker = workers.pop();
     const { callback } = task;
     worker.send(task);
-    worker.once('message', result => {
+    worker.once('message', (result) => {
       callback(null, result);
       workers.push(worker); // mission completed
       if (tasksQueue.length > 0) {
@@ -43,4 +43,4 @@ module.exports = (function() {
       workers.forEach(w => w.kill());
     },
   };
-})();
+}());

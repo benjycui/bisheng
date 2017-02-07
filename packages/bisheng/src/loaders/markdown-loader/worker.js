@@ -1,9 +1,9 @@
-'use strict';
+
 
 const markdownData = require('../../utils/markdown-data');
 const stringify = require('../../utils/stringify');
 
-process.on('message', function(task) {
+process.on('message', (task) => {
   const {
     filename,
     content,

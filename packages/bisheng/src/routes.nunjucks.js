@@ -1,4 +1,4 @@
-'use strict';
+
 
 const chain = require('ramda/src/chain');
 const toReactElement = require('jsonml-to-react-element');
@@ -12,12 +12,12 @@ function calcPropsPath(dataPath, params) {
     dataPath(params) :
     Object.keys(params).reduce(
     (path, param) => path.replace(`:${param}`, params[param]),
-    dataPath
+    dataPath,
   );
 }
 
 function hasParams(dataPath) {
-  return typeof dataPath === 'function' || dataPath.split('/').some((snippet) => snippet.startsWith(':'));
+  return typeof dataPath === 'function' || dataPath.split('/').some(snippet => snippet.startsWith(':'));
 }
 
 function defaultCollect(nextProps, callback) {
@@ -26,18 +26,18 @@ function defaultCollect(nextProps, callback) {
 
 module.exports = function getRoutes(data) {
   const plugins = data.plugins;
-  const converters = chain((plugin) => plugin.converters || [], plugins);
+  const converters = chain(plugin => plugin.converters || [], plugins);
   const utils = {
     get: exist.get,
     toReactComponent(jsonml) {
       return toReactElement(jsonml, converters);
     },
   };
-  plugins.map((plugin) => plugin.utils || {})
-    .forEach((u) => Object.assign(utils, u));
+  plugins.map(plugin => plugin.utils || {})
+    .forEach(u => Object.assign(utils, u));
 
   function templateWrapper(template, dataPath = '') {
-    const Template = require('{{ themePath }}/template' + template.replace(/^\.\/template/, ''));
+    const Template = require(`{{ themePath }}/template${template.replace(/^\.\/template/, '')}`);
 
     return (nextState, callback) => {
       const propsPath = calcPropsPath(dataPath, nextState.params);
@@ -79,7 +79,7 @@ module.exports = function getRoutes(data) {
         component: undefined,
         getComponent: templateWrapper(
           route.indexRoute.component,
-          route.indexRoute.dataPath || route.indexRoute.path
+          route.indexRoute.dataPath || route.indexRoute.path,
         ),
       }),
       childRoutes: route.childRoutes && route.childRoutes.map(processRoutes),

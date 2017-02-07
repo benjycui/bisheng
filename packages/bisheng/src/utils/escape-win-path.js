@@ -1,4 +1,4 @@
-'use strict';
+
 
 // require('D:\ant-design') will throw a module not found error need to escape `\` to `\\`.
 // Note that this is only required when you persist code to file
