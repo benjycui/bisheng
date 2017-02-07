@@ -1,8 +1,7 @@
-
-
 const path = require('path');
 const webpack = require('atool-build/lib/webpack');
 const getBishengConfig = require('./get-bisheng-config');
+
 const bishengLib = path.join(__dirname, '..');
 const bishengLibLoaders = path.join(bishengLib, 'loaders');
 

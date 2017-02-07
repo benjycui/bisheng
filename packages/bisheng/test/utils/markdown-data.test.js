@@ -2,6 +2,7 @@ const assert = require('assert');
 const path = require('path');
 const { escapeWinPath } = require('../../src/utils/escape-win-path');
 const markdownData = require('../../lib/utils/markdown-data');
+
 const pathSep = path.sep;
 const sourcePath = './test/fixtures/posts';
 

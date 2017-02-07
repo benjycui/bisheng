@@ -1,5 +1,3 @@
-
-
 require('babel-polyfill');
 require('nprogress/nprogress.css');
 

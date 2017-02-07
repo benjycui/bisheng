@@ -1,9 +1,9 @@
 const assert = require('assert');
 const addToc = require('../lib/node');
-
 const fs = require('fs');
 const path = require('path');
 const MT = require('mark-twain');
+
 const markdownData = MT(fs.readFileSync(path.join(__dirname, 'fixtures.md')).toString());
 
 describe('bisheng-plugin-toc', () => {

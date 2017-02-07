@@ -1,5 +1,3 @@
-
-
 const chain = require('ramda/src/chain');
 const toReactElement = require('jsonml-to-react-element');
 const exist = require('exist.js');

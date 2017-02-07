@@ -1,5 +1,3 @@
-
-
 const fs = require('fs');
 const path = require('path');
 const { escapeWinPath } = require('./utils/escape-win-path');
@@ -89,6 +87,7 @@ exports.start = function start(program) {
 };
 
 const ssr = require('./ssr');
+
 function filenameToUrl(filename) {
   if (filename.endsWith('index.html')) {
     return filename.replace(/index\.html$/, '');
