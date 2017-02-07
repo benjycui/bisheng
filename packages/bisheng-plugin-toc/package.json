@@ -3,9 +3,7 @@
   "version": "0.4.0",
   "description": "Generate a Table of Contents (TOC) for Markdown files.",
   "scripts": {
-    "lint": "eslint ./lib ./test",
-    "eslint-fix": "eslint --fix ./lib ./test",
-    "test": "npm run lint && mocha"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -24,8 +22,6 @@
   },
   "homepage": "https://github.com/benjycui/bisheng-plugin-toc#readme",
   "devDependencies": {
-    "eslint": "^2.10.2",
-    "eslint-config-egg": "^2.0.0",
     "mark-twain": "^1.1.4",
     "mocha": "^2.4.5"
   },

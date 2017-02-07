@@ -3,9 +3,7 @@
   "version": "0.5.0",
   "description": "To convert JSX which is written in Markdown to React.Element.",
   "scripts": {
-    "lint": "eslint ./lib ./test",
-    "eslint-fix": "eslint --fix ./lib ./test",
-    "test": "npm run lint && mocha"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -27,8 +25,6 @@
     "babel-preset-es2015-ie": "^6.6.2",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
-    "eslint": "^2.10.2",
-    "eslint-config-egg": "^2.0.0",
     "mocha": "^2.5.3"
   },
   "dependencies": {
