@@ -1,5 +1,5 @@
 module.exports = {
-  theme: '../lib',
+  theme: 'bisheng-theme-one',
   themeConfig: {
     home: '/',
     sitename: 'One',

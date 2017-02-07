@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   lazyLoad: true,
   pick: {
@@ -8,7 +10,7 @@ module.exports = {
       };
     },
   },
-  plugins: ['bisheng-plugin-description'],
+  plugins: [path.join(__dirname, '..', 'node_modules', 'bisheng-plugin-description')],
   routes: [{
     path: '/',
     component: './template/Archive',

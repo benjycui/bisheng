@@ -1,0 +1,11 @@
+{
+  "name": "bisheng-example",
+  "scripts": {
+    "start": "bisheng start",
+    "deploy": "bisheng gh-pages"
+  },
+  "dependencies": {
+    "bisheng": "^0.20.0",
+    "bisheng-theme-one": "0.1.3"
+  }
+}
