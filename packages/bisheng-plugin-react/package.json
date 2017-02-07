@@ -2,9 +2,6 @@
   "name": "bisheng-plugin-react",
   "version": "0.5.0",
   "description": "To convert JSX which is written in Markdown to React.Element.",
-  "scripts": {
-    "test": "mocha"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/benjycui/bisheng-plugin-react.git"
@@ -21,12 +18,6 @@
     "url": "https://github.com/benjycui/bisheng-plugin-react/issues"
   },
   "homepage": "https://github.com/benjycui/bisheng-plugin-react#readme",
-  "devDependencies": {
-    "babel-preset-es2015-ie": "^6.6.2",
-    "babel-preset-react": "^6.5.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "mocha": "^2.5.3"
-  },
   "dependencies": {
     "babel-core": "^6.21.0",
     "babel-generator": "~6.11.0",

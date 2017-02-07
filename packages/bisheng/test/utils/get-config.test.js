@@ -1,12 +1,10 @@
-
-
 const assert = require('assert');
 const path = require('path');
 const getBishengConfig = require('../../lib/utils/get-bisheng-config');
 const getThemeConfig = require('../../lib/utils/get-theme-config');
 
-describe('utils/get-bisheng-config', () => {
-  it('should merge custom config to default config', () => {
+describe('bisheng/utils/get-bisheng-config', () => {
+  it.skip('should merge custom config to default config', () => {
     const bishengConfig = getBishengConfig(path.join(__dirname, '../fixtures/bisheng.config.js'));
     delete bishengConfig.webpackConfig;
     delete bishengConfig.filePathMapper;
@@ -24,7 +22,7 @@ describe('utils/get-bisheng-config', () => {
   });
 });
 
-describe('utils/get-theme-config', () => {
+describe('bisheng/utils/get-theme-config', () => {
   it('should merge custom plugins with default plugin', () => {
     const themeConfig = getThemeConfig(path.join(__dirname, '../fixtures/theme.index.js'));
     assert.deepEqual(themeConfig, {

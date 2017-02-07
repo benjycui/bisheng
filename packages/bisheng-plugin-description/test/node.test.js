@@ -1,5 +1,3 @@
-
-
 const assert = require('assert');
 const JsonML = require('jsonml.js');
 const addDescription = require('../lib/node');
@@ -15,7 +13,7 @@ function getCommonMarkdownData() {
   };
 }
 
-describe('./lib/node.js', () => {
+describe('bisheng-plugin-description', () => {
   it('should add description to markdown data', () => {
     const markdownData = getCommonMarkdownData();
     const processedMarkdownData = addDescription(markdownData);
@@ -31,12 +29,8 @@ describe('./lib/node.js', () => {
   it('should parse description and main content correctly', () => {
     const markdownData = getCommonMarkdownData();
     const processedMarkdownData = addDescription(markdownData);
-    assert.deepEqual(
-      JsonML.getChildren(processedMarkdownData.description), [['p', 'This is description.']],
-    );
-    assert.deepEqual(
-      JsonML.getChildren(processedMarkdownData.content), [['p', 'This is main content.']],
-    );
+    assert.deepEqual(JsonML.getChildren(processedMarkdownData.description), [['p', 'This is description.']]);
+    assert.deepEqual(JsonML.getChildren(processedMarkdownData.content), [['p', 'This is main content.']]);
   });
 
   it('should not add description to markdown data, if description doesn\'t exist', () => {

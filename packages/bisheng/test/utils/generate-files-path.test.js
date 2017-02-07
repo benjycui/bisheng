@@ -3,7 +3,7 @@
 const assert = require('assert');
 const generateFilesPath = require('../../lib/utils/generate-files-path');
 
-describe('utils/generate-files-path', () => {
+describe('bisheng/utils/generate-files-path', () => {
   it('should add 404.html by default', () => {
     const result = generateFilesPath([], {});
     assert.deepEqual(result, ['/404.html']);

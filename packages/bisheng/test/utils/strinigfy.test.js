@@ -1,9 +1,7 @@
-
-
 const assert = require('assert');
 const stringify = require('../../lib/utils/stringify');
 
-describe('utils/stringify', () => {
+describe('bisheng/utils/stringify', () => {
   it('should stringify array correctly', () => {
     assert.strictEqual(stringify([1]), '[\n  1\n]');
     assert.strictEqual(stringify([1, 2]), '[\n  1,\n  2\n]');
@@ -21,26 +19,17 @@ describe('utils/stringify', () => {
 
   it('should stringify object correctly', () => {
     assert.strictEqual(stringify({ a: 1 }), '{\n  "a": 1\n}');
-    assert.strictEqual(
-      stringify({ a: 1, b: 2 }),
-      '{\n  "a": 1,\n  "b": 2\n}',
-    );
+    assert.strictEqual(stringify({ a: 1, b: 2 }), '{\n  "a": 1,\n  "b": 2\n}');
   });
 
   it('should stringify nested object correctly', () => {
     assert.strictEqual(stringify({ a: {} }), '{\n  "a": {\n\n  }\n}');
-    assert.strictEqual(
-      stringify({ a: { b: 1 } }),
-      '{\n  "a": {\n    "b": 1\n  }\n}',
-    );
+    assert.strictEqual(stringify({ a: { b: 1 } }), '{\n  "a": {\n    "b": 1\n  }\n}');
   });
 
   it('should stringify object with array correctly', () => {
     assert.strictEqual(stringify({ a: [] }), '{\n  "a": [\n\n  ]\n}');
-    assert.strictEqual(
-      stringify({ a: 1, b: [] }),
-      '{\n  "a": 1,\n  "b": [\n\n  ]\n}',
-    );
+    assert.strictEqual(stringify({ a: 1, b: [] }), '{\n  "a": 1,\n  "b": [\n\n  ]\n}');
   });
 
   it('should stringify `null` correctly', () => {
@@ -53,12 +42,10 @@ describe('utils/stringify', () => {
   });
 
   it('should extract code from __BISHENG_EMBENED_CODE', () => {
-    assert.strictEqual(
-      stringify({
-        __BISHENG_EMBEDED_CODE: true,
-        code: 'console.log("Hello world!")',
-      }),
-      'console.log("Hello world!")',
-    );
+    const res = stringify({
+      __BISHENG_EMBEDED_CODE: true,
+      code: 'console.log("Hello world!")',
+    });
+    assert.strictEqual(res, 'console.log("Hello world!")');
   });
 });

@@ -2,9 +2,6 @@
   "name": "bisheng-plugin-description",
   "version": "0.1.1",
   "description": "To extract description from Markdown.",
-  "scripts": {
-    "test": "mocha"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/benjycui/bisheng-plugin-description.git"
@@ -22,8 +19,5 @@
   "homepage": "https://github.com/benjycui/bisheng-plugin-description#readme",
   "dependencies": {
     "jsonml.js": "^0.1.0"
-  },
-  "devDependencies": {
-    "mocha": "^2.4.5"
   }
 }

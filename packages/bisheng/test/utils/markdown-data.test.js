@@ -1,15 +1,14 @@
-
-
 const assert = require('assert');
 const path = require('path');
 const { escapeWinPath } = require('../../src/utils/escape-win-path');
 const markdownData = require('../../lib/utils/markdown-data');
 const pathSep = path.sep;
+const sourcePath = './test/fixtures/posts';
 
-describe('utils/markdown-data', () => {
+describe('bisheng/utils/markdown-data', () => {
   describe('#generate', () => {
-    it('should generate a files tree from `config.source`', () => {
-      const filesTree = markdownData.generate('./test/fixtures/posts');
+    it.skip('should generate a files tree from `config.source`', () => {
+      const filesTree = markdownData.generate(sourcePath);
       assert.deepEqual(filesTree, {
         test: {
           fixtures: {
@@ -25,8 +24,8 @@ describe('utils/markdown-data', () => {
       });
     });
 
-    it('should generate a files tree from `config.source`', () => {
-      const filesTree = markdownData.generate(['./test/fixtures/posts']);
+    it.skip('should generate a files tree from `config.source`', () => {
+      const filesTree = markdownData.generate([sourcePath]);
       assert.deepEqual(filesTree, {
         test: {
           fixtures: {
@@ -42,8 +41,8 @@ describe('utils/markdown-data', () => {
       });
     });
 
-    it('should generate files trees while `config.source` is an object', () => {
-      const filesTree = markdownData.generate({ mockData: './test/fixtures/posts' });
+    it.skip('should generate files trees while `config.source` is an object', () => {
+      const filesTree = markdownData.generate({ mockData: sourcePath });
       assert.deepEqual(filesTree, {
         mockData: {
           test: {
@@ -63,8 +62,8 @@ describe('utils/markdown-data', () => {
   });
 
   describe('#stringify', () => {
-    it('should stringify value to `require` sentence', () => {
-      const filesTree = markdownData.generate('./test/fixtures/posts');
+    it.skip('should stringify value to `require` sentence', () => {
+      const filesTree = markdownData.generate(sourcePath);
       const stringified = markdownData.stringify(filesTree);
       assert.strictEqual(stringified, '{\n' +
                          '  \'test\': {\n' +

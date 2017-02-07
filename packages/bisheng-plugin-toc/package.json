@@ -2,9 +2,6 @@
   "name": "bisheng-plugin-toc",
   "version": "0.4.0",
   "description": "Generate a Table of Contents (TOC) for Markdown files.",
-  "scripts": {
-    "test": "mocha"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/benjycui/bisheng-plugin-toc.git"
@@ -22,8 +19,7 @@
   },
   "homepage": "https://github.com/benjycui/bisheng-plugin-toc#readme",
   "devDependencies": {
-    "mark-twain": "^1.1.4",
-    "mocha": "^2.4.5"
+    "mark-twain": "^1.1.4"
   },
   "dependencies": {
     "jsonml.js": "^0.1.0"

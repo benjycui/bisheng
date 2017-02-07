@@ -1,5 +1,3 @@
-
-
 const assert = require('assert');
 const node = require('../lib/node');
 

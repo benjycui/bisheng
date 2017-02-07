@@ -1,5 +1,3 @@
-
-
 const fs = require('fs');
 const path = require('path');
 const { escapeWinPath, toUriPath } = require('./escape-win-path');
