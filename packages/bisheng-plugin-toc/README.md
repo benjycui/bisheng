@@ -1,9 +1,8 @@
 # bisheng-plugin-toc
 
-[![](https://img.shields.io/travis/benjycui/bisheng-plugin-toc.svg?style=flat-square)](https://travis-ci.org/benjycui/bisheng-plugin-toc)
+[![](https://img.shields.io/travis/benjycui/bisheng.svg?style=flat-square)](https://travis-ci.org/benjycui/bisheng)
 [![npm package](https://img.shields.io/npm/v/bisheng-plugin-toc.svg?style=flat-square)](https://www.npmjs.org/package/bisheng-plugin-toc)
 [![NPM downloads](http://img.shields.io/npm/dm/bisheng-plugin-toc.svg?style=flat-square)](https://npmjs.org/package/bisheng-plugin-toc)
-[![Dependency Status](https://david-dm.org/benjycui/bisheng-plugin-toc.svg?style=flat-square)](https://david-dm.org/benjycui/bisheng-plugin-toc)
 
 Generate a Table of Contents (TOC) for Markdown files in [`bisheng`](https://github.com/benjycui/bisheng).
 

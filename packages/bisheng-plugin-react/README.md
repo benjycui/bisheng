@@ -1,9 +1,8 @@
 # bisheng-plugin-react
 
-[![](https://img.shields.io/travis/benjycui/bisheng-plugin-react.svg?style=flat-square)](https://travis-ci.org/benjycui/bisheng-plugin-react)
+[![](https://img.shields.io/travis/benjycui/bisheng.svg?style=flat-square)](https://travis-ci.org/benjycui/bisheng)
 [![npm package](https://img.shields.io/npm/v/bisheng-plugin-react.svg?style=flat-square)](https://www.npmjs.org/package/bisheng-plugin-react)
 [![NPM downloads](http://img.shields.io/npm/dm/bisheng-plugin-react.svg?style=flat-square)](https://npmjs.org/package/bisheng-plugin-react)
-[![Dependency Status](https://david-dm.org/benjycui/bisheng-plugin-react.svg?style=flat-square)](https://david-dm.org/benjycui/bisheng-plugin-react)
 
 To convert JSX which is written in Markdown to React.Element.
 
@@ -39,7 +38,7 @@ ReactDOM.render(&lt;Button&gt;Click!&lt;/Button&gt;, mountNode);
 
 The above example will be rendered as:
 
-![screenshot](https://raw.githubusercontent.com/benjycui/bisheng-plugin-react/master/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/benjycui/bisheng/master/packages/bisheng-plugin-react/screenshot.png)
 
 ## API
 
