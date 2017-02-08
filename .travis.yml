@@ -2,3 +2,4 @@ language: node_js
 node_js:
   - "6"
   - "7"
+before_install: npm install lerna@2.0.0-beta.36 -g && lerna bootstrap
