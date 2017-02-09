@@ -23,7 +23,7 @@ webpackJsonp([3,2],[
 	    hash = _window$location.hash;
 
 	var location = '' + pathname + search + hash;
-	var basename = '/bisheng-theme-one/';
+	var basename = '/bisheng/';
 	ReactRouter.match({ routes: routes, location: location, basename: basename }, function () {
 	  var router = React.createElement(ReactRouter.Router, {
 	    history: ReactRouter.useRouterHistory(history.createHistory)({ basename: basename }),
