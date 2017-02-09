@@ -20,6 +20,5 @@ module.exports = {
   }, {
     path: '/tags',
     component: './template/TagCloud',
-    dataPath: '/',
   }],
 };

@@ -18,8 +18,8 @@ function hasParams(dataPath) {
   return typeof dataPath === 'function' || dataPath.split('/').some(snippet => snippet.startsWith(':'));
 }
 
-function defaultCollect(nextProps, callback) {
-  callback(null, nextProps);
+async function defaultCollector(nextProps) {
+  return nextProps;
 }
 
 module.exports = function getRoutes(data) {
@@ -40,20 +40,27 @@ module.exports = function getRoutes(data) {
     return (nextState, callback) => {
       const propsPath = calcPropsPath(dataPath, nextState.params);
       const pageData = exist.get(data.markdown, propsPath.replace(/^\//, '').split('/'));
-      const collect = Template.collect || defaultCollect;
-      collect(Object.assign({}, nextState, {
+      const collector = (Template.default || Template).collector || defaultCollector;
+      const dynamicPropsKey = nextState.location.pathname;
+      const nextProps = {
+        ...nextState,
         themeConfig,
         data: data.markdown,
         picked: data.picked,
         pageData,
         utils,
-      }), (err, nextProps) => {
-        const Comp = (hasParams(dataPath) || pageData) && err !== 404 ?
-                Template.default || Template : NotFound.default || NotFound;
-        const dynamicPropsKey = nextState.location.pathname;
-        Comp[dynamicPropsKey] = nextProps;
-        callback(err === 404 ? null : err, Comp);
-      });
+      };
+      collector(nextProps)
+        .then((collectedValue) => {
+          const Comp = Template.default || Template;
+          Comp[dynamicPropsKey] = { ...nextProps, ...collectedValue };
+          callback(null, Comp);
+        })
+        .catch((err) => {
+          const Comp = NotFound.default || NotFound;
+          Comp[dynamicPropsKey] = nextProps;
+          callback(err === 404 ? null : err, Comp);
+        });
     };
   }
 

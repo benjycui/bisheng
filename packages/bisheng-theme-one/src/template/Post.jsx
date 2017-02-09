@@ -1,21 +1,10 @@
 import React from 'react';
 import { Link } from 'bisheng/router';
+import collect from 'bisheng/collect';
 import DocumentTitle from 'react-document-title';
 import Layout from './Layout';
 
-export function collect(nextProps, callback) {
-  if (nextProps.pageData) {
-    nextProps.pageData()
-      .then((post) => callback(null, {
-        ...nextProps,
-        pageData: post,
-      }))
-  } else {
-    callback(null, nextProps);
-  }
-}
-
-export default (props) => {
+const Post = (props) => {
   const { pageData, utils } = props;
   const { meta, description, content } = pageData;
   return (
@@ -57,6 +46,14 @@ export default (props) => {
     </DocumentTitle>
   );
 }
+
+export default collect(async (nextProps) => {
+  if (!nextProps.pageData) {
+    throw 404;
+  }
+  const pageData = await nextProps.pageData();
+  return { pageData };
+})(Post);
 
 // TODO
 // {%- if config.disqus %}
