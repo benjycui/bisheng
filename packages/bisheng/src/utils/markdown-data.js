@@ -35,8 +35,8 @@ function findMDFile(source) {
 const rxSep = new RegExp(`[${escapeWinPath(path.sep)}.]`);
 function getPropPath(filename, sources) {
   return sources.reduce(
-    (filename, source) => filename.replace(source, ''),
-    filename.replace(/\.md$/i, '')
+    (f, source) => f.replace(source, ''),
+    filename.replace(/\.md$/i, ''),
   ).replace(/^\.?\/+/, '').split(rxSep);
 }
 

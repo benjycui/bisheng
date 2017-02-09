@@ -3,7 +3,6 @@ const path = require('path');
 const { escapeWinPath } = require('../../lib/utils/escape-win-path');
 const markdownData = require('../../lib/utils/markdown-data');
 
-const pathSep = path.sep;
 const sourcePath = path.join(__dirname, '../fixtures/posts');
 
 describe('bisheng/utils/markdown-data', () => {
