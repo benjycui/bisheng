@@ -14,16 +14,8 @@ function calcPropsPath(dataPath, params) {
   );
 }
 
-function hasParams(dataPath) {
-  return typeof dataPath === 'function' || dataPath.split('/').some(snippet => snippet.startsWith(':'));
-}
-
-async function defaultCollector(nextProps) {
-  return nextProps;
-}
-
-module.exports = function getRoutes(data) {
-  const plugins = data.plugins;
+function generateUtils(data, props) {
+  const plugins = data.plugins.map(pluginTupple => pluginTupple[0](pluginTupple[1], props));
   const converters = chain(plugin => plugin.converters || [], plugins);
   const utils = {
     get: exist.get,
@@ -33,13 +25,22 @@ module.exports = function getRoutes(data) {
   };
   plugins.map(plugin => plugin.utils || {})
     .forEach(u => Object.assign(utils, u));
+  return utils;
+}
 
+async function defaultCollector(nextProps) {
+  return nextProps;
+}
+
+module.exports = function getRoutes(data) {
   function templateWrapper(template, dataPath = '') {
     const Template = require(`{{ themePath }}/template${template.replace(/^\.\/template/, '')}`);
 
     return (nextState, callback) => {
       const propsPath = calcPropsPath(dataPath, nextState.params);
       const pageData = exist.get(data.markdown, propsPath.replace(/^\//, '').split('/'));
+      const utils = generateUtils(data, nextState);
+
       const collector = (Template.default || Template).collector || defaultCollector;
       const dynamicPropsKey = nextState.location.pathname;
       const nextProps = {

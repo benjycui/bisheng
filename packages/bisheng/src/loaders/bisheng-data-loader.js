@@ -1,5 +1,3 @@
-
-
 const fs = require('fs');
 const path = require('path');
 const loaderUtils = require('loader-utils');
@@ -23,10 +21,9 @@ module.exports = function bishengDataLoader(/* content */) {
 
   const markdown = markdownData.generate(bishengConfig.source);
   const browserPlugins = resolvePlugins(themeConfig.plugins, 'browser');
-  const pluginsString = browserPlugins.map(
-    plugin =>
-      `require('${plugin[0]}')(${JSON.stringify(plugin[1])})`,
-  ).join(',\n');
+  const pluginsString = browserPlugins
+          .map(plugin => `[require('${plugin[0]}'), ${JSON.stringify(plugin[1])}]`)
+          .join(',\n');
 
   const picked = {};
   if (themeConfig.pick) {
@@ -51,7 +48,7 @@ module.exports = function bishengDataLoader(/* content */) {
 
   return 'module.exports = {' +
     `\n  markdown: ${markdownData.stringify(markdown, themeConfig.lazyLoad, isSSR)},` +
-    `\n  plugins: [\n${pluginsString}\n],` +
     `\n  picked: ${JSON.stringify(picked, null, 2)},` +
+    `\n  plugins: [\n${pluginsString}\n],` +
     '\n};';
 };
