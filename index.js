@@ -20977,6 +20977,7 @@ webpackJsonp([3,2],[
 	    component: './template/Archive'
 	  }, {
 	    path: '/posts/:post',
+	    dataPath: '/:post',
 	    component: './template/Post'
 	  }, {
 	    path: '/tags',
@@ -21043,24 +21044,21 @@ webpackJsonp([3,2],[
 
 	module.exports = {
 	  markdown: {
-	    'posts': {
-	      'good-bye': function goodBye() {
-	        return new Promise(function (resolve) {
-	          __webpack_require__.e/* nsure */(1, function (require) {
-	            resolve(__webpack_require__(279));
-	          });
+	    'good-bye': function goodBye() {
+	      return new Promise(function (resolve) {
+	        __webpack_require__.e/* nsure */(1, function (require) {
+	          resolve(__webpack_require__(279));
 	        });
-	      },
-	      'hello-world': function helloWorld() {
-	        return new Promise(function (resolve) {
-	          __webpack_require__.e/* nsure */(0, function (require) {
-	            resolve(__webpack_require__(280));
-	          });
+	      });
+	    },
+	    'hello-world': function helloWorld() {
+	      return new Promise(function (resolve) {
+	        __webpack_require__.e/* nsure */(0, function (require) {
+	          resolve(__webpack_require__(280));
 	        });
-	      }
+	      });
 	    }
 	  },
-	  plugins: [__webpack_require__(284)({})],
 	  picked: {
 	    "posts": [{
 	      "meta": {
@@ -21078,7 +21076,8 @@ webpackJsonp([3,2],[
 	      },
 	      "description": ["section", ["p", "The first article which is posted by BiSheng."]]
 	    }]
-	  }
+	  },
+	  plugins: [[__webpack_require__(284), {}]]
 	};
 
 /***/ },
@@ -21180,14 +21179,10 @@ webpackJsonp([3,2],[
 	  }, dataPath);
 	}
 
-	function hasParams(dataPath) {
-	  return typeof dataPath === 'function' || dataPath.split('/').some(function (snippet) {
-	    return snippet.startsWith(':');
+	function generateUtils(data, props) {
+	  var plugins = data.plugins.map(function (pluginTupple) {
+	    return pluginTupple[0](pluginTupple[1], props);
 	  });
-	}
-
-	module.exports = function getRoutes(data) {
-	  var plugins = data.plugins;
 	  var converters = chain(function (plugin) {
 	    return plugin.converters || [];
 	  }, plugins);
@@ -21202,7 +21197,10 @@ webpackJsonp([3,2],[
 	  }).forEach(function (u) {
 	    return Object.assign(utils, u);
 	  });
+	  return utils;
+	}
 
+	module.exports = function getRoutes(data) {
 	  function templateWrapper(template) {
 	    var dataPath = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
@@ -21211,6 +21209,8 @@ webpackJsonp([3,2],[
 	    return function (nextState, callback) {
 	      var propsPath = calcPropsPath(dataPath, nextState.params);
 	      var pageData = exist.get(data.markdown, propsPath.replace(/^\//, '').split('/'));
+	      var utils = generateUtils(data, nextState);
+
 	      var collector = (Template.default || Template).collector || defaultCollector;
 	      var dynamicPropsKey = nextState.location.pathname;
 	      var nextProps = _extends({}, nextState, {
