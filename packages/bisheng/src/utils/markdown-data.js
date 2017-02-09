@@ -33,9 +33,17 @@ function findMDFile(source) {
 }
 
 const rxSep = new RegExp(`[${escapeWinPath(path.sep)}.]`);
-function filesToTreeStructure(files) {
+function getPropPath(filename, sources) {
+  return sources.reduce(
+    (filename, source) => filename.replace(source, ''),
+    filename.replace(/\.md$/i, '')
+  ).replace(/^\.?\/+/, '').split(rxSep);
+}
+
+function filesToTreeStructure(files, sources) {
+  const cleanedSources = sources.map(source => source.replace(/^\.?\//, ''));
   return files.reduce((filesTree, filename) => {
-    const propLens = R.lensPath(filename.replace(/\.md$/i, '').split(rxSep));
+    const propLens = R.lensPath(getPropPath(filename, cleanedSources));
     return R.set(propLens, filename, filesTree);
   }, {});
 }
@@ -70,6 +78,10 @@ function shouldLazyLoad(nodePath, nodeValue, lazyLoad) {
   return typeof nodeValue === 'object' ? false : lazyLoad;
 }
 
+function isAbsolute(filePath) {
+  return filePath.indexOf(path.sep) === 0;
+}
+
 function stringify(nodePath, nodeValue, lazyLoad, isSSR, depth) {
   const indent = '  '.repeat(depth);
   const shouldBeLazy = shouldLazyLoad(nodePath, nodeValue, lazyLoad);
@@ -88,7 +100,7 @@ function stringify(nodePath, nodeValue, lazyLoad, isSSR, depth) {
       return `{\n${stringifyObject(nodePath, obj, lazyLoad, isSSR, depth)}\n${indent}}`;
     }],
     [R.T, (filename) => {
-      const filePath = path.join(process.cwd(), filename);
+      const filePath = isAbsolute(filename) ? filename : path.join(process.cwd(), filename);
       if (shouldBeLazy) {
         return lazyLoadWrapper(filePath, filename, isSSR);
       }
@@ -101,8 +113,9 @@ exports.generate = function generate(source) {
   if (R.is(Object, source) && !Array.isArray(source)) {
     return R.mapObjIndexed(value => generate(value), source);
   }
-  const mds = findMDFile(ensureToBeArray(source));
-  const filesTree = filesToTreeStructure(mds);
+  const sources = ensureToBeArray(source);
+  const mds = findMDFile(sources);
+  const filesTree = filesToTreeStructure(mds, sources);
   return filesTree;
 };
 

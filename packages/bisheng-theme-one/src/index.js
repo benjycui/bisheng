@@ -16,6 +16,7 @@ module.exports = {
     component: './template/Archive',
   }, {
     path: '/posts/:post',
+    dataPath: '/:post',
     component: './template/Post',
   }, {
     path: '/tags',

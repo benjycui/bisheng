@@ -13,7 +13,6 @@
   "scripts": {
     "build": "babel src --out-dir lib",
     "clean": "rimraf lib",
-    "test": "npm run prepublish && mocha --recursive",
     "prepublish": "npm run build && cp src/template.html lib/template.html",
     "postpublish": "npm run clean"
   },
@@ -74,7 +73,6 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "chalk": "^1.1.3",
-    "mocha": "^2.4.5",
     "rimraf": "^2.5.4"
   },
   "engines": {
