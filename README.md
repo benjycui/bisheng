@@ -126,15 +126,16 @@ And all the Markdown files in `source` will be parsed and then structured as a t
 
 ```bash
 posts
-├── a.md
-└── b.md
+└── dir1
+  ├── a.md
+  └── b.md
 ```
 
 Will output a **Markdown data tree**:
 
 ```js
 {
-  posts: {
+  dir1: {
     a: {...},
     b: {...},
   },
@@ -164,6 +165,8 @@ To set directory where we put the theme of website, and it also can be a npm pac
 > undefined
 
 A set of configuration that your theme provides, and then your theme can read it from `props.themeConfig`.
+
+> Note: `themeConfig` will be `JSON.stringify` before it's passed to props, so you cannot pass function/RegExp through `themeConfig`.
 
 #### htmlTemplate: String
 

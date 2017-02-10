@@ -27,7 +27,7 @@ data.posts.a()
   });
 ```
 
-## `collect` Function in Template
+## `collect` decorator in Template
 
 It's inconvenient to use lazy load function directly, because we want to make sure that:
 * The progress bar works correctly.
@@ -37,29 +37,30 @@ So, we can add a collect function to template:
 
 ```js
 // theme/template/Template.jsx
+import collect from 'bisheng/collect';
 
-export function collect(nextProps, callback) {
-  nextProps.pageData()
-    .then((pageData) => callback(null, {
-      ...nextProps,
-      pageData,
-    }))
-}
-
-export default (props) => {
+const Post = (props) => {
   ...
 };
+
+export default collect(async (nextProps) => {
+  if (!nextProps.pageData) {
+    throw 404; // Then, bisheng will show `NotFound.jsx`
+  }
+  const pageData = await nextProps.pageData();
+  return { pageData }; // This value will be merged with `nextProps` and passed to your route component.
+})
 ```
 
-`nextProps` is the original props that tempalte will get, and we can convert lazy load function in `nextProps` to real Markdown data. Then, we can use `callback` to notifiy `bisheng` to refresh the page with new props.
+`nextProps` is the original props that tempalte will get, and we can convert lazy load function in `nextProps` to real Markdown data. Then, we return the Markdown data to notifiy `bisheng` to refresh the page with new props.
 
-### collect(nextProps: Object, callback: Function) => void
+### collect(collector: async function) => (RouteComponent: React.Component) => React.Component
 
-`collect` function is optional, but we can use it to improve user experience, for `bisheng` will make progress bar work correctly and refresh page at the right timing.
+`collect` decorator is optional, but we can use it to improve user experience, for `bisheng` will make progress bar work correctly and refresh page at the right timing.
 
-### callback(error, nextProps: Object) => void
+### collector(nextProps: Object) => Object
 
-Call `callback` and pass `error`(if any) and processed `nextProps` to it, then it will pass the new `nextProps` to template. And if `error === 404`, `bisheng` will render `theme/template/NotFound.jsx`.
+The returned value of `collector` will be merged with `nextProps` and passed to your `RouteComponent`. If you throw `404` in `collector`, bisheng will show `NotFound.jsx`.
 
 ## lazyLoad: (nodePath: String, nodeValue: Object) => boolean
 
