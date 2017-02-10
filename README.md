@@ -59,7 +59,7 @@ module.exports = {
 };
 ```
 
-**Note:** please make sure that `source` and `theme` exists, and `theme` should not be an empty directory. Just use [bisheng-theme-one](https://github.com/benjycui/bisheng-theme-one), if you don't know how to develop a theme.
+**Note:** please make sure that `source` and `theme` exists, and `theme` should not be an empty directory. Just use [bisheng-theme-one](https://github.com/benjycui/bisheng/tree/master/packages/bisheng-theme-one), if you don't know how to develop a theme. See a simple demo [here](https://github.com/benjycui/bisheng/tree/master/packages/bisheng-example).
 
 Now, just run `npm start`.
 
@@ -158,7 +158,7 @@ To set directory where we put the theme of website, and it also can be a npm pac
 
 [**More about theme**](https://github.com/benjycui/bisheng/tree/master/docs/theme.md).
 
-* [bisheng-theme-one](https://github.com/benjycui/bisheng-theme-one)
+* [bisheng-theme-one](https://github.com/benjycui/bisheng/tree/master/packages/bisheng-theme-one)
 
 #### themeConfig: any
 
@@ -170,7 +170,7 @@ A set of configuration that your theme provides, and then your theme can read it
 
 #### htmlTemplate: String
 
-> default: [`bisheng/lib/template.html`](https://github.com/benjycui/bisheng/blob/master/src/template.html)
+> default: [`bisheng/lib/template.html`](https://github.com/benjycui/bisheng/blob/master/packages/bisheng/src/template.html)
 
 The HTML template which will be use to generate HTML files which will be sent to users.
 
