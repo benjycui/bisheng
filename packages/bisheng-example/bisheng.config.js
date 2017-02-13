@@ -10,7 +10,7 @@ module.exports = {
     // }],
     // footer: 'Copyright and so on...',
     // hideBisheng: true,
-    github: 'https://github.com/benjycui/bisheng-theme-one',
+    github: 'https://github.com/benjycui/bisheng',
   },
   root: '/bisheng/',
 };

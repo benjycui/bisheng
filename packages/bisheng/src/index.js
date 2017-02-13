@@ -1,5 +1,3 @@
-require('babel-polyfill');
-
 const fs = require('fs');
 const path = require('path');
 const { escapeWinPath } = require('./utils/escape-win-path');
@@ -17,10 +15,11 @@ const updateWebpackConfig = require('./utils/update-webpack-config');
 
 const entryTemplate = fs.readFileSync(path.join(__dirname, 'entry.nunjucks.js')).toString();
 const routesTemplate = fs.readFileSync(path.join(__dirname, 'routes.nunjucks.js')).toString();
-mkdirp.sync(path.join(__dirname, '..', 'tmp'));
+const tmpDirPath = path.join(__dirname, '..', 'tmp');
+mkdirp.sync(tmpDirPath);
 
 function getRoutesPath(configPath, themePath, configEntryName) {
-  const routesPath = path.join(__dirname, '..', 'tmp', `routes.${configEntryName}.js`);
+  const routesPath = path.join(tmpDirPath, `routes.${configEntryName}.js`);
   const themeConfig = require(escapeWinPath(configPath)).themeConfig || {};
   fs.writeFileSync(
     routesPath,
@@ -33,7 +32,7 @@ function getRoutesPath(configPath, themePath, configEntryName) {
 }
 
 function generateEntryFile(configPath, configTheme, configEntryName, root) {
-  const entryPath = path.join(__dirname, '..', 'tmp', `entry.${configEntryName}.js`);
+  const entryPath = path.join(tmpDirPath, `entry.${configEntryName}.js`);
   const routesPath = getRoutesPath(
     configPath,
     path.dirname(configTheme),
@@ -88,7 +87,7 @@ exports.start = function start(program) {
   dora(doraConfig);
 };
 
-const ssr = require('./ssr');
+const ssrTemplate = fs.readFileSync(path.join(__dirname, 'ssr.nunjucks.js')).toString();
 
 function filenameToUrl(filename) {
   if (filename.endsWith('index.html')) {
@@ -101,10 +100,11 @@ exports.build = function build(program, callback) {
   const bishengConfig = getBishengConfig(configFile);
   mkdirp.sync(bishengConfig.output);
 
+  const entryName = bishengConfig.entryName;
   generateEntryFile(
     configFile,
     bishengConfig.theme,
-    bishengConfig.entryName,
+    entryName,
     bishengConfig.root,
   );
   const webpackConfig =
@@ -122,14 +122,19 @@ exports.build = function build(program, callback) {
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
   }));
 
+
   const ssrWebpackConfig = Object.assign({}, webpackConfig);
+  const ssrPath = path.join(tmpDirPath, `ssr.${entryName}.js`);
+  const routesPath = getRoutesPath(configFile, path.dirname(bishengConfig.theme), entryName);
+  fs.writeFileSync(ssrPath, nunjucks.renderString(ssrTemplate, { routesPath }));
+
   ssrWebpackConfig.entry = {
-    data: path.join(__dirname, './utils/ssr-data.js'),
+    [`${entryName}-ssr`]: ssrPath,
   };
   ssrWebpackConfig.target = 'node';
-  const ssrDataPath = path.join(__dirname, '..', 'tmp');
   ssrWebpackConfig.output = Object.assign({}, ssrWebpackConfig.output, {
-    path: ssrDataPath,
+    path: tmpDirPath,
+    library: 'ssr',
     libraryTarget: 'commonjs',
   });
   ssrWebpackConfig.plugins = ssrWebpackConfig.plugins
@@ -153,14 +158,12 @@ exports.build = function build(program, callback) {
 
     const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
     if (program.ssr) {
-      const routesPath = getRoutesPath(configFile, path.dirname(bishengConfig.theme));
-      const data = require(path.join(ssrDataPath, 'data'));
-      const routes = require(routesPath)(data);
+      const ssr = require(path.join(tmpDirPath, `${entryName}-ssr`)).ssr;
       const fileCreatedPromises = filesNeedCreated.map((file) => {
         const output = path.join(bishengConfig.output, file);
         mkdirp.sync(path.dirname(output));
         return new Promise((resolve) => {
-          ssr(routes, filenameToUrl(file), (content) => {
+          ssr(filenameToUrl(file), (content) => {
             const fileContent = nunjucks
               .renderString(template, { root: bishengConfig.root, content });
             fs.writeFileSync(output, fileContent);

@@ -1,9 +1,6 @@
 import React from 'react';
 import { Link } from 'bisheng/router';
-
-if (typeof window !== 'undefined') {
-  require('../static/style');
-}
+import '../static/style';
 
 export default ({ themeConfig, children }) => {
   return (

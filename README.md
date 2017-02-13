@@ -10,7 +10,7 @@
 
 ## Sites built with BiSheng
 
-* [A simple blog](http://benjycui.github.io/bisheng-theme-one/)
+* [A simple blog](http://benjycui.github.io/bisheng/)
 * [Ant Design](http://ant.design)
 * [Ant Motion](http://motion.ant.design)
 * [Ant Design Mobile](http://mobile.ant.design/)

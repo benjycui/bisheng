@@ -1,13 +1,13 @@
+require('babel-polyfill');
 
-
-/* eslint-disable no-unused-vars */
 const React = require('react');
-/* eslint-enable no-unused-vars */
 const ReactDOMServer = require('react-dom/server');
 const ReactRouter = require('react-router');
-const createElement = require('./utils/create-element');
+const createElement = require('../lib/utils/create-element');
+const data = require('../lib/utils/ssr-data.js');
+const routes = require('{{ routesPath }}')(data);
 
-module.exports = function ssr(routes, url, callback) {
+module.exports = function ssr(url, callback) {
   ReactRouter.match({ routes, location: url }, (error, redirectLocation, renderProps) => {
     if (error) {
       callback('');
