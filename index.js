@@ -3365,12 +3365,10 @@ webpackJsonp([3,2],[
 
 	var _router = __webpack_require__(92);
 
+	__webpack_require__(282);
+
 	function _interopRequireDefault(obj) {
 	  return obj && obj.__esModule ? obj : { default: obj };
-	}
-
-	if (typeof window !== 'undefined') {
-	  __webpack_require__(282);
 	}
 
 	exports.default = function (_ref) {
@@ -21171,7 +21169,7 @@ webpackJsonp([3,2],[
 	var exist = __webpack_require__(470);
 	var NProgress = __webpack_require__(218);
 	var NotFound = __webpack_require__(116);
-	var themeConfig = JSON.parse('{"home":"/","sitename":"One","tagline":"The one theme for bisheng","github":"https://github.com/benjycui/bisheng-theme-one"}');
+	var themeConfig = JSON.parse('{"home":"/","sitename":"One","tagline":"The one theme for bisheng","github":"https://github.com/benjycui/bisheng"}');
 
 	function calcPropsPath(dataPath, params) {
 	  return typeof dataPath === 'function' ? dataPath(params) : Object.keys(params).reduce(function (path, param) {
