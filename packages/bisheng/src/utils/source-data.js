@@ -1,8 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const { escapeWinPath, toUriPath } = require('./escape-win-path');
 const R = require('ramda');
 const markTwain = require('mark-twain');
+const { escapeWinPath, toUriPath } = require('./escape-win-path');
+
+const sourceLoaderPath = path.join(__dirname, '..', 'loaders', 'source-loader');
 
 function ensureToBeArray(maybeArray) {
   return Array.isArray(maybeArray) ?
@@ -48,23 +50,31 @@ function filesToTreeStructure(files, sources) {
   }, {});
 }
 
-function stringifyObject(nodePath, obj, lazyLoad, isSSR, depth) {
+function stringifyObject({ nodePath, nodeValue, depth, ...rest }) {
   const indent = '  '.repeat(depth);
   const kvStrings = R.pipe(
     R.toPairs,
     /* eslint-disable no-use-before-define */
-    R.map(kv =>
-          `${indent}  '${kv[0]}': ${stringify(`${nodePath}/${kv[0]}`, kv[1], lazyLoad, isSSR, depth + 1)},`),
+    R.map(kv => {
+      const valueString = stringify({
+        ...rest,
+        nodePath: `${nodePath}/${kv[0]}`,
+        nodeValue: kv[1],
+        depth: depth + 1,
+      });
+      return `${indent}  '${kv[0]}': ${valueString},`
+    }),
     /* eslint-enable no-use-before-define */
-  )(obj);
+  )(nodeValue);
   return kvStrings.join('\n');
 }
 
-function lazyLoadWrapper(filePath, filename, isSSR) {
+function lazyLoadWrapper({ filePath, filename, configFile, isSSR, isBuild }) {
+  const loaderString = `${sourceLoaderPath}?config=${configFile}&isBuild=${isBuild}`;
   return `${'function () {\n' +
     '  return new Promise(function (resolve) {\n'}${
     isSSR ? '' : '    require.ensure([], function (require) {\n'
-    }      resolve(require('${escapeWinPath(filePath)}'));\n${
+    }      resolve(require('${loaderString}!${escapeWinPath(filePath)}'));\n${
     isSSR ? '' : `    }, '${toUriPath(filename)}');\n`
     }  });\n` +
     '}';
@@ -82,7 +92,16 @@ function isAbsolute(filePath) {
   return filePath.indexOf(path.sep) === 0;
 }
 
-function stringify(nodePath, nodeValue, lazyLoad, isSSR, depth) {
+function stringify(params) {
+  const {
+    nodePath = '/',
+    nodeValue,
+    configFile,
+    lazyLoad,
+    isSSR,
+    isBuild,
+    depth = 0,
+  } = params;
   const indent = '  '.repeat(depth);
   const shouldBeLazy = shouldLazyLoad(nodePath, nodeValue, lazyLoad);
   return R.cond([
@@ -92,19 +111,36 @@ function stringify(nodePath, nodeValue, lazyLoad, isSSR, depth) {
           __dirname, '..', '..', 'tmp',
           nodePath.replace(/^\/+/, '').replace(/\//g, '-'),
         );
-        const fileContent = 'module.exports = ' +
-                `{\n${stringifyObject(nodePath, obj, false, isSSR, 1)}\n}`;
+        const fileInnerContent = stringifyObject({
+          ...params,
+          nodeValue: obj,
+          lazyLoad: false,
+          depth: 1,
+        });
+        const fileContent = `module.exports = {\n${fileInnerContent}\n}`;
         fs.writeFileSync(filePath, fileContent);
-        return lazyLoadWrapper(filePath, nodePath.replace(/^\/+/, ''), isSSR);
+        return lazyLoadWrapper({
+          filePath,
+          filename: nodePath.replace(/^\/+/, ''),
+          configFile,
+          isSSR,
+          isBuild,
+        });
       }
-      return `{\n${stringifyObject(nodePath, obj, lazyLoad, isSSR, depth)}\n${indent}}`;
+      const objectKVString = stringifyObject({
+        ...params,
+        nodeValue: obj,
+      });
+      return `{\n${objectKVString}\n${indent}}`;
     }],
     [R.T, (filename) => {
-      const filePath = isAbsolute(filename) ? filename : path.join(process.cwd(), filename);
+      const filePath = isAbsolute(filename) ?
+              filename : path.join(process.cwd(), filename);
       if (shouldBeLazy) {
-        return lazyLoadWrapper(filePath, filename, isSSR);
+        return lazyLoadWrapper({ filePath, filename, configFile, isSSR, isBuild });
       }
-      return `require('${escapeWinPath(filePath)}')`;
+      const loaderString = `${sourceLoaderPath}?config=${configFile}&isBuild=${isBuild}`;
+      return `require('${loaderString}!${escapeWinPath(filePath)}')`;
     }],
   ])(nodeValue);
 }
@@ -119,8 +155,10 @@ exports.generate = function generate(source) {
   return filesTree;
 };
 
-exports.stringify = (filesTree, lazyLoad, isSSR) =>
-  stringify('/', filesTree, lazyLoad, isSSR, 0);
+exports.stringify = (
+  filesTree,
+  options /* { configFile, lazyLoad, isSSR, isBuild } */
+) => stringify({ nodeValue: filesTree, ...options });
 
 exports.traverse = function traverse(filesTree, fn) {
   Object.keys(filesTree).forEach((key) => {

@@ -46,8 +46,14 @@ module.exports = function bishengDataLoader(/* content */) {
     });
   }
 
+  const sourceDataString = sourceData.stringify(markdown, {
+    configFile: query.config,
+    lazyLoad: themeConfig.lazyLoad,
+    isSSR,
+    isBuild: query.isBuild,
+  });
   return 'module.exports = {' +
-    `\n  markdown: ${sourceData.stringify(markdown, themeConfig.lazyLoad, isSSR)},` +
+    `\n  markdown: ${sourceDataString},` +
     `\n  picked: ${JSON.stringify(picked, null, 2)},` +
     `\n  plugins: [\n${pluginsString}\n],` +
     '\n};';

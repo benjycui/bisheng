@@ -22,15 +22,6 @@ module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild
     loader: `${path.join(bishengLibLoaders, 'bisheng-data-loader')}` +
       `?config=${configFile}&isBuild=${isBuild}`,
   });
-
-  webpackConfig.module.loaders.push({
-    test: /\.md$/,
-    exclude: /node_modules/,
-    loaders: [
-      `${path.join(bishengLibLoaders, 'source-loader')}` +
-        `?config=${configFile}&isBuild=${isBuild}`,
-    ],
-  });
   /* eslint-enable no-param-reassign */
 
   const customizedWebpackConfig = bishengConfig.webpackConfig(webpackConfig, webpack);
