@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const R = require('ramda');
-const markTwain = require('mark-twain');
 const { escapeWinPath, toUriPath } = require('./escape-win-path');
 
 const sourceLoaderPath = path.join(__dirname, '..', 'loaders', 'source-loader');
@@ -15,8 +14,8 @@ function isDirectory(filename) {
   return fs.statSync(filename).isDirectory();
 }
 
-const isValidFile = (transformers) => (filename) =>
-        transformers.some(({ test }) => eval(test).test(filename))
+const isValidFile = transformers => filename =>
+        transformers.some(({ test }) => eval(test).test(filename)); // eslint-disable-line no-eval
 
 function findValidFiles(source, transformers) {
   return R.pipe(
@@ -53,14 +52,14 @@ function stringifyObject({ nodePath, nodeValue, depth, ...rest }) {
   const kvStrings = R.pipe(
     R.toPairs,
     /* eslint-disable no-use-before-define */
-    R.map(kv => {
+    R.map((kv) => {
       const valueString = stringify({
         ...rest,
         nodePath: `${nodePath}/${kv[0]}`,
         nodeValue: kv[1],
         depth: depth + 1,
       });
-      return `${indent}  '${kv[0]}': ${valueString},`
+      return `${indent}  '${kv[0]}': ${valueString},`;
     }),
     /* eslint-enable no-use-before-define */
   )(nodeValue);
@@ -123,6 +122,7 @@ function stringify(params) {
       }
       const objectKVString = stringifyObject({
         ...params,
+        depth, // fix: indentation
         nodeValue: obj,
       });
       return `{\n${objectKVString}\n${indent}}`;
@@ -141,7 +141,7 @@ function stringify(params) {
 
 exports.generate = function generate(source, transformers = []) {
   if (R.is(Object, source) && !Array.isArray(source)) {
-    return R.mapObjIndexed(value => generate(value), source);
+    return R.mapObjIndexed(value => generate(value, transformers), source);
   }
   const sources = ensureToBeArray(source);
   const validFiles = findValidFiles(sources, transformers);
@@ -151,7 +151,7 @@ exports.generate = function generate(source, transformers = []) {
 
 exports.stringify = (
   filesTree,
-  options /* { configFile, lazyLoad, isSSR, isBuild } */
+  options, /* { configFile, lazyLoad, isSSR, isBuild } */
 ) => stringify({ nodeValue: filesTree, ...options });
 
 exports.traverse = function traverse(filesTree, fn) {
@@ -171,13 +171,13 @@ exports.process = (
   fileContent,
   plugins,
   transformers = [],
-  isBuild/* 'undefined' | true */
+  isBuild, /* 'undefined' | true */
 ) => {
   // Mock Array.prototype.find(fn)
   let transformerIndex = -1;
   transformers.some(({ test }, index) => {
     transformerIndex = index;
-    return eval(test).test(filename);
+    return eval(test).test(filename); // eslint-disable-line no-eval
   });
   const transformer = transformers[transformerIndex];
 

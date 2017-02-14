@@ -141,7 +141,7 @@ exports.build = function build(program, callback) {
     .filter(plugin => !(plugin instanceof webpack.optimize.CommonsChunkPlugin));
 
   webpack([webpackConfig, ssrWebpackConfig], (err, stats) => {
-    require('./loaders/markdown-loader/boss').jobDone();
+    require('./loaders/source-loader/boss').jobDone();
     if (err !== null) {
       return console.error(err);
     }

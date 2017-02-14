@@ -27,7 +27,7 @@ module.exports = function markdownLoader(content) {
       content,
       plugins,
       bishengConfig.transformers,
-      query.isBuild
+      query.isBuild,
     );
     return `module.exports = ${stringify(parsedMarkdown)};`;
   }

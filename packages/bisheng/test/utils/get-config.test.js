@@ -18,6 +18,10 @@ describe('bisheng/utils/get-bisheng-config', () => {
       port: 8000,
       root: '/',
       doraConfig: {},
+      transformers: [{
+        test: /\.md$/.toString(),
+        use: path.join(__dirname, '..', '..', 'lib', 'transformers', 'markdown'),
+      }],
     });
   });
 });

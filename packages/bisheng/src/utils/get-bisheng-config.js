@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const resolve = require('resolve');
+
 const markdownTransformer = path.join(__dirname, '..', 'transformers', 'markdown');
 
 const defaultConfig = {

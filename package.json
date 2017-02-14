@@ -2,7 +2,7 @@
   "scripts": {
     "lint": "eslint .eslintrc.js ./packages/*/src ./packages/*/test",
     "lint-fix": "eslint .eslintrc.js --fix ./packages/*/src ./packages/*/test",
-    "test": "./scripts/test.sh"
+    "test": "lerna bootstrap && ./scripts/test.sh"
   },
   "devDependencies": {
     "babel-preset-es2015-ie": "^6.6.2",

@@ -35,7 +35,7 @@ module.exports = function bishengDataLoader(/* content */) {
         fileContent,
         nodePlugins,
         bishengConfig.transformers,
-        query.isBuild
+        query.isBuild,
       );
 
       Object.keys(themeConfig.pick).forEach((key) => {
