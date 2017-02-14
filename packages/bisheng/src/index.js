@@ -9,7 +9,7 @@ const getWebpackCommonConfig = require('atool-build/lib/getWebpackCommonConfig')
 const R = require('ramda');
 const ghPages = require('gh-pages');
 const getBishengConfig = require('./utils/get-bisheng-config');
-const markdownData = require('./utils/markdown-data');
+const sourceData = require('./utils/source-data');
 const generateFilesPath = require('./utils/generate-files-path');
 const updateWebpackConfig = require('./utils/update-webpack-config');
 
@@ -151,7 +151,7 @@ exports.build = function build(program, callback) {
       return;
     }
 
-    const markdown = markdownData.generate(bishengConfig.source);
+    const markdown = sourceData.generate(bishengConfig.source);
     const themeConfig = require(bishengConfig.theme);
     let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(bishengConfig.filePathMapper);
     filesNeedCreated = R.unnest(filesNeedCreated);

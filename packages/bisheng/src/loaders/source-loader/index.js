@@ -3,7 +3,7 @@ const loaderUtils = require('loader-utils');
 const getBishengConfig = require('../../utils/get-bisheng-config');
 const getThemeConfig = require('../../utils/get-theme-config');
 const resolvePlugins = require('../../utils/resolve-plugins');
-const markdownData = require('../../utils/markdown-data');
+const sourceData = require('../../utils/source-data');
 const stringify = require('../../utils/stringify');
 const boss = require('./boss');
 
@@ -22,7 +22,7 @@ module.exports = function markdownLoader(content) {
 
   const callback = this.async();
   if (!callback) {
-    const parsedMarkdown = markdownData
+    const parsedMarkdown = sourceData
             .process(filename, content, plugins, query.isBuild);
     return `module.exports = ${stringify(parsedMarkdown)};`;
   }

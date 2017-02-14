@@ -1,6 +1,4 @@
-
-
-const markdownData = require('../../utils/markdown-data');
+const sourceData = require('../../utils/source-data');
 const stringify = require('../../utils/stringify');
 
 process.on('message', (task) => {
@@ -10,7 +8,7 @@ process.on('message', (task) => {
     plugins,
     isBuild,
   } = task;
-  const parsedMarkdown = markdownData
+  const parsedMarkdown = sourceData
           .process(filename, content, plugins, isBuild);
   const result = `module.exports = ${stringify(parsedMarkdown)};`;
   process.send(result);
