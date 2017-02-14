@@ -66,12 +66,19 @@ function stringifyObject({ nodePath, nodeValue, depth, ...rest }) {
   return kvStrings.join('\n');
 }
 
-function lazyLoadWrapper({ filePath, filename, configFile, isSSR, isBuild }) {
-  const loaderString = `${sourceLoaderPath}?config=${configFile}&isBuild=${isBuild}`;
+function lazyLoadWrapper({
+  filePath,
+  filename,
+  configFile,
+  isSSR,
+  isBuild,
+  isLazyLoadWrapper,
+}) {
+  const loaderString = isLazyLoadWrapper ? '' : `${sourceLoaderPath}?config=${configFile}&isBuild=${isBuild}!`;
   return `${'function () {\n' +
     '  return new Promise(function (resolve) {\n'}${
     isSSR ? '' : '    require.ensure([], function (require) {\n'
-    }      resolve(require('${loaderString}!${escapeWinPath(filePath)}'));\n${
+    }      resolve(require('${loaderString}${escapeWinPath(filePath)}'));\n${
     isSSR ? '' : `    }, '${toUriPath(filename)}');\n`
     }  });\n` +
     '}';
@@ -103,7 +110,7 @@ function stringify(params) {
         const filePath = path.join(
           __dirname, '..', '..', 'tmp',
           nodePath.replace(/^\/+/, '').replace(/\//g, '-'),
-        );
+        ) + '.js';
         const fileInnerContent = stringifyObject({
           ...params,
           nodeValue: obj,
@@ -118,10 +125,12 @@ function stringify(params) {
           configFile,
           isSSR,
           isBuild,
+          isLazyLoadWrapper: true,
         });
       }
       const objectKVString = stringifyObject({
         ...params,
+        nodePath, // fix: generated file name
         depth, // fix: indentation
         nodeValue: obj,
       });
