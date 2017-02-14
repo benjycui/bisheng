@@ -1,6 +1,6 @@
 {
   "name": "bisheng-theme-one",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "The one theme for bisheng.",
   "main": "./lib/index.js",
   "files": [
@@ -37,7 +37,7 @@
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
-    "bisheng": "^0.21.3",
+    "bisheng": "^0.22.0",
     "react": "^15.0.2"
   },
   "dependencies": {
@@ -45,7 +45,7 @@
     "react-document-title": "^2.0.1"
   },
   "peerDependencies": {
-    "bisheng": "^0.21.3",
+    "bisheng": "^0.22.0",
     "react": "^15.0.2"
   }
 }
