@@ -22,8 +22,13 @@ module.exports = function markdownLoader(content) {
 
   const callback = this.async();
   if (!callback) {
-    const parsedMarkdown = sourceData
-            .process(filename, content, plugins, query.isBuild);
+    const parsedMarkdown = sourceData.process(
+      filename,
+      content,
+      plugins,
+      bishengConfig.transformers,
+      query.isBuild
+    );
     return `module.exports = ${stringify(parsedMarkdown)};`;
   }
 
@@ -31,6 +36,7 @@ module.exports = function markdownLoader(content) {
     filename,
     content,
     plugins,
+    transformers: bishengConfig.transformers,
     isBuild: query.isBuild,
     callback,
   });

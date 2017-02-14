@@ -6,10 +6,16 @@ process.on('message', (task) => {
     filename,
     content,
     plugins,
+    transformers,
     isBuild,
   } = task;
-  const parsedMarkdown = sourceData
-          .process(filename, content, plugins, isBuild);
+  const parsedMarkdown = sourceData.process(
+    filename,
+    content,
+    plugins,
+    transformers,
+    isBuild
+  );
   const result = `module.exports = ${stringify(parsedMarkdown)};`;
   process.send(result);
 });

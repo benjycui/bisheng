@@ -19,7 +19,7 @@ module.exports = function bishengDataLoader(/* content */) {
   const bishengConfig = getBishengConfig(query.config);
   const themeConfig = getThemeConfig(bishengConfig.theme);
 
-  const markdown = sourceData.generate(bishengConfig.source);
+  const markdown = sourceData.generate(bishengConfig.source, bishengConfig.transformers);
   const browserPlugins = resolvePlugins(themeConfig.plugins, 'browser');
   const pluginsString = browserPlugins
           .map(plugin => `[require('${plugin[0]}'), ${JSON.stringify(plugin[1])}]`)
@@ -30,7 +30,13 @@ module.exports = function bishengDataLoader(/* content */) {
     const nodePlugins = resolvePlugins(themeConfig.plugins, 'node');
     sourceData.traverse(markdown, (filename) => {
       const fileContent = fs.readFileSync(path.join(process.cwd(), filename)).toString();
-      const parsedMarkdown = sourceData.process(filename, fileContent, nodePlugins, query.isBuild);
+      const parsedMarkdown = sourceData.process(
+        filename,
+        fileContent,
+        nodePlugins,
+        bishengConfig.transformers,
+        query.isBuild
+      );
 
       Object.keys(themeConfig.pick).forEach((key) => {
         if (!picked[key]) {

@@ -15,19 +15,17 @@ function isDirectory(filename) {
   return fs.statSync(filename).isDirectory();
 }
 
-function isMDFile(filename) {
-  const ext = path.extname(filename);
-  return !isDirectory(filename) && ext === '.md';
-}
+const isValidFile = (transformers) => (filename) =>
+        transformers.some(({ test }) => eval(test).test(filename))
 
-function findMDFile(source) {
+function findValidFiles(source, transformers) {
   return R.pipe(
-    R.filter(R.either(isDirectory, isMDFile)),
+    R.filter(R.either(isDirectory, isValidFile(transformers))),
     R.chain((filename) => {
       if (isDirectory(filename)) {
         const subFiles = fs.readdirSync(filename)
                 .map(subFile => path.join(filename, subFile));
-        return findMDFile(subFiles);
+        return findValidFiles(subFiles, transformers);
       }
       return [filename];
     }),
@@ -38,7 +36,7 @@ const rxSep = new RegExp(`[${escapeWinPath(path.sep)}.]`);
 function getPropPath(filename, sources) {
   return sources.reduce(
     (f, source) => f.replace(source, ''),
-    filename.replace(/\.md$/i, ''),
+    filename.replace(new RegExp(`${path.extname(filename)}$`), ''),
   ).replace(/^\.?\/+/, '').split(rxSep);
 }
 
@@ -88,10 +86,6 @@ function shouldLazyLoad(nodePath, nodeValue, lazyLoad) {
   return typeof nodeValue === 'object' ? false : lazyLoad;
 }
 
-function isAbsolute(filePath) {
-  return filePath.indexOf(path.sep) === 0;
-}
-
 function stringify(params) {
   const {
     nodePath = '/',
@@ -134,7 +128,7 @@ function stringify(params) {
       return `{\n${objectKVString}\n${indent}}`;
     }],
     [R.T, (filename) => {
-      const filePath = isAbsolute(filename) ?
+      const filePath = path.isAbsolute(filename) ?
               filename : path.join(process.cwd(), filename);
       if (shouldBeLazy) {
         return lazyLoadWrapper({ filePath, filename, configFile, isSSR, isBuild });
@@ -145,13 +139,13 @@ function stringify(params) {
   ])(nodeValue);
 }
 
-exports.generate = function generate(source) {
+exports.generate = function generate(source, transformers = []) {
   if (R.is(Object, source) && !Array.isArray(source)) {
     return R.mapObjIndexed(value => generate(value), source);
   }
   const sources = ensureToBeArray(source);
-  const mds = findMDFile(sources);
-  const filesTree = filesToTreeStructure(mds, sources);
+  const validFiles = findValidFiles(sources, transformers);
+  const filesTree = filesToTreeStructure(validFiles, sources);
   return filesTree;
 };
 
@@ -172,9 +166,22 @@ exports.traverse = function traverse(filesTree, fn) {
   });
 };
 
-exports.process = (filename, fileContent, plugins, isBuild/* 'undefined' | true */) => {
-  const markdown = markTwain(fileContent);
-  markdown.meta.filename = toUriPath(filename);
+exports.process = (
+  filename,
+  fileContent,
+  plugins,
+  transformers = [],
+  isBuild/* 'undefined' | true */
+) => {
+  // Mock Array.prototype.find(fn)
+  let transformerIndex = -1;
+  transformers.some(({ test }, index) => {
+    transformerIndex = index;
+    return eval(test).test(filename);
+  });
+  const transformer = transformers[transformerIndex];
+
+  const markdown = require(transformer.use)(filename, fileContent);
   const parsedMarkdown = plugins.reduce(
     (markdownData, plugin) =>
       require(plugin[0])(markdownData, plugin[1], isBuild === true),

@@ -151,7 +151,7 @@ exports.build = function build(program, callback) {
       return;
     }
 
-    const markdown = sourceData.generate(bishengConfig.source);
+    const markdown = sourceData.generate(bishengConfig.source, bishengConfig.transformers);
     const themeConfig = require(bishengConfig.theme);
     let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(bishengConfig.filePathMapper);
     filesNeedCreated = R.unnest(filesNeedCreated);
