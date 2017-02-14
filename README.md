@@ -6,7 +6,7 @@
 
 > [Bi Sheng](https://en.wikipedia.org/wiki/Bi_Sheng) was the Chinese inventor of the first known movable type technology.
 
-`bisheng` is designed to transform [Markdown](https://en.wikipedia.org/wiki/Markdown) into static websites and blogs using [React](https://facebook.github.io/react/).
+`bisheng` is designed to transform [Markdown](https://en.wikipedia.org/wiki/Markdown)(and other static files with transformers) into static websites and blogs using [React](https://facebook.github.io/react/).
 
 ## Sites built with BiSheng
 
@@ -189,6 +189,12 @@ You can consult [dora's documentation](https://github.com/dora-js/dora).
 > default: (config) => config
 
 To modify the webpack config, you can extend the config like [this](https://github.com/ant-tool/atool-build#配置扩展).
+
+#### transformers: Object[]
+
+> [{ test: /\.md$/, use: [MarkdownTransformer](https://github.com/benjycui/bisheng/blob/master/packages/bisheng/src/transformers/markdown.js) }]
+
+A list of transformers that will be used to transform static files.
 
 #### entryName: String
 
