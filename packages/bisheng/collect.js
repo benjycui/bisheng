@@ -1,6 +1,8 @@
 'use strict';
 
-module.exports = collector => Component => {
-  Component.collector = collector;
-  return Component;
-}
+module.exports = function(collector) {
+  return function(Component) {
+    Component.collector = collector;
+    return Component;
+  };
+};

@@ -1,5 +1,3 @@
-
-
 const path = require('path');
 const loaderUtils = require('loader-utils');
 const getBishengConfig = require('../../utils/get-bisheng-config');
