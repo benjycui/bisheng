@@ -1,4 +1,4 @@
-webpackJsonp([3,2],[
+webpackJsonp([1,0],[
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -20950,8 +20950,78 @@ webpackJsonp([3,2],[
 	};
 
 /***/ },
-/* 279 */,
-/* 280 */,
+/* 279 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  "content": [
+	    "article",
+	    {
+
+	    },
+	    [
+	      "p",
+	      "Good bye!"
+	    ]
+	  ],
+	  "meta": {
+	    "title": "Good bye!",
+	    "publishDate": "2015-05-05T00:00:00.000Z",
+	    "filename": "posts/good-bye.md"
+	  },
+	  "description": [
+	    "section",
+	    [
+	      "p",
+	      "The second article which is posted by BiSheng."
+	    ]
+	  ]
+	};
+
+/***/ },
+/* 280 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  "content": [
+	    "article",
+	    {
+
+	    },
+	    [
+	      "p",
+	      "Hello world!"
+	    ],
+	    [
+	      "pre",
+	      {
+	        "lang": "js",
+	        "highlighted": "<span class=\"token punctuation\">(</span><span class=\"token keyword\">function</span> <span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span> <span class=\"token punctuation\">{</span>\n  console<span class=\"token punctuation\">.</span><span class=\"token function\">log</span><span class=\"token punctuation\">(</span><span class=\"token string\">'Hello world!'</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>\n<span class=\"token punctuation\">}</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">(</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">;</span>"
+	      },
+	      [
+	        "code",
+	        "(function () {\n  console.log('Hello world!');\n})();"
+	      ]
+	    ]
+	  ],
+	  "meta": {
+	    "title": "Hello world!",
+	    "publishDate": "2016-05-05T00:00:00.000Z",
+	    "tags": [
+	      "test"
+	    ],
+	    "filename": "posts/hello-world.md"
+	  },
+	  "description": [
+	    "section",
+	    [
+	      "p",
+	      "The first article which is posted by BiSheng."
+	    ]
+	  ]
+	};
+
+/***/ },
 /* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -21044,28 +21114,17 @@ webpackJsonp([3,2],[
 	  markdown: {
 	    'good-bye': function goodBye() {
 	      return new Promise(function (resolve) {
-	        __webpack_require__.e/* nsure */(1, function (require) {
-	          resolve(__webpack_require__(279));
-	        });
+	        resolve(__webpack_require__(279));
 	      });
 	    },
 	    'hello-world': function helloWorld() {
 	      return new Promise(function (resolve) {
-	        __webpack_require__.e/* nsure */(0, function (require) {
-	          resolve(__webpack_require__(280));
-	        });
+	        resolve(__webpack_require__(280));
 	      });
 	    }
 	  },
 	  picked: {
 	    "posts": [{
-	      "meta": {
-	        "title": "Good bye!",
-	        "publishDate": "2015-05-05T00:00:00.000Z",
-	        "filename": "posts/good-bye.md"
-	      },
-	      "description": ["section", ["p", "The second article which is posted by BiSheng."]]
-	    }, {
 	      "meta": {
 	        "title": "Hello world!",
 	        "publishDate": "2016-05-05T00:00:00.000Z",
@@ -21073,6 +21132,13 @@ webpackJsonp([3,2],[
 	        "filename": "posts/hello-world.md"
 	      },
 	      "description": ["section", ["p", "The first article which is posted by BiSheng."]]
+	    }, {
+	      "meta": {
+	        "title": "Good bye!",
+	        "publishDate": "2015-05-05T00:00:00.000Z",
+	        "filename": "posts/good-bye.md"
+	      },
+	      "description": ["section", ["p", "The second article which is posted by BiSheng."]]
 	    }]
 	  },
 	  plugins: [[__webpack_require__(284), {}]]

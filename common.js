@@ -30,7 +30,7 @@
 /******/ 	// "0" means "already loaded"
 /******/ 	// Array means "loading", array contains callbacks
 /******/ 	var installedChunks = {
-/******/ 		2:0
+/******/ 		0:0
 /******/ 	};
 
 /******/ 	// The require function
@@ -76,7 +76,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 
-/******/ 			script.src = __webpack_require__.p + "" + ({"0":"posts/hello-world.md","1":"posts/good-bye.md","3":"index"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + ({"1":"index"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
