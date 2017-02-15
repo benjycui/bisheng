@@ -107,10 +107,10 @@ function stringify(params) {
   return R.cond([
     [n => typeof n === 'object', (obj) => {
       if (shouldBeLazy) {
-        const filePath = path.join(
+        const filePath = `${path.join(
           __dirname, '..', '..', 'tmp',
           nodePath.replace(/^\/+/, '').replace(/\//g, '-'),
-        ) + '.js';
+        )}.js`;
         const fileInnerContent = stringifyObject({
           ...params,
           nodeValue: obj,

@@ -1,13 +1,11 @@
 const path = require('path');
 const loaderUtils = require('loader-utils');
-const getBishengConfig = require('../../utils/get-bisheng-config');
-const getThemeConfig = require('../../utils/get-theme-config');
-const resolvePlugins = require('../../utils/resolve-plugins');
-const sourceData = require('../../utils/source-data');
-const stringify = require('../../utils/stringify');
-const boss = require('./boss');
+const getBishengConfig = require('../utils/get-bisheng-config');
+const getThemeConfig = require('../utils/get-theme-config');
+const resolvePlugins = require('../utils/resolve-plugins');
+const boss = require('./common/boss');
 
-module.exports = function markdownLoader(content) {
+module.exports = function sourceLoader(content) {
   if (this.cacheable) {
     this.cacheable();
   }
@@ -21,23 +19,14 @@ module.exports = function markdownLoader(content) {
   const plugins = resolvePlugins(themeConfig.plugins, 'node');
 
   const callback = this.async();
-  if (!callback) {
-    const parsedMarkdown = sourceData.process(
-      filename,
-      content,
-      plugins,
-      bishengConfig.transformers,
-      query.isBuild,
-    );
-    return `module.exports = ${stringify(parsedMarkdown)};`;
-  }
-
   boss.queue({
     filename,
     content,
     plugins,
     transformers: bishengConfig.transformers,
     isBuild: query.isBuild,
-    callback,
+    callback(err, result) {
+      callback(err, `module.exports = ${result};`);
+    },
   });
 };

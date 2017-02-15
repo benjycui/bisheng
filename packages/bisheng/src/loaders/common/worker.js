@@ -16,6 +16,6 @@ process.on('message', (task) => {
     transformers,
     isBuild,
   );
-  const result = `module.exports = ${stringify(parsedMarkdown)};`;
+  const result = stringify(parsedMarkdown);
   process.send(result);
 });
