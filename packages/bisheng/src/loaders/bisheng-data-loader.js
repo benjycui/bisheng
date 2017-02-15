@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const loaderUtils = require('loader-utils');
 const getBishengConfig = require('../utils/get-bisheng-config');
 const getThemeConfig = require('../utils/get-theme-config');
 const sourceData = require('../utils/source-data');
 const resolvePlugins = require('../utils/resolve-plugins');
+const context = require('../context');
 const boss = require('./common/boss');
 
 module.exports = function bishengDataLoader(/* content */) {
@@ -12,12 +12,7 @@ module.exports = function bishengDataLoader(/* content */) {
     this.cacheable();
   }
 
-  const webpackRemainingChain = loaderUtils.getRemainingRequest(this).split('!');
-  const fullPath = webpackRemainingChain[webpackRemainingChain.length - 1];
-  const isSSR = fullPath.endsWith('ssr-data.js');
-
-  const query = loaderUtils.parseQuery(this.query);
-  const bishengConfig = getBishengConfig(query.config);
+  const bishengConfig = getBishengConfig(context.config);
   const themeConfig = getThemeConfig(bishengConfig.theme);
 
   const markdown = sourceData.generate(bishengConfig.source, bishengConfig.transformers);
@@ -40,7 +35,7 @@ module.exports = function bishengDataLoader(/* content */) {
           content: fileContent,
           plugins: nodePlugins,
           transformers: bishengConfig.transformers,
-          isBuild: query.isBuild,
+          isBuild: context.isBuild,
           callback(err, result) {
             const parsedMarkdown = JSON.parse(result);
 
@@ -66,10 +61,7 @@ module.exports = function bishengDataLoader(/* content */) {
   Promise.all(pickedPromises)
     .then(() => {
       const sourceDataString = sourceData.stringify(markdown, {
-        configFile: query.config,
         lazyLoad: themeConfig.lazyLoad,
-        isSSR,
-        isBuild: query.isBuild,
       });
       callback(
         null,

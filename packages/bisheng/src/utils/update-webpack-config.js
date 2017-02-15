@@ -1,26 +1,26 @@
 const path = require('path');
 const webpack = require('atool-build/lib/webpack');
 const getBishengConfig = require('./get-bisheng-config');
+const context = require('../context');
 
 const bishengLib = path.join(__dirname, '..');
 const bishengLibLoaders = path.join(bishengLib, 'loaders');
 
-module.exports = function updateWebpackConfig(webpackConfig, configFile, isBuild) {
-  const bishengConfig = getBishengConfig(configFile);
+module.exports = function updateWebpackConfig(webpackConfig) {
+  const bishengConfig = getBishengConfig(context.config);
 
   /* eslint-disable no-param-reassign */
   webpackConfig.entry = {};
-  if (isBuild) {
+  if (context.isBuild) {
     webpackConfig.output.path = bishengConfig.output;
   }
-  webpackConfig.output.publicPath = isBuild ? bishengConfig.root : '/';
+  webpackConfig.output.publicPath = context.isBuild ? bishengConfig.root : '/';
   webpackConfig.module.loaders.push({
     test(filename) {
       return filename === path.join(bishengLib, 'utils', 'data.js') ||
         filename === path.join(bishengLib, 'utils', 'ssr-data.js');
     },
-    loader: `${path.join(bishengLibLoaders, 'bisheng-data-loader')}` +
-      `?config=${configFile}&isBuild=${isBuild}`,
+    loader: path.join(bishengLibLoaders, 'bisheng-data-loader'),
   });
   /* eslint-enable no-param-reassign */
 

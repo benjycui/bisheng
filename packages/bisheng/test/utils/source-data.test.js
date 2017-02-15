@@ -3,6 +3,10 @@ const path = require('path');
 const { escapeWinPath } = require('../../lib/utils/escape-win-path');
 const sourceData = require('../../lib/utils/source-data');
 
+const context = require('../../lib/context');
+
+context.initialize({ config: 'aaa', isBuild: true });
+
 const sourcePath = path.join(__dirname, '../fixtures/posts');
 const transformers = [{
   test: /\.md$/.toString(),
@@ -53,7 +57,7 @@ describe('bisheng/utils/source-data', () => {
 
     it('should stringify value to `require` sentence', () => {
       const filesTree = sourceData.generate(sourcePath, transformers);
-      const stringified = sourceData.stringify(filesTree, { configFile: 'aaa', isBuild: true });
+      const stringified = sourceData.stringify(filesTree);
       assert.strictEqual(stringified, '{\n' +
                          '  \'a\': {\n' +
                          `    'en-US': require('${loaderString}${escapeWinPath(path.join(sourcePath, 'a.en-US.md'))}'),\n` +

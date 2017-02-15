@@ -12,6 +12,7 @@ const getBishengConfig = require('./utils/get-bisheng-config');
 const sourceData = require('./utils/source-data');
 const generateFilesPath = require('./utils/generate-files-path');
 const updateWebpackConfig = require('./utils/update-webpack-config');
+const context = require('./context');
 
 const entryTemplate = fs.readFileSync(path.join(__dirname, 'entry.nunjucks.js')).toString();
 const routesTemplate = fs.readFileSync(path.join(__dirname, 'routes.nunjucks.js')).toString();
@@ -49,6 +50,8 @@ function generateEntryFile(configPath, configTheme, configEntryName, root) {
 
 exports.start = function start(program) {
   const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
+  context.initialize({ config: configFile });
+
   const bishengConfig = getBishengConfig(configFile);
   mkdirp.sync(bishengConfig.output);
 
@@ -73,9 +76,7 @@ exports.start = function start(program) {
       cwd: process.cwd(),
       config: 'bisheng-inexistent.config.js',
     }],
-    [path.join(__dirname, 'dora-plugin-bisheng'), {
-      config: configFile,
-    }],
+    path.join(__dirname, 'dora-plugin-bisheng'),
     require.resolve('dora-plugin-browser-history'),
   ];
   const usersDoraPlugin = bishengConfig.doraConfig.plugins || [];
@@ -97,6 +98,12 @@ function filenameToUrl(filename) {
 }
 exports.build = function build(program, callback) {
   const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
+  context.initialize({
+    config: configFile,
+    isBuild: true,
+    isSSR: program.ssr,
+  });
+
   const bishengConfig = getBishengConfig(configFile);
   mkdirp.sync(bishengConfig.output);
 
@@ -107,8 +114,7 @@ exports.build = function build(program, callback) {
     entryName,
     bishengConfig.root,
   );
-  const webpackConfig =
-    updateWebpackConfig(getWebpackCommonConfig({ cwd: process.cwd() }), configFile, true);
+  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig({ cwd: process.cwd() }));
   webpackConfig.UglifyJsPluginConfig = {
     output: {
       ascii_only: true,

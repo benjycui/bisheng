@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const R = require('ramda');
+const context = require('../context');
 const { escapeWinPath, toUriPath } = require('./escape-win-path');
 
 const sourceLoaderPath = path.join(__dirname, '..', 'loaders', 'source-loader');
@@ -69,12 +70,11 @@ function stringifyObject({ nodePath, nodeValue, depth, ...rest }) {
 function lazyLoadWrapper({
   filePath,
   filename,
-  configFile,
-  isSSR,
-  isBuild,
   isLazyLoadWrapper,
 }) {
-  const loaderString = isLazyLoadWrapper ? '' : `${sourceLoaderPath}?config=${configFile}&isBuild=${isBuild}!`;
+  const isSSR = context.isSSR;
+  const loaderString = isLazyLoadWrapper ? '' :
+          `${sourceLoaderPath}?config=${context.config}&isBuild=${context.isBuild}!`;
   return `${'function () {\n' +
     '  return new Promise(function (resolve) {\n'}${
     isSSR ? '' : '    require.ensure([], function (require) {\n'
@@ -96,10 +96,7 @@ function stringify(params) {
   const {
     nodePath = '/',
     nodeValue,
-    configFile,
     lazyLoad,
-    isSSR,
-    isBuild,
     depth = 0,
   } = params;
   const indent = '  '.repeat(depth);
@@ -122,9 +119,6 @@ function stringify(params) {
         return lazyLoadWrapper({
           filePath,
           filename: nodePath.replace(/^\/+/, ''),
-          configFile,
-          isSSR,
-          isBuild,
           isLazyLoadWrapper: true,
         });
       }
@@ -140,9 +134,10 @@ function stringify(params) {
       const filePath = path.isAbsolute(filename) ?
               filename : path.join(process.cwd(), filename);
       if (shouldBeLazy) {
-        return lazyLoadWrapper({ filePath, filename, configFile, isSSR, isBuild });
+        return lazyLoadWrapper({ filePath, filename });
       }
-      const loaderString = `${sourceLoaderPath}?config=${configFile}&isBuild=${isBuild}`;
+      const loaderString = `${sourceLoaderPath}?` +
+              `config=${context.config}&isBuild=${context.isBuild}`;
       return `require('${loaderString}!${escapeWinPath(filePath)}')`;
     }],
   ])(nodeValue);
@@ -160,7 +155,7 @@ exports.generate = function generate(source, transformers = []) {
 
 exports.stringify = (
   filesTree,
-  options, /* { configFile, lazyLoad, isSSR, isBuild } */
+  options, /* { lazyLoad } */
 ) => stringify({ nodeValue: filesTree, ...options });
 
 exports.traverse = function traverse(filesTree, fn) {
@@ -175,6 +170,7 @@ exports.traverse = function traverse(filesTree, fn) {
   });
 };
 
+// `.process` will be use in child process, so it cannot use `context`
 exports.process = (
   filename,
   fileContent,
