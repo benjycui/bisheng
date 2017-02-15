@@ -37,7 +37,7 @@ module.exports = function bishengDataLoader(/* content */) {
           transformers: bishengConfig.transformers,
           isBuild: context.isBuild,
           callback(err, result) {
-            const parsedMarkdown = JSON.parse(result);
+            const parsedMarkdown = eval(`(${result})`);
 
             Object.keys(themeConfig.pick).forEach((key) => {
               if (!picked[key]) {
