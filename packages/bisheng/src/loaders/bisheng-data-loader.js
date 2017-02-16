@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const getBishengConfig = require('../utils/get-bisheng-config');
 const getThemeConfig = require('../utils/get-theme-config');
 const sourceData = require('../utils/source-data');
 const resolvePlugins = require('../utils/resolve-plugins');
@@ -12,7 +11,7 @@ module.exports = function bishengDataLoader(/* content */) {
     this.cacheable();
   }
 
-  const bishengConfig = getBishengConfig(context.config);
+  const bishengConfig = context.bishengConfig;
   const themeConfig = getThemeConfig(bishengConfig.theme);
 
   const markdown = sourceData.generate(bishengConfig.source, bishengConfig.transformers);
@@ -37,7 +36,7 @@ module.exports = function bishengDataLoader(/* content */) {
           transformers: bishengConfig.transformers,
           isBuild: context.isBuild,
           callback(err, result) {
-            const parsedMarkdown = eval(`(${result})`);
+            const parsedMarkdown = eval(`(${result})`); // eslint-disable-line no-eval
 
             Object.keys(themeConfig.pick).forEach((key) => {
               if (!picked[key]) {

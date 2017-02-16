@@ -73,8 +73,7 @@ function lazyLoadWrapper({
   isLazyLoadWrapper,
 }) {
   const isSSR = context.isSSR;
-  const loaderString = isLazyLoadWrapper ? '' :
-          `${sourceLoaderPath}?config=${context.config}&isBuild=${context.isBuild}!`;
+  const loaderString = isLazyLoadWrapper ? '' : `${sourceLoaderPath}!`;
   return `${'function () {\n' +
     '  return new Promise(function (resolve) {\n'}${
     isSSR ? '' : '    require.ensure([], function (require) {\n'
@@ -107,7 +106,7 @@ function stringify(params) {
         const filePath = `${path.join(
           __dirname, '..', '..', 'tmp',
           nodePath.replace(/^\/+/, '').replace(/\//g, '-'),
-        )}.js`;
+        )}.${context.bishengConfig.entryName}.js`;
         const fileInnerContent = stringifyObject({
           ...params,
           nodeValue: obj,
@@ -136,9 +135,7 @@ function stringify(params) {
       if (shouldBeLazy) {
         return lazyLoadWrapper({ filePath, filename });
       }
-      const loaderString = `${sourceLoaderPath}?` +
-              `config=${context.config}&isBuild=${context.isBuild}`;
-      return `require('${loaderString}!${escapeWinPath(filePath)}')`;
+      return `require('${sourceLoaderPath}!${escapeWinPath(filePath)}')`;
     }],
   ])(nodeValue);
 }

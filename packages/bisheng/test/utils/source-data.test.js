@@ -53,7 +53,7 @@ describe('bisheng/utils/source-data', () => {
 
   describe('#stringify', () => {
     const sourceLoaderPath = path.join(__dirname, '..', '..', 'lib', 'loaders', 'source-loader');
-    const loaderString = `${sourceLoaderPath}?config=aaa&isBuild=true!`;
+    const loaderString = `${sourceLoaderPath}!`;
 
     it('should stringify value to `require` sentence', () => {
       const filesTree = sourceData.generate(sourcePath, transformers);

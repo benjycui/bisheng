@@ -50,9 +50,8 @@ function generateEntryFile(configPath, configTheme, configEntryName, root) {
 
 exports.start = function start(program) {
   const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
-  context.initialize({ config: configFile });
-
   const bishengConfig = getBishengConfig(configFile);
+  context.initialize({ bishengConfig });
   mkdirp.sync(bishengConfig.output);
 
   const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
@@ -98,13 +97,12 @@ function filenameToUrl(filename) {
 }
 exports.build = function build(program, callback) {
   const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
+  const bishengConfig = getBishengConfig(configFile);
   context.initialize({
-    config: configFile,
+    bishengConfig,
     isBuild: true,
     isSSR: program.ssr,
   });
-
-  const bishengConfig = getBishengConfig(configFile);
   mkdirp.sync(bishengConfig.output);
 
   const entryName = bishengConfig.entryName;
