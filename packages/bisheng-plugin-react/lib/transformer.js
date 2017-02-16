@@ -18,7 +18,14 @@ function requireGenerator(varName, moduleName) {
 }
 
 module.exports = function transformer(code, babelConfig, noreact) {
-  const { ast: codeAst } = babel.transform(code, babelConfig);
+  let codeAst = null;
+  try {
+    const { ast } = babel.transform(code, babelConfig);
+    codeAst = ast;
+  } catch(e) {
+    console.error(e);
+    return 'function() {}';
+  }
 
   let renderReturn = null;
   traverse(codeAst, {
