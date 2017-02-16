@@ -4,9 +4,7 @@ const transformer = require('./transformer');
 
 module.exports = function(markdownData, {
   lang = 'react-example',
-  babelConfig = {
-    presets: ['es2015-ie', 'react', 'stage-0'],
-  },
+  babelConfig,
   noreact,
 }) {
   const { content } = markdownData;
