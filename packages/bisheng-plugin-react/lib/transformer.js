@@ -17,16 +17,18 @@ function requireGenerator(varName, moduleName) {
   ]);
 }
 
+const defaultBabelConfig = {
+  presets: ['es2015-ie', 'react', 'stage-0'],
+};
+
 module.exports = function transformer(
   code,
-  babelConfig = {
-    presets: ['es2015-ie', 'react', 'stage-0'],
-  },
+  babelConfig = {},
   noreact
 ) {
   let codeAst = null;
   try {
-    const { ast } = babel.transform(code, babelConfig);
+    const { ast } = babel.transform(code, Object.assign({}, defaultBabelConfig, babelConfig));
     codeAst = ast;
   } catch(e) {
     console.error(e);
