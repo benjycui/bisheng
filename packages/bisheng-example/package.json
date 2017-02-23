@@ -8,5 +8,6 @@
     "bisheng": "^0.22.6",
     "bisheng-theme-one": "^0.2.10"
   },
-  "version": "1.0.10"
+  "version": "1.0.10",
+  "private": true
 }
