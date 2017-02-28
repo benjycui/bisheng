@@ -53,9 +53,11 @@ module.exports = function getRoutes(data) {
       };
       collector(nextProps)
         .then((collectedValue) => {
-          const Comp = Template.default || Template;
-          Comp[dynamicPropsKey] = { ...nextProps, ...collectedValue };
-          callback(null, Comp);
+          try {
+            const Comp = Template.default || Template;
+            Comp[dynamicPropsKey] = { ...nextProps, ...collectedValue };
+            callback(null, Comp);
+          } catch (e) { console.error(e) }
         })
         .catch((err) => {
           const Comp = NotFound.default || NotFound;
