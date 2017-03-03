@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const R = require('ramda');
 const context = require('../context');
+const rxExclude = context.bishengConfig.exclude;
 const { escapeWinPath, toUriPath } = require('./escape-win-path');
 
 const sourceLoaderPath = path.join(__dirname, '..', 'loaders', 'source-loader');
@@ -12,7 +13,7 @@ function ensureToBeArray(maybeArray) {
 }
 
 function isDirectory(filename) {
-  return fs.statSync(filename).isDirectory();
+  return fs.statSync(filename).isDirectory() && !rxExclude.test(filename);
 }
 
 const isValidFile = transformers => filename =>

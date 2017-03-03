@@ -11,6 +11,7 @@ const defaultConfig = {
   theme: './_theme',
   htmlTemplate: path.join(__dirname, '../template.html'),
   transformers: [],
+  exclude: /node_modules/,
   doraConfig: {},
   webpackConfig(config) {
     return config;

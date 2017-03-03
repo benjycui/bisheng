@@ -197,6 +197,12 @@ To modify the webpack config, you can extend the config like [this](https://gith
 
 A list of transformers that will be used to transform static files.
 
+#### exclude: String
+
+> default: 'node_modules'
+
+Rule some specific directories out while generate the sourceTree.
+
 #### entryName: String
 
 > default: 'index'
