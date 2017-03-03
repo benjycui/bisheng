@@ -199,9 +199,9 @@ A list of transformers that will be used to transform static files.
 
 #### exclude: RegExp
 
-> default: /node_modules/
+> default: null
 
-Rule some specific directories out while generate the sourceTree.
+Rule some specific directories out while generate the sourceTree. e.g. `/node_modules/` will rule all file in node_modules out.
 
 #### entryName: String
 

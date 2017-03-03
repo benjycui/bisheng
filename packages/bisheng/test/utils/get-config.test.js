@@ -22,6 +22,7 @@ describe('bisheng/utils/get-bisheng-config', () => {
         test: /\.md$/.toString(),
         use: path.join(__dirname, '..', '..', 'lib', 'transformers', 'markdown'),
       }],
+      exclude: null,
     });
   });
 });
