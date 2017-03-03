@@ -199,7 +199,7 @@ A list of transformers that will be used to transform static files.
 
 #### exclude: String
 
-> default: 'node_modules'
+> default: /node_modules/
 
 Rule some specific directories out while generate the sourceTree.
 
