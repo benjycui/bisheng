@@ -197,7 +197,7 @@ To modify the webpack config, you can extend the config like [this](https://gith
 
 A list of transformers that will be used to transform static files.
 
-#### exclude: String
+#### exclude: RegExp
 
 > default: /node_modules/
 
