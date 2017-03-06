@@ -24,7 +24,7 @@ You can create a PR to extend this list with your amazing website which is built
 
 * Support [`browserHistory`](https://github.com/reactjs/react-router/blob/master/docs/API.md#browserhistory), even in [GitHub Pages](https://pages.github.com/).
 * Lazy load for Markdown data.
-* [Plugin](https://github.com/benjycui/bisheng#plugins-arraystring) system to extend default behaviour.
+* [Plugin](https://github.com/benjycui/bisheng/blob/master/docs/plugin.md) system to extend default behaviour.
 * Server-side render for SEO.
 
 ## Big picture

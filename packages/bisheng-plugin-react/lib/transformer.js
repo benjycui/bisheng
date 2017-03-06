@@ -5,6 +5,16 @@ const types = require('babel-types');
 const traverse = require('babel-traverse').default;
 const generator = require('babel-generator').default;
 
+const errorBoxStyle = {
+  padding: 10,
+  background: 'rgb(204, 0, 0)',
+  color: 'white',
+  fontFamily: 'sans-serif',
+  fontSize: '16px',
+  fontWeight: 'bold',
+  overflow: 'auto',
+};
+
 function requireGenerator(varName, moduleName) {
   return types.variableDeclaration('var', [
     types.variableDeclarator(
@@ -32,7 +42,12 @@ module.exports = function transformer(
     codeAst = ast;
   } catch(e) {
     console.error(e);
-    return 'function() {}';
+    return `function() { ` +
+      `  var React = require('react');` +
+      `  return React.createElement('pre', {` +
+      `    style: ${JSON.stringify(errorBoxStyle)}` +
+      `  }, '${e.toString()}'); ` +
+      `}`;
   }
 
   let renderReturn = null;
