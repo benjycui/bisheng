@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const R = require('ramda');
 const context = require('../context');
-const rxExclude = context.isBuild ? context.bishengConfig.exclude : null;
 const { escapeWinPath, toUriPath } = require('./escape-win-path');
 
 const sourceLoaderPath = path.join(__dirname, '..', 'loaders', 'source-loader');
@@ -12,7 +11,8 @@ function ensureToBeArray(maybeArray) {
     maybeArray : [maybeArray];
 }
 
-function isDirectory(filename) {
+function isValidDirectory(filename) {
+  const rxExclude = context.bishengConfig.exclude;
   return fs.statSync(filename).isDirectory() && !(rxExclude && rxExclude.test(filename));
 }
 
@@ -21,9 +21,9 @@ const isValidFile = transformers => filename =>
 
 function findValidFiles(source, transformers) {
   return R.pipe(
-    R.filter(R.either(isDirectory, isValidFile(transformers))),
+    R.filter(R.either(isValidDirectory, isValidFile(transformers))),
     R.chain((filename) => {
-      if (isDirectory(filename)) {
+      if (isValidDirectory(filename)) {
         const subFiles = fs.readdirSync(filename)
                 .map(subFile => path.join(filename, subFile));
         return findValidFiles(subFiles, transformers);
