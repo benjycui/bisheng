@@ -7,6 +7,7 @@ const markdownTransformer = path.join(__dirname, '..', 'transformers', 'markdown
 const defaultConfig = {
   port: 8000,
   source: './posts',
+  exclude: null,
   output: './_site',
   theme: './_theme',
   htmlTemplate: path.join(__dirname, '../template.html'),

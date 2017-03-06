@@ -11,8 +11,9 @@ function ensureToBeArray(maybeArray) {
     maybeArray : [maybeArray];
 }
 
-function isDirectory(filename) {
-  return fs.statSync(filename).isDirectory();
+function isValidDirectory(filename) {
+  const rxExclude = context.bishengConfig.exclude;
+  return fs.statSync(filename).isDirectory() && !(rxExclude && rxExclude.test(filename));
 }
 
 const isValidFile = transformers => filename =>
@@ -20,9 +21,9 @@ const isValidFile = transformers => filename =>
 
 function findValidFiles(source, transformers) {
   return R.pipe(
-    R.filter(R.either(isDirectory, isValidFile(transformers))),
+    R.filter(R.either(isValidDirectory, isValidFile(transformers))),
     R.chain((filename) => {
-      if (isDirectory(filename)) {
+      if (isValidDirectory(filename)) {
         const subFiles = fs.readdirSync(filename)
                 .map(subFile => path.join(filename, subFile));
         return findValidFiles(subFiles, transformers);

@@ -145,6 +145,12 @@ Will output a **Markdown data tree**:
 
 And each Markdown file will be parsed as a **Markdown data**. Actually, a Markdown data is the returned value of [mark-twain](https://github.com/benjycui/mark-twain), and it could be preprocessed by plugins.
 
+#### exclude: RegExp
+
+> default: null
+
+Rule some specific directories out while generate the sourceTree from source. e.g. `/node_modules$/` will rule all file in node_modules out.
+
 #### output: String
 
 > default: './_site'
