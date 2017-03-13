@@ -145,6 +145,12 @@ Will output a **Markdown data tree**:
 
 And each Markdown file will be parsed as a **Markdown data**. Actually, a Markdown data is the returned value of [mark-twain](https://github.com/benjycui/mark-twain), and it could be preprocessed by plugins.
 
+#### exclude: RegExp
+
+> default: null
+
+If you want to exclude some files in your `source`, just use `exclude`. Then bisheng will not parse files which match `exclude`.
+
 #### output: String
 
 > default: './_site'

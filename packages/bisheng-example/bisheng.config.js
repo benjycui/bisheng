@@ -1,4 +1,5 @@
 module.exports = {
+  exclude: /should-be-ignore/,
   theme: 'bisheng-theme-one',
   themeConfig: {
     home: '/',

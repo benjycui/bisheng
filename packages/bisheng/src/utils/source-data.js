@@ -11,6 +11,11 @@ function ensureToBeArray(maybeArray) {
     maybeArray : [maybeArray];
 }
 
+function shouldBeIgnore(filename) {
+  const exclude = context.bishengConfig.exclude;
+  return exclude && exclude.test(filename);
+}
+
 function isDirectory(filename) {
   return fs.statSync(filename).isDirectory();
 }
@@ -20,6 +25,7 @@ const isValidFile = transformers => filename =>
 
 function findValidFiles(source, transformers) {
   return R.pipe(
+    R.reject(shouldBeIgnore),
     R.filter(R.either(isDirectory, isValidFile(transformers))),
     R.chain((filename) => {
       if (isDirectory(filename)) {
