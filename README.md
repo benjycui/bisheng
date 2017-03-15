@@ -15,6 +15,7 @@
 * [Ant Motion](http://motion.ant.design)
 * [Ant Design Mobile](http://mobile.ant.design/)
 * [Ant Financial Design Platform](https://design.alipay.com/)
+* [React AMap](https://elemefe.github.io/react-amap/articles/start)
 
 You can create a PR to extend this list with your amazing website which is built with BiSheng.
 
