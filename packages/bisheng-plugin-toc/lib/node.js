@@ -31,6 +31,7 @@ module.exports = (markdownData, config) => {
         {
           className: `bisheng-toc-${tagName}`,
           href: `#${headingTextId}`,
+          title: headingText
         },
       ].concat(config.keepElem ? headingNodeChildren : [headingText]),
     ];
