@@ -5,7 +5,7 @@ const sourceData = require('../../lib/utils/source-data');
 
 const context = require('../../lib/context');
 
-context.initialize({ config: 'aaa', isBuild: true });
+context.initialize({ bishengConfig: {} });
 
 const sourcePath = path.join(__dirname, '../fixtures/posts');
 const transformers = [{
