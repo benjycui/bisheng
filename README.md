@@ -1,6 +1,7 @@
 # Bi Sheng
 
 [![](https://img.shields.io/travis/benjycui/bisheng.svg?style=flat-square)](https://travis-ci.org/benjycui/bisheng)
+[![Build status](https://ci.appveyor.com/api/projects/status/blccbgb76hf2tn0p?svg=true)](https://ci.appveyor.com/project/bang88/bisheng)
 [![npm package](https://img.shields.io/npm/v/bisheng.svg?style=flat-square)](https://www.npmjs.org/package/bisheng)
 [![NPM downloads](http://img.shields.io/npm/dm/bisheng.svg?style=flat-square)](https://npmjs.org/package/bisheng)
 
