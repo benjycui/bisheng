@@ -7,8 +7,8 @@
     "lib"
   ],
   "scripts": {
-    "prepublish": "babel ./src --out-dir ./lib && cp -R src/static/* lib/static",
-    "postpublish": "rm -rf lib"
+    "prepublish": "babel ./src --out-dir ./lib && shx cp -R src/static/* lib/static",
+    "postpublish": "shx rm -rf lib"
   },
   "babel": {
     "presets": [
@@ -38,7 +38,8 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "bisheng": "^0.23.1",
-    "react": "^15.0.2"
+    "react": "^15.0.2",
+    "shx": "^0.2.2"
   },
   "dependencies": {
     "bisheng-plugin-description": "^0.1.2",

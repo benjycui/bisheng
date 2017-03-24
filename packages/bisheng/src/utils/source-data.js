@@ -48,10 +48,12 @@ function getPropPath(filename, sources) {
 
 function filesToTreeStructure(files, sources) {
   const cleanedSources = sources.map(source => source.replace(/^\.?\//, ''));
-  return files.reduce((filesTree, filename) => {
+  const filesTree = files.reduce((filesTree, filename) => {
     const propLens = R.lensPath(getPropPath(filename, cleanedSources));
     return R.set(propLens, filename, filesTree);
   }, {});
+  // fix: windows platform
+  return filesTree[""] || filesTree
 }
 
 function stringifyObject({ nodePath, nodeValue, depth, ...rest }) {
@@ -65,7 +67,7 @@ function stringifyObject({ nodePath, nodeValue, depth, ...rest }) {
         nodePath: `${nodePath}/${kv[0]}`,
         nodeValue: kv[1],
         depth: depth + 1,
-      });
+      });      
       return `${indent}  '${kv[0]}': ${valueString},`;
     }),
     /* eslint-enable no-use-before-define */
@@ -83,7 +85,7 @@ function lazyLoadWrapper({
   return `${'function () {\n' +
     '  return new Promise(function (resolve) {\n'}${
     isSSR ? '' : '    require.ensure([], function (require) {\n'
-    }      resolve(require('${loaderString}${escapeWinPath(filePath)}'));\n${
+    }      resolve(require('${escapeWinPath(loaderString)}${escapeWinPath(filePath)}'));\n${
     isSSR ? '' : `    }, '${toUriPath(filename)}');\n`
     }  });\n` +
     '}';
@@ -141,7 +143,7 @@ function stringify(params) {
       if (shouldBeLazy) {
         return lazyLoadWrapper({ filePath, filename });
       }
-      return `require('${sourceLoaderPath}!${escapeWinPath(filePath)}')`;
+      return `require('${escapeWinPath(sourceLoaderPath)}!${escapeWinPath(filePath)}')`;
     }],
   ])(nodeValue);
 }
@@ -156,12 +158,12 @@ exports.generate = function generate(source, transformers = []) {
   const sources = ensureToBeArray(source);
   const validFiles = findValidFiles(sources, transformers);
   const filesTree = filesToTreeStructure(validFiles, sources);
-  return filesTree;
+  return filesTree[""] || filesTree;
 };
 
 exports.stringify = (
   filesTree,
-  options, /* { lazyLoad } */
+  options = {}, /* { lazyLoad } */
 ) => stringify({ nodeValue: filesTree, ...options });
 
 exports.traverse = function traverse(filesTree, fn) {
