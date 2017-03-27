@@ -60,10 +60,10 @@ describe('bisheng/utils/source-data', () => {
       const stringified = sourceData.stringify(filesTree);
       assert.strictEqual(stringified, '{\n' +
                          '  \'a\': {\n' +
-                         `    'en-US': require('${loaderString}${escapeWinPath(path.join(sourcePath, 'a.en-US.md'))}'),\n` +
-                         `    'zh-CN': require('${loaderString}${escapeWinPath(path.join(sourcePath, 'a.zh-CN.md'))}'),\n` +
+                         `    'en-US': require('${escapeWinPath(loaderString)}${escapeWinPath(path.join(sourcePath, 'a.en-US.md'))}'),\n` +
+                         `    'zh-CN': require('${escapeWinPath(loaderString)}${escapeWinPath(path.join(sourcePath, 'a.zh-CN.md'))}'),\n` +
                          '  },\n' +
-                         `  'b': require('${loaderString}${escapeWinPath(path.join(sourcePath, 'b.md'))}'),\n` +
+                         `  'b': require('${escapeWinPath(loaderString)}${escapeWinPath(path.join(sourcePath, 'b.md'))}'),\n` +
                          '}');
     });
   });
