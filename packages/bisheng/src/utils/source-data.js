@@ -43,17 +43,16 @@ function getPropPath(filename, sources) {
   return sources.reduce(
     (f, source) => f.replace(source, ''),
     filename.replace(new RegExp(`${path.extname(filename)}$`), ''),
-  ).replace(/^\.?\/+/, '').split(rxSep);
+  ).replace(/^\.?(?:\\|\/)+/, '').split(rxSep);
 }
 
 function filesToTreeStructure(files, sources) {
-  const cleanedSources = sources.map(source => source.replace(/^\.?\//, ''));
+  const cleanedSources = sources.map(source => source.replace(/^\.?(?:\\|\/)/, ''));
   const filesTree = files.reduce((filesTree, filename) => {
     const propLens = R.lensPath(getPropPath(filename, cleanedSources));
     return R.set(propLens, filename, filesTree);
-  }, {});
-  // fix: windows platform
-  return filesTree[""] || filesTree
+  }, {});  
+  return filesTree
 }
 
 function stringifyObject({ nodePath, nodeValue, depth, ...rest }) {
@@ -67,7 +66,7 @@ function stringifyObject({ nodePath, nodeValue, depth, ...rest }) {
         nodePath: `${nodePath}/${kv[0]}`,
         nodeValue: kv[1],
         depth: depth + 1,
-      });      
+      });
       return `${indent}  '${kv[0]}': ${valueString},`;
     }),
     /* eslint-enable no-use-before-define */
@@ -158,7 +157,7 @@ exports.generate = function generate(source, transformers = []) {
   const sources = ensureToBeArray(source);
   const validFiles = findValidFiles(sources, transformers);
   const filesTree = filesToTreeStructure(validFiles, sources);
-  return filesTree[""] || filesTree;
+  return filesTree;
 };
 
 exports.stringify = (
