@@ -42,7 +42,7 @@
   },
   "homepage": "https://github.com/benjycui/bisheng#readme",
   "dependencies": {
-    "atool-build": "^0.9.0",
+    "atool-build": "^0.10.0",
     "babel-polyfill": "^6.9.1",
     "commander": "^2.9.0",
     "dora": "^0.4.0",
