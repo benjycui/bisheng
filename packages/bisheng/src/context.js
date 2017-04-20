@@ -7,3 +7,7 @@ exports.initialize = function (context) {
   Object.assign(exports, context);
   isInitialized = true;
 };
+
+exports.turnOnSSRFlag = function() {
+  exports.isSSR = true;
+};

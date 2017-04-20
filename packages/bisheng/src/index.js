@@ -101,7 +101,6 @@ exports.build = function build(program, callback) {
   context.initialize({
     bishengConfig,
     isBuild: true,
-    isSSR: program.ssr,
   });
   mkdirp.sync(bishengConfig.output);
 
@@ -144,8 +143,7 @@ exports.build = function build(program, callback) {
   ssrWebpackConfig.plugins = ssrWebpackConfig.plugins
     .filter(plugin => !(plugin instanceof webpack.optimize.CommonsChunkPlugin));
 
-  webpack([webpackConfig, ssrWebpackConfig], (err, stats) => {
-    require('./loaders/common/boss').jobDone();
+  webpack(webpackConfig, (err, stats) => {
     if (err !== null) {
       return console.error(err);
     }
@@ -161,7 +159,29 @@ exports.build = function build(program, callback) {
     filesNeedCreated = R.unnest(filesNeedCreated);
 
     const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
-    if (program.ssr) {
+
+    if (!program.ssr) {
+      require('./loaders/common/boss').jobDone();
+      const fileContent = nunjucks.renderString(template, { root: bishengConfig.root });
+      filesNeedCreated.forEach((file) => {
+        const output = path.join(bishengConfig.output, file);
+        mkdirp.sync(path.dirname(output));
+        fs.writeFileSync(output, fileContent);
+        console.log('Created: ', output);
+      });
+
+      if (callback) {
+        callback();
+      }
+      return;
+    }
+
+    context.turnOnSSRFlag();
+    // If we can build webpackConfig without errors, we can build ssrWebpackConfig without errors.
+    // Because ssrWebpackConfig are just part of webpackConfig.
+    webpack(ssrWebpackConfig, () => {
+      require('./loaders/common/boss').jobDone();
+
       const ssr = require(path.join(tmpDirPath, `${entryName}-ssr`)).ssr;
       const fileCreatedPromises = filesNeedCreated.map((file) => {
         const output = path.join(bishengConfig.output, file);
@@ -169,7 +189,7 @@ exports.build = function build(program, callback) {
         return new Promise((resolve) => {
           ssr(filenameToUrl(file), (content) => {
             const fileContent = nunjucks
-              .renderString(template, { root: bishengConfig.root, content });
+                    .renderString(template, { root: bishengConfig.root, content });
             fs.writeFileSync(output, fileContent);
             console.log('Created: ', output);
             resolve();
@@ -182,19 +202,7 @@ exports.build = function build(program, callback) {
             callback();
           }
         });
-    } else {
-      const fileContent = nunjucks.renderString(template, { root: bishengConfig.root });
-      filesNeedCreated.forEach((file) => {
-        const output = path.join(bishengConfig.output, file);
-        mkdirp.sync(path.dirname(output));
-        fs.writeFileSync(output, fileContent);
-        console.log('Created: ', output);
-      });
-
-      if (callback) {
-        callback();
-      }
-    }
+    });
   });
 };
 
