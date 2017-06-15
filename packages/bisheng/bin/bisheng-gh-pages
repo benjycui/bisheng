@@ -7,6 +7,8 @@ program
   .option('-c, --config <path>', 'set config path. defaults to ./bisheng.config.js')
   .option('-p, --push-only [dir]', 'push the directory to gh-pages directly without build. defaults to ./_site')
   .option('--ssr', 'whether to enable ssr while building pages.')
+  .option('-r, --remote <name>', 'The name of the remote', 'origin')
+  .option('-b, --branch <branch>', 'name of the branch you\'ll be pushing to', 'gh-pages')
   .parse(process.argv);
 
 BiSheng.deploy(program);

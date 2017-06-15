@@ -206,8 +206,10 @@ exports.build = function build(program, callback) {
   });
 };
 
-function pushToGhPages(basePath) {
+function pushToGhPages(basePath, program) {
   const options = {
+    remote: program.remote,
+    branch: program.branch,
     depth: 1,
     logger(message) {
       console.log(message);
@@ -230,11 +232,11 @@ exports.deploy = function deploy(program) {
   if (program.pushOnly) {
     const output = typeof program.pushOnly === 'string' ? program.pushOnly : './_site';
     const basePath = path.join(process.cwd(), output);
-    pushToGhPages(basePath);
+    pushToGhPages(basePath, program);
   } else {
     const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
     const bishengConfig = getBishengConfig(configFile);
     const basePath = path.join(process.cwd(), bishengConfig.output);
-    exports.build(program, () => pushToGhPages(basePath));
+    exports.build(program, () => pushToGhPages(basePath, program));
   }
 };
