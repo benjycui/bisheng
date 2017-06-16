@@ -208,8 +208,7 @@ exports.build = function build(program, callback) {
 
 function pushToGhPages(basePath, config) {
   const options = {
-    remote: config.remote,
-    branch: config.branch,
+    ...config,
     depth: 1,
     logger(message) {
       console.log(message);
@@ -229,20 +228,18 @@ function pushToGhPages(basePath, config) {
   });
 }
 exports.deploy = function deploy(program) {
+  const config = {
+    remote: program.remote,
+    branch: program.branch,
+  };
   if (program.pushOnly) {
     const output = typeof program.pushOnly === 'string' ? program.pushOnly : './_site';
     const basePath = path.join(process.cwd(), output);
-    pushToGhPages(basePath, {
-      remote: program.remote,
-      branch: program.branch,
-    });
+    pushToGhPages(basePath, config);
   } else {
     const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
     const bishengConfig = getBishengConfig(configFile);
     const basePath = path.join(process.cwd(), bishengConfig.output);
-    exports.build(program, () => pushToGhPages(basePath, {
-      remote: program.remote,
-      branch: program.branch,
-    }));
+    exports.build(program, () => pushToGhPages(basePath, config));
   }
 };
