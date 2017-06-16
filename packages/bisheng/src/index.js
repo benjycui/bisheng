@@ -227,14 +227,15 @@ function pushToGhPages(basePath) {
   });
 }
 exports.deploy = function deploy(program) {
+  const repo = program.repo;
   if (program.pushOnly) {
     const output = typeof program.pushOnly === 'string' ? program.pushOnly : './_site';
     const basePath = path.join(process.cwd(), output);
-    pushToGhPages(basePath);
+    pushToGhPages(basePath, repo);
   } else {
     const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
     const bishengConfig = getBishengConfig(configFile);
     const basePath = path.join(process.cwd(), bishengConfig.output);
-    exports.build(program, () => pushToGhPages(basePath));
+    exports.build(program, () => pushToGhPages(basePath, repo));
   }
 };
