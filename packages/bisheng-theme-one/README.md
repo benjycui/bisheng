@@ -27,6 +27,19 @@ Configuration in `bisheng.config.js`:
 }
 ```
 
+## Note
+
+`publishDate` is required in Markdown file:
+
+```bash
+---
+title: Title
+publishDate: 2011-11-11
+---
+
+Content
+```
+
 ## Liscense
 
 MIT
