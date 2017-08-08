@@ -15,6 +15,10 @@ export default (props) => {
   let year = NaN;
   const entryList = [];
   posts.forEach(({ meta, description }, index) => {
+    if (! meta.publishDate) {
+      console.error('posts must have metadata. and the `publishDate` is required')
+      return
+    }
     const publishYear = meta.publishDate.slice(0, 4);
     if (year !== publishYear) {
       year = publishYear;
