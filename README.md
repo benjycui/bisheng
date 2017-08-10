@@ -147,6 +147,20 @@ Will output a **Markdown data tree**:
 
 And each Markdown file will be parsed as a **Markdown data**. Actually, a Markdown data is the returned value of [mark-twain](https://github.com/benjycui/mark-twain), and it could be preprocessed by plugins.
 
+`publishDate` is required in Markdown file:
+
+```markdown
+---
+title: foo
+publishDate: 2017-08-08
+tags:
+  - life
+  - code
+---
+
+content here
+```
+
 #### exclude: RegExp
 
 > default: null
