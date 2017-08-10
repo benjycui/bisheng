@@ -16,7 +16,7 @@ export default (props) => {
   const entryList = [];
   posts.forEach(({ meta, description }, index) => {
     if (!meta.publishDate) {
-        console.error(`You must set 'publishDate' in meta data for ${meta.filename}.`);
+      console.error(`You must set 'publishDate' in meta data for ${meta.filename}.`);
       return;
     }
     const publishYear = meta.publishDate.slice(0, 4);
