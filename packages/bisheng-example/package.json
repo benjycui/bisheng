@@ -7,8 +7,8 @@
   },
   "dependencies": {
     "bisheng": "^0.24.2",
-    "bisheng-theme-one": "^0.2.18"
+    "bisheng-theme-one": "^0.2.19"
   },
-  "version": "1.0.18",
+  "version": "1.0.19",
   "private": true
 }
