@@ -55,7 +55,7 @@ exports.start = function start(program) {
   mkdirp.sync(bishengConfig.output);
 
   const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
-  const templateData = Object.assign({ root: '/' }, config.htmlTemplateExtraData || {});
+  const templateData = Object.assign({ root: '/' }, bishengConfig.htmlTemplateExtraData || {});
   const templatePath = path.join(process.cwd(), bishengConfig.output, 'index.html');
   fs.writeFileSync(templatePath, nunjucks.renderString(template, templateData));
 
