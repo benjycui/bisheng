@@ -186,6 +186,13 @@ The HTML template which will be use to generate HTML files which will be sent to
 **Note:** template will be parsed by [nunjucks](https://mozilla.github.io/nunjucks/), and you can use the following variables in this template:
 
 * [`root`](https://github.com/benjycui/bisheng#root-string)
+* all attribute of [htmlTemplateExtraData](#htmltemplateextradata-object)
+
+#### htmlTemplateExtraData: Object
+
+> default: `{}`
+
+The Extra Data which will be used to render [htmlTemplate](#htmltemplate-string).
 
 #### doraConfig: Object
 
