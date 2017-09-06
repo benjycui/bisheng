@@ -33,6 +33,10 @@ You can create a PR to extend this list with your amazing website which is built
 
 ![Big picture of BiSheng](https://raw.githubusercontent.com/benjycui/bisheng/master/big-picture.jpg)
 
+### Articles
+
+* [bisheng-sourceCode-plugin](https://github.com/liangklfangl/bisheng-sourceCode-plugin)
+
 ## Usage
 
 Installation:
