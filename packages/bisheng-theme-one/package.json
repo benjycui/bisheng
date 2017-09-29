@@ -38,7 +38,7 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "bisheng": "^0.25.0",
-    "react": "^15.0.2",
+    "react": "^16.0.0",
     "shx": "^0.2.2"
   },
   "dependencies": {
@@ -47,6 +47,6 @@
   },
   "peerDependencies": {
     "bisheng": "^0.25.0",
-    "react": "^15.0.2"
+    "react": "^16.0.0"
   }
 }

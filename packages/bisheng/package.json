@@ -62,8 +62,8 @@
     "nunjucks": "^2.5.2",
     "prismjs": "^1.4.1",
     "ramda": "^0.22.0",
-    "react": "^15.0.2",
-    "react-dom": "^15.0.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-router": "^3.0.0",
     "resolve": "^1.1.7"
   },
