@@ -16,7 +16,7 @@ module.exports = function(markdownData, {
       const attr = node[1];
       if (tagName === 'pre' && attr && attr.lang === lang) {
         const code = node[2][1];
-        const processedCode = transformer(code, babelConfig, noreact);
+        const processedCode = transformer(code, babelConfig && JSON.parse(babelConfig), noreact);
         return {
           __BISHENG_EMBEDED_CODE: true,
           code: processedCode,
