@@ -116,6 +116,8 @@ module.exports = {
 };
 ```
 
+The config of plugins follows [webpack loaders' convention](https://www.npmjs.com/package/loader-utils#parsequery).
+
 [**More about plugin**](https://github.com/benjycui/bisheng/tree/master/docs/plugin.md).
 
 * [bisheng-plugin-description](https://github.com/benjycui/bisheng-plugin-description)
