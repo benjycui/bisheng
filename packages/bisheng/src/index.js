@@ -101,15 +101,13 @@ exports.build = function build(program, callback) {
     bishengConfig.root,
   );
   const webpackConfig = updateWebpackConfig(getWebpackCommonConfig());
-  webpackConfig.UglifyJsPluginConfig = {
+  webpackConfig.devtool = 'source-map';
+  webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
+    sourceMap: true,
     output: {
       ascii_only: true,
     },
-    compress: {
-      warnings: false,
-    },
-  };
-  webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin(webpackConfig.UglifyJsPluginConfig));
+  }));
   webpackConfig.plugins.push(new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
   }));

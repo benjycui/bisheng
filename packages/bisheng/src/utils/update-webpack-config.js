@@ -11,10 +11,10 @@ module.exports = function updateWebpackConfig(webpackConfig) {
   /* eslint-disable no-param-reassign */
   webpackConfig.entry = {};
   if (context.isBuild) {
-    webpackConfig.output.path = bishengConfig.output;
+    webpackConfig.output.path = path.join(process.cwd(), bishengConfig.output);
   }
   webpackConfig.output.publicPath = context.isBuild ? bishengConfig.root : '/';
-  webpackConfig.module.loaders.push({
+  webpackConfig.module.rules.push({
     test(filename) {
       return filename === path.join(bishengLib, 'utils', 'data.js') ||
         filename === path.join(bishengLib, 'utils', 'ssr-data.js');

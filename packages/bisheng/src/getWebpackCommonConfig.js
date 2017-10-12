@@ -16,130 +16,177 @@ export default function getWebpackCommonConfig() {
   const cssFileName = '[name].css';
   const commonName = 'common.js';
 
-  const babelQuery = getBabelCommonConfig();
-  const tsQuery = getTSCommonConfig();
-  tsQuery.declaration = false;
-
-  return {
-
-    babel: babelQuery,
-    ts: {
-      transpileOnly: true,
-      compilerOptions: tsQuery,
-    },
-
-    output: {
-      path: join(process.cwd(), './dist/'),
-      filename: jsFileName,
-      chunkFilename: jsFileName,
-    },
-
-    resolve: {
-      modulesDirectories: ['node_modules', join(__dirname, '../node_modules')],
-      extensions: ['', '.web.tsx', '.web.ts', '.web.jsx', '.web.js', '.ts', '.tsx', '.js', '.jsx', '.json'],
-    },
-
-    resolveLoader: {
-      modulesDirectories: ['node_modules', join(__dirname, '../node_modules')],
-    },
-
-    module: {
-      noParse: [/moment.js/],
-      loaders: [
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: require.resolve('babel-loader'),
-          query: babelQuery,
-        },
-        {
-          test: /\.jsx$/,
-          loader: require.resolve('babel-loader'),
-          query: babelQuery,
-        },
-        {
-          test: /\.tsx?$/,
-          loaders: [require.resolve('babel-loader'), require.resolve('ts-loader')],
-        },
-        {
-          test(filePath) {
-            return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath);
-          },
-          loader: ExtractTextPlugin.extract(`${require.resolve('css-loader')}` +
-            `?sourceMap&-restructuring&-autoprefixer!${require.resolve('postcss-loader')}`),
-        },
-        {
-          test: /\.module\.css$/,
-          loader: ExtractTextPlugin.extract(`${require.resolve('css-loader')}` +
-            `?sourceMap&-restructuring&modules&localIdentName=[local]___[hash:base64:5]&-autoprefixer!` +
-            `${require.resolve('postcss-loader')}`),
-        },
-        {
-          test(filePath) {
-            return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath);
-          },
-          loader: ExtractTextPlugin.extract(`${require.resolve('css-loader')}?sourceMap&-autoprefixer!` +
-            `${require.resolve('postcss-loader')}!` +
-            `${require.resolve('less-loader')}?{"sourceMap":true}`),
-        },
-        {
-          test: /\.module\.less$/,
-          loader: ExtractTextPlugin.extract(`${require.resolve('css-loader')}?` +
-            `sourceMap&modules&localIdentName=[local]___[hash:base64:5]&-autoprefixer!` +
-            `${require.resolve('postcss-loader')}!` +
-            `${require.resolve('less-loader')}?` +
-            `{"sourceMap":true}`),
-        },
-        {
-          test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-          loader: `${require.resolve('url-loader')}?` +
-          `limit=10000&minetype=application/font-woff`,
-        },
-        {
-          test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-          loader: `${require.resolve('url-loader')}?` +
-          `limit=10000&minetype=application/font-woff`,
-        },
-        {
-          test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-          loader: `${require.resolve('url-loader')}?` +
-          `limit=10000&minetype=application/octet-stream`,
-        },
-        {
-          test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-          loader: `${require.resolve('url-loader')}?` +
-        `limit=10000&minetype=application/vnd.ms-fontobject`,
-        },
-        {
-          test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-          loader: `${require.resolve('url-loader')}?` +
-          `limit=10000&minetype=image/svg+xml`,
-        },
-        {
-          test: /\.(png|jpg|jpeg|gif)(\?v=\d+\.\d+\.\d+)?$/i,
-          loader: `${require.resolve('url-loader')}?limit=10000`,
-        },
-        {
-          test: /\.json$/,
-          loader: `${require.resolve('json-loader')}`,
-        },
-      ],
-    },
-
-    postcss: [
+  const babelOptions = getBabelCommonConfig();
+  const tsOptions = getTSCommonConfig();
+  const postcssOptions = {
+    sourceMap: true,
+    plugins: [
       rucksack(),
       autoprefixer({
         browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 8', 'iOS >= 8', 'Android >= 4'],
       }),
     ],
+  };
+
+  return {
+    output: {
+      filename: jsFileName,
+      chunkFilename: jsFileName,
+    },
+
+    resolve: {
+      modules: ['node_modules', join(__dirname, '../node_modules')],
+      extensions: ['.web.tsx', '.web.ts', '.web.jsx', '.web.js', '.ts', '.tsx', '.js', '.jsx', '.json'],
+    },
+
+    resolveLoader: {
+      modules: ['node_modules', join(__dirname, '../node_modules')],
+    },
+
+    module: {
+      noParse: [/moment.js/],
+      rules: [
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          loader: 'babel-loader',
+          options: babelOptions,
+        },
+        {
+          test: /\.jsx$/,
+          loader: 'babel-loader',
+          options: babelOptions,
+        },
+        {
+          test: /\.tsx?$/,
+          use: [{
+            loader: 'babel-loader',
+            options: babelOptions,
+          }, {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+              compilerOptions: tsOptions,
+            },
+          }],
+        },
+        {
+          test(filePath) {
+            return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath);
+          },
+          use: ExtractTextPlugin.extract({
+            use: [{
+              loader: 'css-loader',
+              options: {
+                sourceMap: true,
+                restructuring: false,
+                autoprefixer: false,
+              },
+            }, {
+              loader: 'postcss-loader',
+              options: postcssOptions,
+            }],
+          }),
+        },
+        {
+          test: /\.module\.css$/,
+          use: ExtractTextPlugin.extract({
+            use: [{
+              loader: 'css-loader',
+              options: {
+                sourceMap: true,
+                restructuring: false,
+                modules: true,
+                localIdentName: '[local]___[hash:base64:5]',
+                autoprefixer: false,
+              },
+            }, {
+              loader: 'postcss-loader',
+              options: postcssOptions,
+            }],
+          }),
+        },
+        {
+          test(filePath) {
+            return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath);
+          },
+          use: ExtractTextPlugin.extract({
+            use: [{
+              loader: 'css-loader',
+              options: {
+                sourceMap: true,
+                autoprefixer: false,
+              },
+            }, {
+              loader: 'postcss-loader',
+              options: postcssOptions,
+            }, {
+              loader: 'less-loader',
+              options: {
+                sourceMap: true,
+              },
+            }],
+          }),
+        },
+        {
+          test: /\.module\.less$/,
+          use: ExtractTextPlugin.extract({
+            use: [{
+              loader: 'css-loader',
+              options: {
+                sourceMap: true,
+                modules: true,
+                localIdentName: '[local]___[hash:base64:5]',
+                autoprefixer: false,
+              },
+            }, {
+              loader: 'postcss-loader',
+              options: postcssOptions,
+            }, {
+              loader: 'less-loader',
+              options: {
+                sourceMap: true,
+              },
+            }],
+          }),
+        },
+        {
+          test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'url-loader?limit=10000&minetype=application/font-woff',
+        },
+        {
+          test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'url-loader?limit=10000&minetype=application/font-woff',
+        },
+        {
+          test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'url-loader?limit=10000&minetype=application/octet-stream',
+        },
+        {
+          test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'url-loader?limit=10000&minetype=application/vnd.ms-fontobject',
+        },
+        {
+          test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'url-loader?limit=10000&minetype=image/svg+xml',
+        },
+        {
+          test: /\.(png|jpg|jpeg|gif)(\?v=\d+\.\d+\.\d+)?$/i,
+          loader: 'url-loader?limit=10000',
+        },
+      ],
+    },
 
     plugins: [
-      new webpack.optimize.CommonsChunkPlugin('common', commonName),
-      new ExtractTextPlugin(cssFileName, {
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'common',
+        filename: commonName,
+      }),
+      new ExtractTextPlugin({
+        filename: cssFileName,
         disable: false,
         allChunks: true,
       }),
-      new webpack.optimize.OccurenceOrderPlugin(),
       new CaseSensitivePathsPlugin(),
       new FriendlyErrorsWebpackPlugin(),
     ],
