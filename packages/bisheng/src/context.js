@@ -8,6 +8,6 @@ exports.initialize = function (context) {
   isInitialized = true;
 };
 
-exports.turnOnSSRFlag = function() {
+exports.turnOnSSRFlag = function () {
   exports.isSSR = true;
 };

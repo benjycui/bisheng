@@ -22,7 +22,7 @@ describe('bisheng-plugin-description', () => {
 
   it('should wrap description in section', () => {
     const markdownData = getCommonMarkdownData();
-    const description = addDescription(markdownData).description;
+    const { description } = addDescription(markdownData);
     assert.strictEqual(JsonML.getTagName(description), 'section');
   });
 

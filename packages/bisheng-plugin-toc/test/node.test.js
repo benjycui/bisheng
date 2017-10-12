@@ -17,7 +17,7 @@ describe('bisheng-plugin-toc', () => {
     assert.deepEqual(data.toc, [
       'ul',
       ['li', ['a', { className: 'bisheng-toc-h1', href: '#Heading1', title: 'Heading1' }, 'Heading1']],
-      ['li', ['a', { className: 'bisheng-toc-h2', href: '#Heading2', title: 'Heading2'}, 'Heading2']],
+      ['li', ['a', { className: 'bisheng-toc-h2', href: '#Heading2', title: 'Heading2' }, 'Heading2']],
     ]);
   });
 

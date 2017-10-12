@@ -1,8 +1,6 @@
-
-
 const R = require('ramda');
 const exist = require('exist.js');
-const join = require('path').join;
+const { join } = require('path');
 
 function hasParams(path) {
   return path.split('/').some(snippet => snippet.startsWith(':'));

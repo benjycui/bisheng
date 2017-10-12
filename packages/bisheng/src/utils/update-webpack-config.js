@@ -1,12 +1,12 @@
 const path = require('path');
-const webpack = require('atool-build/lib/webpack');
+const webpack = require('webpack');
 const context = require('../context');
 
 const bishengLib = path.join(__dirname, '..');
 const bishengLibLoaders = path.join(bishengLib, 'loaders');
 
 module.exports = function updateWebpackConfig(webpackConfig) {
-  const bishengConfig = context.bishengConfig;
+  const { bishengConfig } = context;
 
   /* eslint-disable no-param-reassign */
   webpackConfig.entry = {};

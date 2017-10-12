@@ -11,14 +11,14 @@ module.exports = function bishengDataLoader(/* content */) {
     this.cacheable();
   }
 
-  const bishengConfig = context.bishengConfig;
+  const { bishengConfig } = context;
   const themeConfig = getThemeConfig(bishengConfig.theme);
 
   const markdown = sourceData.generate(bishengConfig.source, bishengConfig.transformers);
   const browserPlugins = resolvePlugins(themeConfig.plugins, 'browser');
   const pluginsString = browserPlugins
-          .map(plugin => `[require('${plugin[0]}'), ${JSON.stringify(plugin[1])}]`)
-          .join(',\n');
+    .map(plugin => `[require('${plugin[0]}'), ${JSON.stringify(plugin[1])}]`)
+    .join(',\n');
 
   const callback = this.async();
 

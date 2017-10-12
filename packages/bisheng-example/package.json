@@ -3,7 +3,7 @@
   "scripts": {
     "start": "bisheng start",
     "build": "bisheng build --ssr",
-    "deploy": "bisheng gh-pages --ssr"
+    "deploy": "bisheng gh-pages --ssr && rm -rf _site"
   },
   "dependencies": {
     "bisheng": "^0.26.0",

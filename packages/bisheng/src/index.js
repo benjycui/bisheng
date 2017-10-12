@@ -1,11 +1,12 @@
+import getWebpackCommonConfig from './getWebpackCommonConfig';
+
 const fs = require('fs');
 const path = require('path');
 const { escapeWinPath } = require('./utils/escape-win-path');
 const mkdirp = require('mkdirp');
 const nunjucks = require('nunjucks');
-const webpack = require('atool-build/lib/webpack');
+const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-const getWebpackCommonConfig = require('atool-build/lib/getWebpackCommonConfig');
 const R = require('ramda');
 const ghPages = require('gh-pages');
 const getBishengConfig = require('./utils/get-bisheng-config');
@@ -37,8 +38,8 @@ function generateEntryFile(configPath, configTheme, configEntryName, root) {
   const routesPath = getRoutesPath(
     configPath,
     path.dirname(configTheme),
-    configEntryName)
-    ;
+    configEntryName,
+  );
   fs.writeFileSync(
     entryPath,
     nunjucks.renderString(entryTemplate, {
@@ -66,7 +67,7 @@ exports.start = function start(program) {
     '/',
   );
 
-  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig({ cwd: process.cwd() }));
+  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig());
   const compiler = webpack(webpackConfig);
   const server = new WebpackDevServer(compiler, {
     contentBase: path.join(process.cwd(), bishengConfig.output),
@@ -92,14 +93,14 @@ exports.build = function build(program, callback) {
   });
   mkdirp.sync(bishengConfig.output);
 
-  const entryName = bishengConfig.entryName;
+  const { entryName } = bishengConfig;
   generateEntryFile(
     configFile,
     bishengConfig.theme,
     entryName,
     bishengConfig.root,
   );
-  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig({ cwd: process.cwd() }));
+  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig());
   webpackConfig.UglifyJsPluginConfig = {
     output: {
       ascii_only: true,
@@ -171,7 +172,7 @@ exports.build = function build(program, callback) {
     webpack(ssrWebpackConfig, () => {
       require('./loaders/common/boss').jobDone();
 
-      const ssr = require(path.join(tmpDirPath, `${entryName}-ssr`)).ssr;
+      const { ssr } = require(path.join(tmpDirPath, `${entryName}-ssr`));
       const fileCreatedPromises = filesNeedCreated.map((file) => {
         const output = path.join(bishengConfig.output, file);
         mkdirp.sync(path.dirname(output));
@@ -179,7 +180,7 @@ exports.build = function build(program, callback) {
           ssr(filenameToUrl(file), (content) => {
             const templateData = Object.assign({ root: bishengConfig.root, content }, bishengConfig.htmlTemplateExtraData || {});
             const fileContent = nunjucks
-                    .renderString(template, templateData);
+              .renderString(template, templateData);
             fs.writeFileSync(output, fileContent);
             console.log('Created: ', output);
             resolve();

@@ -13,7 +13,7 @@ module.exports = function sourceLoader(content) {
   const fullPath = webpackRemainingChain[webpackRemainingChain.length - 1];
   const filename = path.relative(process.cwd(), fullPath);
 
-  const bishengConfig = context.bishengConfig;
+  const { bishengConfig } = context;
   const themeConfig = getThemeConfig(bishengConfig.theme);
   const plugins = resolvePlugins(themeConfig.plugins, 'node');
 

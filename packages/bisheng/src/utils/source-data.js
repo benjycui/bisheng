@@ -12,7 +12,7 @@ function ensureToBeArray(maybeArray) {
 }
 
 function shouldBeIgnore(filename) {
-  const exclude = context.bishengConfig.exclude;
+  const { exclude } = context.bishengConfig;
   return exclude && exclude.test(filename);
 }
 
@@ -21,7 +21,7 @@ function isDirectory(filename) {
 }
 
 const isValidFile = transformers => filename =>
-        transformers.some(({ test }) => eval(test).test(filename)); // eslint-disable-line no-eval
+  transformers.some(({ test }) => eval(test).test(filename)); // eslint-disable-line no-eval
 
 function findValidFiles(source, transformers) {
   return R.pipe(
@@ -30,7 +30,7 @@ function findValidFiles(source, transformers) {
     R.chain((filename) => {
       if (isDirectory(filename)) {
         const subFiles = fs.readdirSync(filename)
-                .map(subFile => path.join(filename, subFile));
+          .map(subFile => path.join(filename, subFile));
         return findValidFiles(subFiles, transformers);
       }
       return [filename];
@@ -48,14 +48,16 @@ function getPropPath(filename, sources) {
 
 function filesToTreeStructure(files, sources) {
   const cleanedSources = sources.map(source => source.replace(/^\.?(?:\\|\/)/, ''));
-  const filesTree = files.reduce((filesTree, filename) => {
+  const filesTree = files.reduce((subFilesTree, filename) => {
     const propLens = R.lensPath(getPropPath(filename, cleanedSources));
-    return R.set(propLens, filename, filesTree);
-  }, {});  
-  return filesTree
+    return R.set(propLens, filename, subFilesTree);
+  }, {});
+  return filesTree;
 }
 
-function stringifyObject({ nodePath, nodeValue, depth, ...rest }) {
+function stringifyObject({
+  nodePath, nodeValue, depth, ...rest
+}) {
   const indent = '  '.repeat(depth);
   const kvStrings = R.pipe(
     R.toPairs,
@@ -79,14 +81,14 @@ function lazyLoadWrapper({
   filename,
   isLazyLoadWrapper,
 }) {
-  const isSSR = context.isSSR;
+  const { isSSR } = context;
   const loaderString = isLazyLoadWrapper ? '' : `${sourceLoaderPath}!`;
   return `${'function () {\n' +
     '  return new Promise(function (resolve) {\n'}${
     isSSR ? '' : '    require.ensure([], function (require) {\n'
-    }      resolve(require('${escapeWinPath(loaderString)}${escapeWinPath(filePath)}'));\n${
+  }      resolve(require('${escapeWinPath(loaderString)}${escapeWinPath(filePath)}'));\n${
     isSSR ? '' : `    }, '${toUriPath(filename)}');\n`
-    }  });\n` +
+  }  });\n` +
     '}';
 }
 
@@ -138,7 +140,7 @@ function stringify(params) {
     }],
     [R.T, (filename) => {
       const filePath = path.isAbsolute(filename) ?
-              filename : path.join(process.cwd(), filename);
+        filename : path.join(process.cwd(), filename);
       if (shouldBeLazy) {
         return lazyLoadWrapper({ filePath, filename });
       }

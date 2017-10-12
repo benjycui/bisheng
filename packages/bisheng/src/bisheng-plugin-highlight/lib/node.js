@@ -4,9 +4,7 @@ const Prism = require('node-prismjs');
 const JsonML = require('jsonml.js/lib/utils');
 
 function getCode(node) {
-  return JsonML.getChildren(
-    JsonML.getChildren(node)[0] || '',
-  )[0] || '';
+  return JsonML.getChildren(JsonML.getChildren(node)[0] || '')[0] || '';
 }
 
 function highlight(node) {
@@ -23,7 +21,7 @@ function highlight(node) {
     Prism.highlight(getCode(node), language);
 }
 
-module.exports = (markdownData/* , config*/) => {
+module.exports = (markdownData/* , config */) => {
   highlight(markdownData.content);
   return markdownData;
 };

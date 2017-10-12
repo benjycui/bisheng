@@ -5,7 +5,7 @@ module.exports = function stringify(node, depth = 0) {
   if (Array.isArray(node)) {
     return `[\n${
       node.map(item => `${indent}  ${stringify(item, depth + 1)}`).join(',\n')
-      }\n${indent}]`;
+    }\n${indent}]`;
   }
   if (
     typeof node === 'object' &&
@@ -20,7 +20,7 @@ module.exports = function stringify(node, depth = 0) {
         const value = node[key];
         return `${indent}  "${key}": ${stringify(value, depth + 1)}`;
       }).join(',\n')
-      }\n${indent}}`;
+    }\n${indent}}`;
   }
   return JSON.stringify(node, null, 2);
 };
