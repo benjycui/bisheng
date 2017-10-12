@@ -45,10 +45,6 @@
     "atool-build": "^1.0.2",
     "babel-polyfill": "^6.9.1",
     "commander": "^2.9.0",
-    "dora": "^0.4.0",
-    "dora-plugin-browser-history": "^0.2.0",
-    "dora-plugin-livereload": "^0.6.0",
-    "dora-plugin-webpack": "^1.0.0",
     "exist.js": "^0.3.0",
     "gh-pages": "^0.12.0",
     "history": "^3.0.0",
@@ -66,7 +62,8 @@
     "react-dom": "^16.0.0",
     "react-router": "^3.0.0",
     "resolve": "^1.1.7",
-    "webpack": "~1.15.0"
+    "webpack": "~1.15.0",
+    "webpack-dev-server": "^1.16.5"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",

@@ -3,8 +3,8 @@ const path = require('path');
 const { escapeWinPath } = require('./utils/escape-win-path');
 const mkdirp = require('mkdirp');
 const nunjucks = require('nunjucks');
-const dora = require('dora');
 const webpack = require('atool-build/lib/webpack');
+const WebpackDevServer = require('webpack-dev-server');
 const getWebpackCommonConfig = require('atool-build/lib/getWebpackCommonConfig');
 const R = require('ramda');
 const ghPages = require('gh-pages');
@@ -66,26 +66,13 @@ exports.start = function start(program) {
     '/',
   );
 
-  const doraConfig = Object.assign({}, {
-    cwd: path.join(process.cwd(), bishengConfig.output),
-    port: bishengConfig.port,
-  }, bishengConfig.doraConfig);
-  doraConfig.plugins = [
-    [require.resolve('dora-plugin-webpack'), {
-      disableNpmInstall: true,
-      cwd: process.cwd(),
-      config: 'bisheng-inexistent.config.js',
-    }],
-    path.join(__dirname, 'dora-plugin-bisheng'),
-    require.resolve('dora-plugin-browser-history'),
-  ];
-  const usersDoraPlugin = bishengConfig.doraConfig.plugins || [];
-  doraConfig.plugins = doraConfig.plugins.concat(usersDoraPlugin);
-
-  if (program.livereload) {
-    doraConfig.plugins.push(require.resolve('dora-plugin-livereload'));
-  }
-  dora(doraConfig);
+  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig({ cwd: process.cwd() }));
+  const compiler = webpack(webpackConfig);
+  const server = new WebpackDevServer(compiler, {
+    contentBase: path.join(process.cwd(), bishengConfig.output),
+    historyApiFallback: true,
+  });
+  server.listen(bishengConfig.port);
 };
 
 const ssrTemplate = fs.readFileSync(path.join(__dirname, 'ssr.nunjucks.js')).toString();

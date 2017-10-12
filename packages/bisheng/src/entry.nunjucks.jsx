@@ -15,12 +15,13 @@ const { pathname, search, hash } = window.location;
 const location = `${pathname}${search}${hash}`;
 const basename = '{{ root }}';
 ReactRouter.match({ routes, location, basename }, () => {
-  const router =
-    (<ReactRouter.Router
+  const router = (
+    <ReactRouter.Router
       history={ReactRouter.useRouterHistory(history.createHistory)({ basename })}
       routes={routes}
       createElement={createElement}
-    />);
+    />
+  );
   ReactDOM.render(
     router,
     document.getElementById('react-content'),
