@@ -101,9 +101,7 @@ exports.build = function build(program, callback) {
     bishengConfig.root,
   );
   const webpackConfig = updateWebpackConfig(getWebpackCommonConfig());
-  webpackConfig.devtool = 'source-map';
   webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
-    sourceMap: true,
     output: {
       ascii_only: true,
     },

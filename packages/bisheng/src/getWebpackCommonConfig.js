@@ -19,7 +19,6 @@ export default function getWebpackCommonConfig() {
   const babelOptions = getBabelCommonConfig();
   const tsOptions = getTSCommonConfig();
   const postcssOptions = {
-    sourceMap: true,
     plugins: [
       rucksack(),
       autoprefixer({
@@ -78,7 +77,6 @@ export default function getWebpackCommonConfig() {
             use: [{
               loader: 'css-loader',
               options: {
-                sourceMap: true,
                 restructuring: false,
                 autoprefixer: false,
               },
@@ -94,7 +92,6 @@ export default function getWebpackCommonConfig() {
             use: [{
               loader: 'css-loader',
               options: {
-                sourceMap: true,
                 restructuring: false,
                 modules: true,
                 localIdentName: '[local]___[hash:base64:5]',
@@ -114,18 +111,12 @@ export default function getWebpackCommonConfig() {
             use: [{
               loader: 'css-loader',
               options: {
-                sourceMap: true,
                 autoprefixer: false,
               },
             }, {
               loader: 'postcss-loader',
               options: postcssOptions,
-            }, {
-              loader: 'less-loader',
-              options: {
-                sourceMap: true,
-              },
-            }],
+            }, 'less-loader'],
           }),
         },
         {
@@ -134,7 +125,6 @@ export default function getWebpackCommonConfig() {
             use: [{
               loader: 'css-loader',
               options: {
-                sourceMap: true,
                 modules: true,
                 localIdentName: '[local]___[hash:base64:5]',
                 autoprefixer: false,
@@ -142,12 +132,7 @@ export default function getWebpackCommonConfig() {
             }, {
               loader: 'postcss-loader',
               options: postcssOptions,
-            }, {
-              loader: 'less-loader',
-              options: {
-                sourceMap: true,
-              },
-            }],
+            }, 'less-loader'],
           }),
         },
         {

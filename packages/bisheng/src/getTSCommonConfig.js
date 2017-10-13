@@ -4,6 +4,5 @@ export default function ts() {
     jsx: 'preserve',
     moduleResolution: 'node',
     declaration: false,
-    sourceMap: true,
   };
 }

@@ -53,9 +53,9 @@
     "commander": "^2.9.0",
     "css-loader": "~0.28.0",
     "exist.js": "^0.3.0",
-    "extract-text-webpack-plugin": "^2.0.0",
+    "extract-text-webpack-plugin": "^3.0.0",
     "friendly-errors-webpack-plugin": "^1.6.1",
-    "gh-pages": "^0.12.0",
+    "gh-pages": "^1.0.0",
     "history": "^3.0.0",
     "jsonml-to-react-element": "^1.0.0",
     "jsonml.js": "^0.1.0",
@@ -78,7 +78,7 @@
     "rucksack-css": "~1.0.2",
     "ts-loader": "^2.0.3",
     "url-loader": "~0.5.8",
-    "webpack": "^2.0.0",
+    "webpack": "^3.7.0",
     "webpack-dev-server": "^2.9.1"
   },
   "devDependencies": {
