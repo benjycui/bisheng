@@ -70,6 +70,7 @@ exports.start = function start(program) {
   const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'start');
   webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
   const serverOptions = {
+    ...bishengConfig.devServerConfig,
     contentBase: path.join(process.cwd(), bishengConfig.output),
     historyApiFallback: true,
     hot: true,

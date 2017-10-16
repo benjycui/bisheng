@@ -107,7 +107,7 @@ module.exports = {
   output: './_site',
   theme: './_theme',
   htmlTemplate: path.join(__dirname, '../template.html'),
-  doraConfig: {},
+  devServerConfig: {},
   webpackConfig(config) {
     return config;
   },
@@ -198,11 +198,11 @@ The HTML template which will be use to generate HTML files which will be sent to
 
 The Extra Data which will be used to render [htmlTemplate](#htmltemplate-string).
 
-#### doraConfig: Object
+#### devServerConfig: Object
 
 > default: {}
 
-You can consult [dora's documentation](https://github.com/dora-js/dora).
+You can consult [webpack-dev-server's documentation](https://webpack.js.org/configuration/dev-server/).
 
 #### webpackConfig: (config) => config
 

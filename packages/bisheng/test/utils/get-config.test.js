@@ -17,7 +17,7 @@ describe('bisheng/utils/get-bisheng-config', () => {
       htmlTemplate: path.join(__dirname, '../../lib/template.html'),
       port: 8000,
       root: '/',
-      doraConfig: {},
+      devServerConfig: {},
       transformers: [{
         test: /\.md$/.toString(),
         use: path.join(__dirname, '..', '..', 'lib', 'transformers', 'markdown'),
