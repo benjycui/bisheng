@@ -1,6 +1,6 @@
 {
   "name": "bisheng-plugin-description",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "To extract description from Markdown.",
   "repository": {
     "type": "git",
