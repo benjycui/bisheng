@@ -2,8 +2,6 @@ import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import { join } from 'path';
-import rucksack from 'rucksack-css';
-import autoprefixer from 'autoprefixer';
 import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin';
 
 import getBabelCommonConfig from './getBabelCommonConfig';
@@ -18,14 +16,6 @@ export default function getWebpackCommonConfig() {
 
   const babelOptions = getBabelCommonConfig();
   const tsOptions = getTSCommonConfig();
-  const postcssOptions = {
-    plugins: [
-      rucksack(),
-      autoprefixer({
-        browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 8', 'iOS >= 8', 'Android >= 4'],
-      }),
-    ],
-  };
 
   return {
     output: {
@@ -34,12 +24,12 @@ export default function getWebpackCommonConfig() {
     },
 
     resolve: {
-      modules: ['node_modules', join(__dirname, '../node_modules')],
+      modules: ['node_modules', join(__dirname, '../../node_modules')],
       extensions: ['.web.tsx', '.web.ts', '.web.jsx', '.web.js', '.ts', '.tsx', '.js', '.jsx', '.json'],
     },
 
     resolveLoader: {
-      modules: ['node_modules', join(__dirname, '../node_modules')],
+      modules: ['node_modules', join(__dirname, '../../node_modules')],
     },
 
     module: {
@@ -68,72 +58,6 @@ export default function getWebpackCommonConfig() {
               compilerOptions: tsOptions,
             },
           }],
-        },
-        {
-          test(filePath) {
-            return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath);
-          },
-          use: ExtractTextPlugin.extract({
-            use: [{
-              loader: 'css-loader',
-              options: {
-                restructuring: false,
-                autoprefixer: false,
-              },
-            }, {
-              loader: 'postcss-loader',
-              options: postcssOptions,
-            }],
-          }),
-        },
-        {
-          test: /\.module\.css$/,
-          use: ExtractTextPlugin.extract({
-            use: [{
-              loader: 'css-loader',
-              options: {
-                restructuring: false,
-                modules: true,
-                localIdentName: '[local]___[hash:base64:5]',
-                autoprefixer: false,
-              },
-            }, {
-              loader: 'postcss-loader',
-              options: postcssOptions,
-            }],
-          }),
-        },
-        {
-          test(filePath) {
-            return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath);
-          },
-          use: ExtractTextPlugin.extract({
-            use: [{
-              loader: 'css-loader',
-              options: {
-                autoprefixer: false,
-              },
-            }, {
-              loader: 'postcss-loader',
-              options: postcssOptions,
-            }, 'less-loader'],
-          }),
-        },
-        {
-          test: /\.module\.less$/,
-          use: ExtractTextPlugin.extract({
-            use: [{
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName: '[local]___[hash:base64:5]',
-                autoprefixer: false,
-              },
-            }, {
-              loader: 'postcss-loader',
-              options: postcssOptions,
-            }, 'less-loader'],
-          }),
         },
         {
           test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,

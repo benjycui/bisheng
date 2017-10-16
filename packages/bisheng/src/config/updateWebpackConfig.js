@@ -1,11 +1,13 @@
-const path = require('path');
-const webpack = require('webpack');
-const context = require('../context');
+import path from 'path';
+import webpack from 'webpack';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import context from '../context';
+import styleLoadersConfig from './styleLoadersConfig';
 
 const bishengLib = path.join(__dirname, '..');
 const bishengLibLoaders = path.join(bishengLib, 'loaders');
 
-module.exports = function updateWebpackConfig(webpackConfig) {
+export default function updateWebpackConfig(webpackConfig, mode) {
   const { bishengConfig } = context;
 
   /* eslint-disable no-param-reassign */
@@ -14,6 +16,24 @@ module.exports = function updateWebpackConfig(webpackConfig) {
     webpackConfig.output.path = path.join(process.cwd(), bishengConfig.output);
   }
   webpackConfig.output.publicPath = context.isBuild ? bishengConfig.root : '/';
+  if (mode === 'start') {
+    styleLoadersConfig.forEach((config) => {
+      webpackConfig.module.rules.push({
+        test: config.test,
+        use: ['style-loader', ...config.use],
+      });
+    });
+  }
+  if (mode === 'build') {
+    styleLoadersConfig.forEach((config) => {
+      webpackConfig.module.rules.push({
+        test: config.test,
+        use: ExtractTextPlugin.extract({
+          use: config.use,
+        }),
+      });
+    });
+  }
   webpackConfig.module.rules.push({
     test(filename) {
       return filename === path.join(bishengLib, 'utils', 'data.js') ||
@@ -31,4 +51,4 @@ module.exports = function updateWebpackConfig(webpackConfig) {
   }
   customizedWebpackConfig.entry[bishengConfig.entryName] = entryPath;
   return customizedWebpackConfig;
-};
+}

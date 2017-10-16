@@ -1,4 +1,5 @@
-import getWebpackCommonConfig from './getWebpackCommonConfig';
+import getWebpackCommonConfig from './config/getWebpackCommonConfig';
+import updateWebpackConfig from './config/updateWebpackConfig';
 
 const fs = require('fs');
 const path = require('path');
@@ -12,7 +13,6 @@ const ghPages = require('gh-pages');
 const getBishengConfig = require('./utils/get-bisheng-config');
 const sourceData = require('./utils/source-data');
 const generateFilesPath = require('./utils/generate-files-path');
-const updateWebpackConfig = require('./utils/update-webpack-config');
 const context = require('./context');
 
 const entryTemplate = fs.readFileSync(path.join(__dirname, 'entry.nunjucks.js')).toString();
@@ -67,12 +67,17 @@ exports.start = function start(program) {
     '/',
   );
 
-  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig());
-  const compiler = webpack(webpackConfig);
-  const server = new WebpackDevServer(compiler, {
+  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'start');
+  webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
+  const serverOptions = {
     contentBase: path.join(process.cwd(), bishengConfig.output),
     historyApiFallback: true,
-  });
+    hot: true,
+    host: 'localhost',
+  };
+  WebpackDevServer.addDevServerEntrypoints(webpackConfig, serverOptions);
+  const compiler = webpack(webpackConfig);
+  const server = new WebpackDevServer(compiler, serverOptions);
   server.listen(bishengConfig.port);
 };
 
@@ -100,7 +105,7 @@ exports.build = function build(program, callback) {
     entryName,
     bishengConfig.root,
   );
-  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig());
+  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'build');
   webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
     output: {
       ascii_only: true,
