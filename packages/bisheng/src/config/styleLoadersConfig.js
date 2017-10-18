@@ -69,5 +69,32 @@ export default [
       options: postcssOptions,
     }, 'less-loader'],
   },
-
+  {
+    test(filePath) {
+      return /\.scss$/.test(filePath) && !/\.module\.scss$/.test(filePath);
+    },
+    use: [{
+      loader: 'css-loader',
+      options: {
+        autoprefixer: false,
+      },
+    }, {
+      loader: 'postcss-loader',
+      options: postcssOptions,
+    }, 'sass-loader'],
+  },
+  {
+    test: /\.module\.scss$/,
+    use: [{
+      loader: 'css-loader',
+      options: {
+        modules: true,
+        localIdentName: '[local]___[hash:base64:5]',
+        autoprefixer: false,
+      },
+    }, {
+      loader: 'postcss-loader',
+      options: postcssOptions,
+    }, 'sass-loader'],
+  }
 ];
