@@ -28,7 +28,13 @@ function requireGenerator(varName, moduleName) {
 }
 
 const defaultBabelConfig = {
-  presets: ['es2015-ie', 'react', 'stage-0'],
+  presets: [
+    [require.resolve('babel-preset-env'), {
+      targets: {
+        browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 8', 'iOS >= 8', 'Android >= 4'],
+      },
+    }],
+  ],
 };
 
 module.exports = function transformer(
