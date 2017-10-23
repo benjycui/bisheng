@@ -19,9 +19,16 @@
   },
   "babel": {
     "presets": [
-      "es2015",
       "react",
-      "stage-0"
+      ["env", {
+        "targets": {
+          "browsers": ["last 2 versions", "Firefox ESR", "> 1%", "ie >= 8", "iOS >= 8", "Android >= 4"]
+        }
+      }]
+    ],
+    "plugins": [
+      "transform-class-properties",
+      "transform-object-rest-spread"
     ]
   },
   "repository": {
@@ -47,7 +54,10 @@
     "babel-loader": "^7.1.2",
     "babel-plugin-add-module-exports": "~0.2.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.9.1",
+    "babel-preset-react": "^6.24.1",
     "babel-preset-env": "^1.6.0",
     "case-sensitive-paths-webpack-plugin": "^2.0.0",
     "commander": "^2.9.0",
@@ -86,9 +96,6 @@
   "devDependencies": {
     "babel-cli": "^6.16.0",
     "babel-core": "^6.24.1",
-    "babel-preset-es2015": "^6.16.0",
-    "babel-preset-react": "^6.16.0",
-    "babel-preset-stage-0": "^6.16.0",
     "chalk": "^1.1.3",
     "rimraf": "^2.5.4",
     "shx": "^0.2.2"

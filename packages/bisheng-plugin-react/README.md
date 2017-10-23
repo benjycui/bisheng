@@ -49,7 +49,21 @@ The above example will be rendered as:
 
 ### babelConfig: Object
 
-> default: { presets: ['es2015-ie', 'react', 'stage-0'] }
+> default:
+> {
+>   presets: [
+>     'react',
+>     ['env', {
+>       targets: {
+>         browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 8', 'iOS >= 8', 'Android >= 4'],
+>       },
+>     }],
+>   ],
+>   plugins: [
+>     'transform-class-properties',
+>     'transform-object-rest-spread',
+>   ],
+> }
 
 ### noreact: Boolean
 

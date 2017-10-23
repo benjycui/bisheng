@@ -36,6 +36,10 @@ const defaultBabelConfig = {
       },
     }],
   ],
+  plugins: [
+    'transform-class-properties',
+    'transform-object-rest-spread',
+  ],
 };
 
 module.exports = function transformer(

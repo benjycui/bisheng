@@ -5,9 +5,6 @@
     "test": "lerna bootstrap && lerna exec -- _mocha --recursive --opts test/mocha.opts"
   },
   "devDependencies": {
-    "babel-preset-es2015-ie": "^6.6.2",
-    "babel-preset-react": "^6.5.0",
-    "babel-preset-stage-0": "^6.5.0",
     "eslint": "latest",
     "eslint-config-airbnb": "latest",
     "eslint-plugin-import": "latest",
