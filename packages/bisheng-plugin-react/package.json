@@ -24,8 +24,13 @@
     "babel-traverse": "~6.10.4",
     "babel-types": "~6.11.1"
   },
+  "devDependencies": {
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.5.0"
+  },
   "peerDependencies": {
     "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.5.0",
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
   }
 }
