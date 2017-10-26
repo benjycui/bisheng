@@ -1,3 +1,4 @@
+import openBrowser from 'react-dev-utils/openBrowser';
 import getWebpackCommonConfig from './config/getWebpackCommonConfig';
 import updateWebpackConfig from './config/updateWebpackConfig';
 
@@ -93,7 +94,10 @@ exports.start = function start(program) {
   })
 
   const server = new WebpackDevServer(compiler, serverOptions);
-  server.listen(bishengConfig.port);
+  server.listen(
+    bishengConfig.port, 'localhost',
+    () => openBrowser(`http://localhost:${bishengConfig.port}`)
+  );
 };
 
 const ssrTemplate = fs.readFileSync(path.join(__dirname, 'ssr.nunjucks.js')).toString();
