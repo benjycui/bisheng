@@ -95,7 +95,7 @@ exports.start = function start(program) {
 
   const server = new WebpackDevServer(compiler, serverOptions);
   server.listen(
-    bishengConfig.port, 'localhost',
+    bishengConfig.port, '0.0.0.0',
     () => openBrowser(`http://localhost:${bishengConfig.port}`)
   );
 };
