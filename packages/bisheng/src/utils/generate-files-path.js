@@ -1,6 +1,7 @@
 const R = require('ramda');
 const exist = require('exist.js');
 const { join } = require('path');
+const { toUriPath } = require('./escape-win-path');
 
 function hasParams(path) {
   return path.split('/').some(snippet => snippet.startsWith(':'));
@@ -30,7 +31,11 @@ function flattenRoutes(routes) {
 }
 
 module.exports = function generateFilesPath(routes, markdown) {
-  const flattenedRoutes = flattenRoutes(routes);
+  const flattenedRoutes = flattenRoutes(routes).map(function(item) {
+    item.path = toUriPath(item.path);
+    item.dataPath = toUriPath(item.dataPath);
+    return item;
+  });
 
   const filesPath = R.chain((item) => {
     if (hasParams(item.path)) {
