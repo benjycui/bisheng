@@ -28,7 +28,8 @@ function getRoutesPath(configPath, themePath, configEntryName) {
     routesPath,
     nunjucks.renderString(routesTemplate, {
       themeConfig: JSON.stringify(themeConfig),
-      themePath: escapeWinPath(themePath),
+      themePathRoute: escapeWinPath(themePath),
+      themePathConfig: escapeWinPath(path.join(themePath, 'config.js')),
     }),
   );
   return routesPath;
@@ -51,7 +52,7 @@ function generateEntryFile(configPath, configTheme, configEntryName, root) {
 }
 
 exports.start = function start(program) {
-  const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
+  const configFile = path.join(process.cwd(), program.config || 'eocky.config.js');
   const bishengConfig = getBishengConfig(configFile);
   context.initialize({ bishengConfig });
   mkdirp.sync(bishengConfig.output);
@@ -110,7 +111,7 @@ function filenameToUrl(filename) {
   return filename.replace(/\.html$/, '');
 }
 exports.build = function build(program, callback) {
-  const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
+  const configFile = path.join(process.cwd(), program.config || 'eocky.config.js');
   const bishengConfig = getBishengConfig(configFile);
   context.initialize({
     bishengConfig,
@@ -164,6 +165,7 @@ exports.build = function build(program, callback) {
     }
 
     const markdown = sourceData.generate(bishengConfig.source, bishengConfig.transformers);
+    // TODO: 这里会有bug
     const themeConfig = require(bishengConfig.theme);
     let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(bishengConfig.filePathMapper);
     filesNeedCreated = R.unnest(filesNeedCreated);
@@ -249,7 +251,7 @@ exports.deploy = function deploy(program) {
     const basePath = path.join(process.cwd(), output);
     pushToGhPages(basePath, config);
   } else {
-    const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
+    const configFile = path.join(process.cwd(), program.config || 'eocky.config.js');
     const bishengConfig = getBishengConfig(configFile);
     const basePath = path.join(process.cwd(), bishengConfig.output);
     exports.build(program, () => pushToGhPages(basePath, config));

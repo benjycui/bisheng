@@ -4,6 +4,7 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin';
 import chalk from 'chalk';
+import nib from 'nib';
 
 import getBabelCommonConfig from './getBabelCommonConfig';
 import getTSCommonConfig from './getTSCommonConfig';
@@ -36,6 +37,10 @@ export default function getWebpackCommonConfig() {
     module: {
       noParse: [/moment.js/],
       rules: [
+        {
+          test: /\.san$/,
+          loader: 'san-loader'
+        },
         {
           test: /\.js$/,
           exclude: /node_modules/,
@@ -88,6 +93,15 @@ export default function getWebpackCommonConfig() {
     },
 
     plugins: [
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          stylus: {
+            'use': [nib()],
+            // ~ resolves to node_modules
+            'import': ['~nib/lib/nib/index.styl']
+          }
+        }
+      }),
       new webpack.optimize.CommonsChunkPlugin({
         name: 'common',
         filename: commonName,

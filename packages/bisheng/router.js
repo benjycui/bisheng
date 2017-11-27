@@ -1,5 +1,5 @@
 'use strict';
 
-var router = require('react-router');
+var router = require('san-router');
 
 module.exports = router;

@@ -3,7 +3,7 @@
   "version": "0.27.6",
   "description": "Transform Markdown(and other static files with transformers) into a SPA website using React.",
   "bin": {
-    "bisheng": "./bin/bisheng"
+    "eocky": "./bin/eocky"
   },
   "files": [
     "lib",
@@ -85,6 +85,7 @@
     "loader-utils": "^1.1.0",
     "mark-twain": "^2.0.0",
     "mkdirp": "^0.5.1",
+    "nib": "^1.1.2",
     "node-prismjs": "^0.1.0",
     "nprogress": "^0.2.0",
     "nunjucks": "^2.5.2",
@@ -98,8 +99,13 @@
     "react-router": "^3.0.0",
     "resolve": "^1.1.7",
     "rucksack-css": "~1.0.2",
+    "san": "^3.3.0-rc.1",
+    "san-loader": "0.0.6",
+    "san-router": "^1.1.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
     "ts-loader": "^2.0.3",
     "url-loader": "~0.5.8",
     "webpack": "^3.7.0",
