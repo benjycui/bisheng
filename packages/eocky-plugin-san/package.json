@@ -1,6 +1,6 @@
 {
   "name": "eocky-plugin-san",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "将markdown中的code字段生成单独的文件，便于在模板使用loader操作这些数据。",
   "main": "index.js",
   "scripts": {

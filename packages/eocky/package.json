@@ -1,7 +1,7 @@
 {
   "name": "bisheng",
-  "version": "0.27.6",
-  "description": "Transform Markdown(and other static files with transformers) into a SPA website using React.",
+  "version": "0.1.0",
+  "description": "Static site generator based on San.",
   "bin": {
     "eocky": "./bin/eocky"
   },
@@ -43,21 +43,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/benjycui/bisheng.git"
+    "url": "git+https://github.com/LeuisKen/eocky.git"
   },
-  "keywords": [
-    "markdown",
-    "spa",
-    "website",
-    "blog",
-    "react"
-  ],
-  "author": "Benjy Cui<benjytrys@gmail.com>",
+  "keywords": [],
+  "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/benjycui/bisheng/issues"
+    "url": "https://github.com/LeuisKen/eocky/issues"
   },
-  "homepage": "https://github.com/benjycui/bisheng#readme",
+  "homepage": "https://github.com/LeuisKen/eocky#readme",
   "dependencies": {
     "autoprefixer": "^7.1.4",
     "babel-core": "^6.24.1",
