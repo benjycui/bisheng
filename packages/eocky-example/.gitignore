@@ -1,0 +1,7 @@
+*.log
+_site
+node_modules
+lib
+tmp
+package-lock.json
+.DS_Store

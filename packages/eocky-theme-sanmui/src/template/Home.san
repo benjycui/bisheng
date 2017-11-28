@@ -1,0 +1,461 @@
+<template>
+    <div class="sm-home">
+        <section class="sm-home-hero">
+            <div class="sm-home-hero-navigation">
+                <header class="sm-home-header">
+                    <a href="#" style="text-decoration: none">
+                        <img class="sm-home-logo" src="./common/css/image/sanui.png" alt="sanui">
+                    </a>
+                    <nav class="sm-home-header-nav">
+                        <ul class="sm-home-primary-nav">
+                            <li><router-link to="{{HomeUrl}}" class="sm-home-link">首页</router-link></li>
+                            <li><router-link to="{{ComponentUrl}}" class="sm-home-link">组件</router-link></li>
+                            <li><router-link to="{{SourceUrl}}" class="sm-home-link">资源</router-link></li>
+                            <li><a class="sm-home-link" href="https://ecomfe.github.io/san/" target="_blank">San</a></li>
+                        </ul>
+                        <div class="sm-home-member-actions">
+                            <a href="https://github.com/ecomfe/san-mui" class="sm-home-btn-white sm-home-link" target="_blank">Github</a>
+                        </div>
+                    </nav>
+                </header>
+            </div>
+
+            <div class="sm-home-hero-content">
+                <h1 class="sm-home-h1">san-mui，更快更强大的网站搭建工具</h1>
+                <p class="sm-home-intro">san-mui，一套为开发者、设计师和产品经理准备的基于 san 框架的组件库，遵循 material design 规范，融入了开发常用的ui组件，帮助你快速搭建网站</p>
+                <router-link to="{{MainUrl}}" class="sm-home-btn sm-home-link">Get Start</router-link>
+            </div>
+            <div class="sm-home-arrow"></div>
+        </section>
+
+        <section class="sm-home-part">
+            <div class="sm-home-part-container">
+                <ul>
+                    <li>
+                        <div class="sm-home-intro-icon">
+                            <img class="sm-home-intro-icon-image" src="./common/css/image/test3.jpg" alt="sanui">
+                        </div>
+                        <div class="sm-home-intro-content">
+                            <router-link to="{{MainUrl}}" class="sm-home-link"><span class="sm-home-intro-title">教程</span></router-link>
+                            <p class="sm-home-p">教程是入门的捷径，点击这里快速开始了解San-Mui吧，帮你构建清晰易用的网站</p>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="sm-home-intro-icon">
+                            <img class="sm-home-intro-icon-image" src="./common/css/image/test.jpg" alt="sanui">
+                        </div>
+                        <div class="sm-home-intro-content">
+                            <router-link to="{{ComponentUrl}}" class="sm-home-link"><span class="sm-home-intro-title">组件</span></router-link>
+                            <p class="sm-home-p">当你想不起来组件的接口时，请查阅这里，通过Demo快速了解组件的使用方法</p>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="sm-home-intro-icon">
+                            <img class="sm-home-intro-icon-image" src="./common/css/image/test2.jpg" alt="sanui">
+                        </div>
+                        <div class="sm-home-intro-content">
+                            <router-link to="{{SourceUrl}}" class="sm-home-link"><span class="sm-home-intro-title">资源</span></router-link>
+                            <p class="sm-home-p">这里有San-Mui提供的资源集合，你可以在这里找到Material-Design的相关图标</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <footer class="sm-home-footer">
+            <div class="sm-home-container">
+                <p class="sm-home-p">开源的 San-MUI 来自百度 EFE。在<a class="sm-home-link" target="_blank" href="http://efe.baidu.com/">EFE</a>，我们有一系列开源产品：</p>
+                <div class="sm-home-footer-links">
+                    <dl class="sm-home-dl">
+                        <dt><a  class="sm-home-link" target="_blank" href="http://fecs.baidu.com/">FECS</a></dt>
+                            <dd>前端代码风格检查套件，包含 HTML、CSS、JavaScript 与 Less 代码的检查与修复。</dd>
+                            <dt><a class="sm-home-link" target="_blank" href="http://echarts.baidu.com/">ECharts</a></dt>
+                            <dd>直观，生动，可交互，可高度个性化定制的数据可视化图表。</dd>
+                            <dt><a class="sm-home-link" target="_blank" href="https://github.com/ecomfe/esl">ESL</a></dt>
+                            <dd>比 Require.js 更精简、更高效、更健壮的 AMD Loader。</dd>
+                            <dt><a class="sm-home-link" target="_blank" href="http://ecomfe.github.io/edp/">EDP</a></dt>
+                            <dd>提供了前端开发时常用工具：项目管理、包管理、调试、构建、代码生成、代码检测等，并允许用户自定义扩展。</dd>
+                            <dt><a class="sm-home-link" target="_blank" href="http://ecomfe.github.io/est/">EST</a></dt>
+                            <dd>基于 Less 的样式工具库，提供了一系列方便快捷的 mixin，只在调用时才输出代码。</dd>
+                            <dt><a class="sm-home-link" target="_blank" href="http://ecomfe.github.io/fate/#saber">Saber</a></dt>
+                            <dd>为移动端与现代浏览器设计的，细粒度、模块化的前端应用框架。</dd>
+                            <dt><a class="sm-home-link" target="_blank" href="http://ecomfe.github.io/fate/#rebas">Rebas</a></dt>
+                            <dd>与 Saber 搭配使用、基于 Node 的 JavaScript 同构解决方案。</dd>
+                            <dt><a class="sm-home-link" target="_blank" href="http://ecomfe.github.io/fate/#rider">Rider</a></dt>
+                            <dd>基于 Stylus 与后处理器，无侵入风格的 CSS 样式工具库。</dd>
+                            <dt><a class="sm-home-link" target="_blank" href="https://ecomfe.github.io/san/">San</a></dt>
+                            <dd>一套 MVVM 的组件框架，体积小、性能高、兼容性好，适用于 SPA 和传统 Web 应用。</dd>
+                            <dt><a class="sm-home-link" target="_blank" href="https://github.com/ecomfe/er">ER</a></dt>
+                            <dd>富浏览器端 Web 应用的框架，适用于并能很方便地构建一个整站式的 AJAX Web 应用。</dd>
+                            <dt><a class="sm-home-link" target="_blank" href="https://github.com/ecomfe/esui">ESUI</a></dt>
+                            <dd>一套功能完善，并具有强大扩展机制的 UI 组件库。基于模板、声明式地编程方式让视图更具表达能力。</dd>
+                            <dt><a class="sm-home-link" target="_blank" href="http://ecomfe.github.io/etpl">ETpl</a></dt>
+                            <dd>强复用、灵活、高性能的 JavaScript 模板引擎。</dd>
+                            <dt><a class="sm-home-link" target="_blank" href="http://tushuo.baidu.com/">图说</a></dt>
+                            <dd>一个向广大用户提供数据可视化服务平台。</dd>
+                            <dt><a class="sm-home-link" target="_blank" href="http://ecomfe.github.io/fontmin/">Fontmin</a></dt>
+                            <dd>第一个纯 JavaScript 字体子集化方案，让 @font-face 在中文世界成为可能。</dd>
+                            <dt><a class="sm-home-link" target="_blank" href="http://efe.baidu.com/">......</a></dt>
+                            <dd>更多来自百度 EFE 的项目与文章。</dd>
+                    </dl>
+                </div>
+                <div class="sm-home-copyright">
+                    <p class="sm-home-p">Copyright © 2017 <a class="sm-home-link" href="http://efe.baidu.com/" target="_blank">Baidu EFE</a><br>
+                </div>
+            </div>
+        </footer>
+    </div>
+</template>
+
+<script>
+import {Link} from 'san-router';
+export default {
+    components: {
+        'router-link': Link
+    },
+    initData() {
+        return {
+            MainUrl: '/guide/installation',
+            HomeUrl: '/',
+            SourceUrl: '/resource/icon',
+            ComponentUrl: '/components/AppBar'
+        };
+    },
+
+
+    attached() {
+
+        this.onWindowScroll = this.onWindowScroll.bind(this);
+
+        // run the arrowBounce function every 800ms
+        this.timer = setInterval(this.arrowBounce, 800);
+
+        // Header BG Scroll
+        window.addEventListener('scroll', this.onWindowScroll);
+
+    },
+
+    onWindowScroll() {
+        let scroll = document.body.scrollTop;
+        let nav = document.getElementsByClassName('sm-home-hero-navigation')[0];
+        let header = document.getElementsByClassName('sm-home-header')[0];
+        let githubBtn = document.getElementsByClassName('sm-home-member-actions')[0];
+
+        if (scroll >= 20) {
+            if (!(/fixed/.test(nav.className))) {
+                nav.className += ' fixed';
+            }
+
+            header.style.borderBottom = 'none';
+            header.style.padding = '35px 0';
+
+            githubBtn.style.top = '26px';
+
+        }
+        else {
+            nav.className = 'sm-home-hero-navigation';
+            header.style.borderBottom = 'solid 1px rgba(255, 255, 255, 0.2)';
+            header.style.padding = '50px 0';
+            githubBtn.style.top = '41px';
+        }
+    },
+
+    arrowBounce() {
+        let arrow = document.getElementsByClassName('sm-home-arrow')[0];
+        let arrowClassName = arrow.className;
+
+        if (/sm-home-lift/.test(arrowClassName)) {
+            arrow.className = arrowClassName.replace('sm-home-lift', '');
+        }
+        else {
+            arrow.className += ' sm-home-lift';
+        }
+    },
+    detached() {
+        clearInterval(this.timer);
+        window.removeEventListener('scroll', this.onWindowScroll);
+    }
+
+
+};
+</script>
+
+<style lang="stylus">
+@require '../src/css/variable.styl'
+
+.sm-home
+    background-color: #fff
+    margin: 0
+    padding: 0
+   /* ==========================================================================
+    Hero
+    ========================================================================== */
+    .sm-home-hero
+        min-height: 740px
+        background: url("./common/css/image/hero.jpg") center center
+        background-size: cover
+        position: relative
+        font-size: 14px
+        line-height: 1.42857143
+        box-sizing: border-box
+        font-weight: 300
+
+    .sm-home-hero-navigation
+        -webkit-transition: all 300ms ease-in-out
+        transition: all 300ms ease-in-out
+        position: fixed
+        width: 100%
+        z-index: 10
+
+    .fixed
+        position: fixed
+        background-color: #364653
+        z-index: 999
+        width: 100%
+
+    .sm-home-header
+        padding: 50px 0
+        border-bottom: solid 1px rgba(255, 255, 255, 0.2)
+        position: relative
+        width: 1170px
+        margin: 0 auto
+        -webkit-transition: padding 300ms ease-in-out
+        transition: padding 300ms ease-in-out
+
+    .sm-home-logo
+        display: inline-block
+        width: 120px
+
+    .sm-home-primary-nav
+        margin: 0 0 0 75px
+        padding: 0
+
+    .sm-home-primary-nav li
+        display: inline
+
+    .sm-home-primary-nav li a
+        color: #fff
+        padding-right: 25px
+
+    .sm-home-header-nav
+        display: inline-block
+        vertical-align: 22%
+
+    .sm-home-member-actions
+        position: absolute
+        right: 0
+        top: 41px
+        -webkit-transition: all 300ms ease-in-out
+        transition: all 300ms ease-in-out
+
+    .sm-home-hero h1
+        color: #fff
+        margin-bottom: 25px
+
+    .sm-home-intro
+        color: #fff
+        font-size: 20px
+        line-height: 30px
+        font-weight: 100
+        margin-bottom: 140px
+
+    .sm-home-hero-content
+        padding-top: 238px
+        text-align: center
+        width: 940px
+        margin: 0 auto
+        text-align: center
+
+    .sm-home-arrow
+        background :url(./common/css/image/arrow.png) no-repeat
+        opacity:0.8
+        white-space: nowrap
+        font-size: 4rem
+        position: absolute
+        right: 0
+        bottom: 5px
+        left: 21px
+        margin: auto
+        width: 40px
+        height: 40px
+        -webkit-transition: all 500ms ease-in-out
+        -moz-transition: all 750ms ease-in-out
+        -ms-transition: all 750ms ease-in-out
+        -o-transition: all 750ms ease-in-out
+        transition: all 750ms ease-in-out
+        z-index: 999
+
+    .sm-home-lift
+        bottom: 20px
+
+    .sm-home-link
+        color: #2EA2F8
+        -webkit-transition-timing-function: ease
+        transition-timing-function: ease
+        -webkit-transition-duration: 200ms
+        transition-duration: 200ms
+        -webkit-transition-property: color, border-color, background-color
+        transition-property: color, border-color, background-color
+        text-decoration:none
+        cursor: pointer
+
+    .sm-home-link:hover, .sm-home-link:focus
+        color: #2EA2F8
+        text-decoration: none
+
+    .section-padding
+        padding: 120px 0
+
+/* ==========================================================================
+Typography
+========================================================================== */
+    .sm-home-p
+        font-size: 15px
+        line-height: 29px
+        color: rgba(28, 54, 83, 0.6)
+        margin: 0 0 10px
+
+    .sm-home-h1
+        font-size: 50px
+        font-weight: 400
+        margin-top: 20px
+        margin: .67em 0
+        letter-spacing: 1px
+
+    .sm-home-intro-title
+        font-size: 18px
+        color: #3D4351
+        text-transform: uppercase
+        font-weight: 500
+        display: block
+        margin-bottom:30px
+        margin-top: 20px
+        cursor: pointer
+        transition: .5s ease;
+        transition-property: all;
+
+    .sm-home-intro-title:hover
+        color: #23b2f2
+
+    .sm-home-btn
+        font-size: 15px
+        line-height: 52px
+        border-radius: 40px
+        display: inline-block
+        text-transform: uppercase
+        color: #fff
+        width: 257px
+        height: 52px
+        text-transform: uppercase
+        background-color:#2EA2F8
+        cursor:pointer
+        border:1px solid transparent
+
+    .sm-home-btn:hover, .sm-home-btn:focus
+        color: #fff
+        background-color: #ACE5FE
+
+    .sm-home-btn-white
+        font-size: 14px
+        border: solid 2px
+        border-radius: 40px
+        display: inline-block
+        border-color: #fff
+        padding: 8px 40px
+        color: #fff
+
+    .sm-home-btn-white:hover, .sm-home-btn-white:focus
+        color: #2EA2F8
+        border-color: #2EA2F8
+  /* ==========================================================================
+Intro
+========================================================================== */
+    .sm-home-part
+        width: 100%
+        background-color: #fff
+
+    .sm-home-part-container
+        max-width: 1180px
+        margin: 0 auto
+        z-index: 1
+        position: relative
+
+    .sm-home-part-container ul
+        margin: 0 auto
+
+    .sm-home-part-container li
+        box-sizing: border-box
+        vertical-align: top
+        display: inline-block
+        width: 31%
+        height: 260px
+        margin-top: 90px
+        margin-right: 10px
+
+    .sm-home-part-container li:first-child
+        margin-left: 10px
+
+    .sm-home-intro-icon
+        display: inline-block
+        vertical-align: top
+        padding: 6px 0 0 0
+        margin-right: 10px
+
+    .sm-home-intro-icon-image
+        width: 50px
+
+    .sm-home-intro-content
+        display: inline-block
+        width: 80%
+
+ /* ==========================================================================
+Footer
+========================================================================== */
+    .sm-home-footer-links
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif
+        font-size: 14px
+        line-height: 1.42857143
+        color: #333
+
+    .sm-home-dl
+        margin-top: 0
+        margin-bottom: 20px
+
+    .sm-home-container
+        padding-top: 60px
+        margin: 0 auto
+        width: 800px
+
+    .sm-home-footer
+        background: #F2F4F6
+        position: relative
+        height: 600px
+        display: block
+        overflow: hidden
+        text-aline:center
+
+        p
+            color: #ACB1B4
+            font-size: 13px
+            padding-bottom:0
+
+        dt,
+        dd
+            float: left
+            line-height: 1.8rem
+            font-size: 13px
+            font-weight: 300
+            color: #999
+            margin-left: 0
+
+        dt
+            clear: left
+            width: 70px
+
+    .sm-home-copyright
+        clear: both
+        text-align: center
+        padding: 27px
+</style>

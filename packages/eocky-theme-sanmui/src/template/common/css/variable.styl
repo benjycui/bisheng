@@ -1,0 +1,53 @@
+/**
+ * @file 颜色变量
+ * @author leon <ludafa@outlook.com>
+ */
+
+@require './colors.styl'
+
+$san-class-prefix = sm;
+
+$san-z-index = {
+    menu: 1,
+    menuLayer: 10,
+    mask: 10,
+    drawer: 11,
+    dialog: 20,
+    popover: 30
+};
+
+$san-text-color := $md-colors.darkBlack
+$san-secondary-text-color := $md-colors.lightBlack
+$san-primary-color := $md-colors.blue500
+$san-lighter-primary-color := $md-colors.grey400
+
+
+/* animation */
+$san-animation-ease-out := cubic-bezier(0.23, 1, 0.32, 1)
+$san-animation-ease-in-out := cubic-bezier(0.445, 0.05, 0.55, 0.95)
+
+
+/* layout */
+$san-grid-columns := 24
+$san-grid-gutter-width := 0
+
+/*  Media queries breakpoints */
+/*  Extra small screen / phone */
+$san-screen-xs := 480px
+$san-screen-xs-min := $san-screen-xs
+$san-screen-xs-max := $san-screen-xs-min - 1
+
+/*  Small screen / tablet */
+$san-screen-sm := 768px
+$san-screen-sm-min := $san-screen-sm
+$san-screen-sm-max := $san-screen-sm-min - 1
+
+/* Medium screen / desktop */
+$san-screen-md := 992px
+$san-screen-md-min := $san-screen-md
+$san-screen-md-max := $san-screen-md-min - 1
+
+/*  Large screen / wide desktop */
+$san-screen-lg := 1200px
+$san-screen-lg-min := $san-screen-lg
+$san-screen-lg-max := $san-screen-lg-min - 1

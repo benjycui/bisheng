@@ -1,0 +1,241 @@
+<template>
+    <div id="app">
+        <div style="display: {{hiddenMenu ? 'none' : 'block'}}">
+            <div class="nav-bar-bg"></div>
+            <san-drawer
+                position="left"
+                open="{{openMenu}}"
+                useMask="{{false}}"
+                class="example-drawer">
+                <san-appbar
+                    title="SAN-MUI"
+                    class="example-drawer-appbar">
+                </san-appbar>
+                <div class="example-drawer-content">
+                    <sm-navigator routes="{{menus}}" path="{{menuVal}}" />
+                </div>
+            </san-drawer>
+        <san-appbar
+            title="{{navTitle}}"
+            showLeftIcon="{{true}}"
+            class="example-appbar {{openMenu ? '': 'hide-menu'}}">
+                <san-icon-button
+                    on-click="toggleMenu($event)"
+                    variants="info raised"
+                    slot="left">
+                    menu
+                </san-icon-button>
+                <san-icon-button
+                    slot="right"
+                    href="https://github.com/ecomfe/san-mui">
+                    <svg style="fill: #fff;" width="24" height="24" version="1.1" viewBox="0 0 16 16" >
+                        <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                    </svg>
+                </san-icon-button>
+
+            </san-appbar>
+        </div>
+        <div class="example-content
+        {{hiddenMenu ? 'example-content-hidden' : ''}}
+        {{openMenu ? '': 'hide-menu'}}">
+            <div id="example" class="markdown-body"></div>
+        </div>
+
+    </div>
+</template>
+
+<script>
+
+import 'san-mui/lib/index.css';
+import {AppBar, Drawer} from 'san-mui';
+import {List, ListItem} from 'san-mui/lib/List';
+import {MenuItem, Divider} from 'san-mui/lib/Menu';
+import {IconButton} from 'san-mui/lib/Button';
+
+import {router} from '../../../eocky/router';
+import AppNavigator from './AppNavigator';
+import '../static/syntax.css';
+
+export default {
+
+    components: {
+        'san-appbar': AppBar,
+        'san-drawer': Drawer,
+        'san-menu-item': MenuItem,
+        'san-menu-divider': Divider,
+        'san-icon-button': IconButton,
+        'sm-list': List,
+        'sm-list-item': ListItem,
+        'sm-navigator': AppNavigator
+    },
+
+    initData() {
+        return {
+            navTitle: '组件',
+            openMenu: true,
+            menuVal: location.hash.slice(1),
+            hiddenMenu: false
+        };
+    },
+
+    computed: {
+        navTitle() {
+            let menuVal = this.data.get('menuVal');
+            const flatRoutes = this.data.get('flatRoutes') || [];
+            let item = flatRoutes.find(item => (item.path === menuVal));
+            return item ? (item.name || item.title) : '404';
+        }
+    },
+
+    toggleMenu() {
+        let openMenu = this.data.get('openMenu');
+        this.data.set('openMenu', !openMenu);
+    },
+
+    inited() {
+    },
+
+    attached() {
+
+        const markdownData = this.data.get('route.config.data');
+        const utils = this.data.get('route.config.utils')
+        console.log(this.data.get('route.config'));
+
+        let routes = createRoute(markdownData);
+
+        this.data.set('menus', routes);
+
+        let flatRoutes = (function () {
+
+            let flatRoutes = [];
+            let currentRoutes = routes.slice();
+
+            while (currentRoutes.length) {
+
+                let route = currentRoutes.shift();
+
+                if (!route.components) {
+                    flatRoutes.push(route);
+                    continue;
+                }
+
+                currentRoutes = [
+                    ...currentRoutes,
+                    ...route.components.map(r => ({
+                        ...r,
+                        path: `${route.path}${r.path || ('/' + r.name)}`
+                    }))
+                ];
+
+            }
+
+            return flatRoutes;
+
+        })();
+
+        this.data.set('flatRoutes', flatRoutes);
+
+        router.listen((e, config) => {
+            if (this.doc) {
+                this.doc.dispose();
+            }
+            this.doc = null;
+            let el = e.path.split('/')
+                .filter(key => key.trim() !== '')
+                .reduce((cur, key) => cur[key], markdownData);
+
+            let Doc = utils.createSanComponent(el.content);
+            this.doc = new Doc();
+            this.doc.attach(document.getElementById('example'));
+        });
+
+        function createRoute(markdownData) {
+            let routes = [];
+            window.leuiken = [];
+            for (let key in markdownData) {
+                if (markdownData.hasOwnProperty(key)) {
+                    if (Array.isArray(markdownData[key].content)) {
+                        routes.push({
+                            path: '/' + key,
+                            name: markdownData[key].meta.title || key,
+                            component: utils.createSanComponent(markdownData[key].content)
+                        });
+                    }
+                    else {
+                        routes.push({
+                            path: '/' + key,
+                            name: key,
+                            components: createRoute(markdownData[key])
+                        })
+                    }
+                }
+            }
+            return routes;
+        }
+    }
+
+};
+
+</script>
+
+<style lang="stylus">
+
+@require './common/css/variable.styl'
+
+.nav-bar-bg
+    position: fixed
+    left: 0
+    right: 0
+    height: 4rem
+    background: $md-colors.blue500
+
+.example-drawer
+    position: fixed
+    top: 0
+    bottom: 0
+
+.example-drawer-appbar
+    background: $md-colors.blue500
+    color: #fff
+    font-size: 24px
+
+.example-drawer-content
+    overflow: auto
+    position: absolute
+    top: 64px
+    right: 0
+    bottom: 0
+    left: 0
+
+.example-appbar
+    position: fixed
+    left: 300px
+    right: 0
+    top: 0
+    width: auto
+    transition: all .3s cubic-bezier(.4, 0, .2, 1)
+    background: $md-colors.blue500
+    color: #fff
+    font-size: 24px
+    z-index: 10
+
+    &.hide-menu
+        left: 0
+
+.example-content
+    padding-top: 64px
+    padding-left: 300px
+    transition: all .3s cubic-bezier(.4, 0, .2, 1)
+
+    &.hide-menu
+        padding-left: 0
+
+#example
+    padding: 20px 48px
+
+.example-content-hidden
+    padding: 0
+    #example
+        padding: 0
+
+</style>

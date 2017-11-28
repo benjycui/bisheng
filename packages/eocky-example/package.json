@@ -1,0 +1,27 @@
+{
+  "name": "eocky-example",
+  "version": "1.0.0",
+  "description": "A example project to show how to use eocky.",
+  "main": "index.js",
+  "scripts": {
+    "start": "../eocky/bin/eocky start",
+    "build": "../eocky/bin/eocky build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "babel-preset-react": "^6.24.1",
+    "eocky": "0.0.8",
+    "eocky-plugin-highlight": "0.0.3",
+    "eocky-plugin-san": "0.0.3",
+    "himalaya": "^1.0.0",
+    "san-markdown-loader": "^1.0.0-alpha.8",
+    "san-mui": "^1.0.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://g@gitlab.baidu.com:8022/eocky/eocky-example.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
