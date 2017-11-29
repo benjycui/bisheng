@@ -1,4 +1,27 @@
-# Bi Sheng
+# Eocky
+
+Eocky 是 [bisheng](https://github.com/benjycui/bisheng) 的一个 fork，本质上是渲染层基于 [San](https://ecomfe.github.io/san/) 的静态模板生成器。
+
+做这个东西是我想给我自己的 San 组件写文档，但是实在找不到让我觉得非常适合的文档工具，所以就“拿来主义”地 fork 了 bisheng。
+
+eocky 这个名字没什么特别的含义。文档俗称 doc，本来想叫 docky 但是 npm 上被占坑了，那么索性首字母 +1 叫 eocky 好了。
+
+## Thanks to
+
+ - [bisheng](https://github.com/benjycui/bisheng)
+ - [san-markdown-loader](https://github.com/jinzhubaofu/san-markdown-loader)
+
+## Usage
+
+可以结合 bisheng 的文档（命令行的 bisheng 替换成 eocky）先看着，由于框架之间的差异，导致工具上的差异如下：
+
+ - theme.config 一分为二：index.js为 routes 字段、其余配置丢到了 config.js 里面。（这里不太友好，后续会改）
+ - ssr 不支持、且不支持在 gh-pages 上使用 browserHistory。
+ - bisheng-plugin 只要是不涉及 React 的话，应该都是可以用的。
+
+有问题请先参考代码库中的 example，解决不了欢迎 issue。
+
+空了写文档，一定会写文档的😂。。。
 
 [![](https://img.shields.io/travis/benjycui/bisheng.svg?style=flat-square)](https://travis-ci.org/benjycui/bisheng)
 [![Build status](https://ci.appveyor.com/api/projects/status/lu5ut8vphqdfbxhi?svg=true)](https://ci.appveyor.com/project/benjycui/bisheng)
