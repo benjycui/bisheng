@@ -92,14 +92,10 @@ export default {
         this.data.set('openMenu', !openMenu);
     },
 
-    inited() {
-    },
-
     attached() {
 
         const markdownData = this.data.get('route.config.data');
         const utils = this.data.get('route.config.utils')
-        console.log(this.data.get('route.config'));
 
         let routes = createRoute(markdownData);
 
@@ -145,13 +141,14 @@ export default {
                 .reduce((cur, key) => cur[key], markdownData);
 
             let Doc = utils.createSanComponent(el.content);
+
             this.doc = new Doc();
             this.doc.attach(document.getElementById('example'));
+            this.data.set('menuVal', location.hash.slice(1));
         });
 
         function createRoute(markdownData) {
             let routes = [];
-            window.leuiken = [];
             for (let key in markdownData) {
                 if (markdownData.hasOwnProperty(key)) {
                     if (Array.isArray(markdownData[key].content)) {
