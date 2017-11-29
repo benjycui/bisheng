@@ -95,7 +95,7 @@
     "react-router": "^3.0.0",
     "resolve": "^1.1.7",
     "rucksack-css": "~1.0.2",
-    "san": "^3.3.0-rc.1",
+    "san": "^3.2.10",
     "san-loader": "0.0.6",
     "san-router": "^1.1.2",
     "sass-loader": "^6.0.6",
