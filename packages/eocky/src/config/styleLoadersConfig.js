@@ -1,5 +1,6 @@
 import rucksack from 'rucksack-css';
 import autoprefixer from 'autoprefixer';
+import stylus from 'stylus';
 
 const postcssOptions = {
   plugins: [
@@ -9,6 +10,12 @@ const postcssOptions = {
     }),
   ],
 };
+
+function plugin() {
+  return style => {
+    style.define('url', stylus.resolver());
+  };
+}
 
 export default [
   {
@@ -96,5 +103,19 @@ export default [
       loader: 'postcss-loader',
       options: postcssOptions,
     }, 'sass-loader'],
+  },
+  {
+    test: /\.styl$/,
+    use: [
+      'style-loader',
+      'css-loader',
+      // 'stylus-loader'
+      {
+        loader: 'stylus-loader',
+        options: {
+          use: [plugin()]
+        }
+      }
+    ]
   }
 ];
