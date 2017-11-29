@@ -128,15 +128,10 @@ exports.build = function build(program, callback) {
     bishengConfig.root,
   );
   const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'build');
-  webpackConfig.plugins.push(new UglifyJSPlugin({
-    output: {
-      ascii_only: true,
-    },
-  }));
+  webpackConfig.plugins.push(new UglifyJSPlugin());
   webpackConfig.plugins.push(new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
   }));
-
 
   const ssrWebpackConfig = Object.assign({}, webpackConfig);
   const ssrPath = path.join(tmpDirPath, `ssr.${entryName}.js`);
@@ -165,24 +160,23 @@ exports.build = function build(program, callback) {
       return;
     }
 
-    const markdown = sourceData.generate(bishengConfig.source, bishengConfig.transformers);
-    // TODO: 这里会有bug
-    const themeConfig = require(bishengConfig.theme);
-    let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(bishengConfig.filePathMapper);
-    filesNeedCreated = R.unnest(filesNeedCreated);
+    // const markdown = sourceData.generate(bishengConfig.source, bishengConfig.transformers);
+    // const themeConfig = require(bishengConfig.theme);
+    // let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(bishengConfig.filePathMapper);
+    // filesNeedCreated = R.unnest(filesNeedCreated);
 
     const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
 
     if (!program.ssr) {
-      require('./loaders/common/boss').jobDone();
-      const templateData = Object.assign({ root: bishengConfig.root }, bishengConfig.htmlTemplateExtraData || {});
-      const fileContent = nunjucks.renderString(template, templateData);
-      filesNeedCreated.forEach((file) => {
-        const output = path.join(bishengConfig.output, file);
-        mkdirp.sync(path.dirname(output));
-        fs.writeFileSync(output, fileContent);
-        console.log('Created: ', output);
-      });
+      // require('./loaders/common/boss').jobDone();
+      // const templateData = Object.assign({ root: bishengConfig.root }, bishengConfig.htmlTemplateExtraData || {});
+      // const fileContent = nunjucks.renderString(template, templateData);
+      // filesNeedCreated.forEach((file) => {
+      //   const output = path.join(bishengConfig.output, file);
+      //   mkdirp.sync(path.dirname(output));
+      //   fs.writeFileSync(output, fileContent);
+      //   console.log('Created: ', output);
+      // });
 
       if (callback) {
         callback();
@@ -190,34 +184,34 @@ exports.build = function build(program, callback) {
       return;
     }
 
-    context.turnOnSSRFlag();
-    // If we can build webpackConfig without errors, we can build ssrWebpackConfig without errors.
-    // Because ssrWebpackConfig are just part of webpackConfig.
-    webpack(ssrWebpackConfig, () => {
-      require('./loaders/common/boss').jobDone();
+    // context.turnOnSSRFlag();
+    // // If we can build webpackConfig without errors, we can build ssrWebpackConfig without errors.
+    // // Because ssrWebpackConfig are just part of webpackConfig.
+    // webpack(ssrWebpackConfig, () => {
+    //   require('./loaders/common/boss').jobDone();
 
-      const { ssr } = require(path.join(tmpDirPath, `${entryName}-ssr`));
-      const fileCreatedPromises = filesNeedCreated.map((file) => {
-        const output = path.join(bishengConfig.output, file);
-        mkdirp.sync(path.dirname(output));
-        return new Promise((resolve) => {
-          ssr(filenameToUrl(file), (content) => {
-            const templateData = Object.assign({ root: bishengConfig.root, content }, bishengConfig.htmlTemplateExtraData || {});
-            const fileContent = nunjucks
-              .renderString(template, templateData);
-            fs.writeFileSync(output, fileContent);
-            console.log('Created: ', output);
-            resolve();
-          });
-        });
-      });
-      Promise.all(fileCreatedPromises)
-        .then(() => {
-          if (callback) {
-            callback();
-          }
-        });
-    });
+    //   const { ssr } = require(path.join(tmpDirPath, `${entryName}-ssr`));
+    //   const fileCreatedPromises = filesNeedCreated.map((file) => {
+    //     const output = path.join(bishengConfig.output, file);
+    //     mkdirp.sync(path.dirname(output));
+    //     return new Promise((resolve) => {
+    //       ssr(filenameToUrl(file), (content) => {
+    //         const templateData = Object.assign({ root: bishengConfig.root, content }, bishengConfig.htmlTemplateExtraData || {});
+    //         const fileContent = nunjucks
+    //           .renderString(template, templateData);
+    //         fs.writeFileSync(output, fileContent);
+    //         console.log('Created: ', output);
+    //         resolve();
+    //       });
+    //     });
+    //   });
+    //   Promise.all(fileCreatedPromises)
+    //     .then(() => {
+    //       if (callback) {
+    //         callback();
+    //       }
+    //     });
+    // });
   });
 };
 
