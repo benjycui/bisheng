@@ -1,6 +1,7 @@
 import openBrowser from 'react-dev-utils/openBrowser';
 import getWebpackCommonConfig from './config/getWebpackCommonConfig';
 import updateWebpackConfig from './config/updateWebpackConfig';
+import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
 
 const fs = require('fs');
 const path = require('path');
@@ -127,7 +128,7 @@ exports.build = function build(program, callback) {
     bishengConfig.root,
   );
   const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'build');
-  webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
+  webpackConfig.plugins.push(new UglifyJSPlugin({
     output: {
       ascii_only: true,
     },
