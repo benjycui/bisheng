@@ -1,6 +1,6 @@
 {
   "name": "eocky",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Static site generator based on San.",
   "bin": {
     "eocky": "./bin/eocky"
