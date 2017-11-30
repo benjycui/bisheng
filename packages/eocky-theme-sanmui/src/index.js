@@ -1,6 +1,9 @@
-import App from './template/App.san';
+const path = require('path');
 
-module.exports = [{
-    rule: /./,
-    Component: App
-}];
+module.exports = {
+    lazyLoad: false,
+    plugins: [
+        path.join(__dirname, '../../', 'eocky-plugin-san')
+    ],
+    routes: './routes.js'
+};
