@@ -11,75 +11,30 @@ eocky 这个名字没什么特别的含义。文档俗称 doc，本来想叫 doc
  - [bisheng](https://github.com/benjycui/bisheng)
  - [san-markdown-loader](https://github.com/jinzhubaofu/san-markdown-loader)
 
-## Usage
-
-可以结合 bisheng 的文档（命令行的 bisheng 替换成 eocky）先看着，由于框架之间的差异，导致工具上的差异如下：
-
- - theme.config 一分为二：index.js为 routes 字段、其余配置丢到了 config.js 里面。（这里不太友好，后续会改）
- - ssr 不支持、且不支持在 gh-pages 上使用 browserHistory。
- - bisheng-plugin 只要是不涉及 React 的话，应该都是可以用的。
-
-有问题请先参考代码库中的 example，解决不了欢迎 issue。
-
-空了写文档，一定会写文档的😂。。。
-
-[![](https://img.shields.io/travis/benjycui/bisheng.svg?style=flat-square)](https://travis-ci.org/benjycui/bisheng)
-[![Build status](https://ci.appveyor.com/api/projects/status/lu5ut8vphqdfbxhi?svg=true)](https://ci.appveyor.com/project/benjycui/bisheng)
-[![npm package](https://img.shields.io/npm/v/bisheng.svg?style=flat-square)](https://www.npmjs.org/package/bisheng)
-[![NPM downloads](http://img.shields.io/npm/dm/bisheng.svg?style=flat-square)](https://npmjs.org/package/bisheng)
-[![Dependency Status](https://david-dm.org/benjycui/bisheng.svg?style=flat-square)](https://david-dm.org/benjycui/bisheng)
-
-> [Bi Sheng](https://en.wikipedia.org/wiki/Bi_Sheng) was the Chinese inventor of the first known movable type technology.
-
-`bisheng` is designed to transform [Markdown](https://en.wikipedia.org/wiki/Markdown)(and other static files with transformers) into static websites and blogs using [React](https://facebook.github.io/react/).
-
-## Sites built with BiSheng
-
-* [A simple blog](http://benjycui.github.io/bisheng/)
-* [Ant Design](http://ant.design)
-* [Ant Motion](http://motion.ant.design)
-* [Ant Design Mobile](http://mobile.ant.design/)
-* [Ant Financial Design Platform](https://design.alipay.com/)
-* [React AMap](https://elemefe.github.io/react-amap/articles/start)
-
-You can create a PR to extend this list with your amazing website which is built with BiSheng.
-
 ## Features
 
-`bisheng` is based on [dora](https://github.com/dora-js/dora) & [webpack](https://webpack.github.io/) & [React](https://facebook.github.io/react/) & [react-router](https://github.com/ReactTraining/react-router), and it has the following features:
-
-* Support [`browserHistory`](https://github.com/reactjs/react-router/blob/master/docs/API.md#browserhistory), even in [GitHub Pages](https://pages.github.com/).
-* Lazy load for Markdown data.
-* [Plugin](https://github.com/benjycui/bisheng/blob/master/docs/plugin.md) system to extend default behaviour.
-* Server-side render for SEO.
-
-## Big picture
-
-![Big picture of BiSheng](https://raw.githubusercontent.com/benjycui/bisheng/master/big-picture.jpg)
-
-### Articles
-
-* [bisheng-sourceCode-plugin](https://github.com/liangklfangl/bisheng-sourceCode-plugin)
+* 支持 markdown 数据的[懒加载](./docs/lazy-load.md)。
+* 强大的[插件](./docs/plugin.md)机制。
 
 ## Usage
 
-Installation:
+说明:
 
 ```bash
-npm install --save-dev bisheng
+npm install --save-dev eocky
 ```
 
-Then, add `start` to [npm scripts](https://docs.npmjs.com/misc/scripts):
+配置[npm scripts](https://docs.npmjs.com/misc/scripts):
 
 ```json
 {
   "scripts": {
-    "start": "bisheng start"
+    "start": "eocky start"
   }
 }
 ```
 
-Create `bisheng.config.js`, otherwise `bisheng` will use the default config:
+创建`eocky.config.js`进行配置，如下是默认配置，详见：[get-bisheng-config](./packages/eocky/src/utils/get-bisheng-config.js)
 
 ```js
 module.exports = {
@@ -90,15 +45,15 @@ module.exports = {
 };
 ```
 
-**Note:** please make sure that `source` and `theme` exists, and `theme` should not be an empty directory. Just use [bisheng-theme-one](https://github.com/benjycui/bisheng/tree/master/packages/bisheng-theme-one), if you don't know how to develop a theme. See a simple demo [here](https://github.com/benjycui/bisheng/tree/master/packages/bisheng-example).
+**注意:** `source` 和 `theme` 字段不能为空，且 `theme` 不能是一个空文件夹。
 
-Now, just run `npm start`.
+执行 `npm start`。
 
 ## Documentation
 
 ### CLI
 
-We can install `bisheng` as a cli command and explore what it can do by `bisheng -h`. However, the recommended way to use `bisheng` is to install it as `devDependencies`.
+你可以将 `eocky` 作为命令行工具全局安装，不过更推荐作为项目的 `devDependencies` 来使用它。
 
 ```bash
 $ npm install -g bisheng
@@ -120,9 +75,9 @@ $ bisheng -h
 
 ### Configuration
 
-`bisheng` will read `bisheng.config.js` as its config file, but we can set the config file name by `--config`, something like this `bisheng --config another.config.js`.
+`eocky` 会读取目录下的 `eocky.config.js` 作为其默认配置，你也可以使用 `eocky --config another.config.js` 来指定配置文件。
 
-The content of `bisheng.config.js` looks like this:
+下面是一个配置文件的例子：
 
 ```js
 module.exports = {
@@ -135,7 +90,6 @@ module.exports = {
   webpackConfig(config) {
     return config;
   },
-
   entryName: 'index',
   root: '/',
 };
@@ -145,15 +99,15 @@ module.exports = {
 
 > default: 8000
 
-To set the port which will be listened when we start a local server.
+本地服务器占用的启动端口号。
 
 #### source: String | Array[String] | Object{ [category]: String | Array[String]}
 
 > default: './posts'
 
-To set directory/directories where we place Markdown files.
+告诉 `eocky` 从哪里读取 markdown 数据。`source` 中的 markdown 数据会根据文件目录结构解析成树形结构，如下例：
 
-And all the Markdown files in `source` will be parsed and then structured as a tree data, for example:
+输入：
 
 ```bash
 posts
@@ -162,7 +116,7 @@ posts
   └── b.md
 ```
 
-Will output a **Markdown data tree**:
+输出：
 
 ```js
 {
@@ -173,84 +127,82 @@ Will output a **Markdown data tree**:
 }
 ```
 
-And each Markdown file will be parsed as a **Markdown data**. Actually, a Markdown data is the returned value of [mark-twain](https://github.com/benjycui/mark-twain), and it could be preprocessed by plugins.
+每一个 markdown 文件的内容是使用 [mark-twain](https://github.com/benjycui/mark-twain) 这个包解析后的结果，你可以借助 `eocky` 的插件机制对数据进行预处理。
 
 #### exclude: RegExp
 
 > default: null
 
-If you want to exclude some files in your `source`, just use `exclude`. Then bisheng will not parse files which match `exclude`.
+你不想解析某个 markdown 文件的话，在这里配置。
 
 #### output: String
 
 > default: './_site'
 
-To set directory where `bisheng` will generate (HTML & CSS & JavaScript) files to.
+执行 build 命令后的输出目录
 
 #### theme: String
 
 > default: './_theme'
 
-To set directory where we put the theme of website, and it also can be a npm package name.
+主题的路径，可以是 path，也可以是一个 npm 包。
 
-[**More about theme**](https://github.com/benjycui/bisheng/tree/master/docs/theme.md).
+[**More about theme**](./docs/theme.md).
 
-* [bisheng-theme-one](https://github.com/benjycui/bisheng/tree/master/packages/bisheng-theme-one)
+* [eocky-theme-sanmui](./packages/eocky-theme-sanmui)
 
 #### themeConfig: any
 
 > undefined
 
-A set of configuration that your theme provides, and then your theme can read it from `props.themeConfig`.
-
-> Note: `themeConfig` will be `JSON.stringify` before it's passed to props, so you cannot pass function/RegExp through `themeConfig`.
+你希望在主题中拿到的一些配置。如果你是一个主题开发者，这些配置在[这里](./packages/eocky/src/routes.nunjucks.js#24)传入了 san-router。因此你在主题中可以使用 `this.data.get('route.config.themeConfig')`拿到他们。
 
 #### htmlTemplate: String
 
-> default: [`bisheng/lib/template.html`](https://github.com/benjycui/bisheng/blob/master/packages/bisheng/src/template.html)
+> default: [`eocky/lib/template.html`](./packages/eocky/src/template.html)
 
-The HTML template which will be use to generate HTML files which will be sent to users.
+站点所使用的 HTML 模板，因为是 SPA 所以只有一个。
 
-**Note:** template will be parsed by [nunjucks](https://mozilla.github.io/nunjucks/), and you can use the following variables in this template:
+**注意:** 该模板使用 [nunjucks](https://mozilla.github.io/nunjucks/) 这一模板殷勤，用于注入数据，这部分数据包括
 
-* [`root`](https://github.com/benjycui/bisheng#root-string)
-* all attribute of [htmlTemplateExtraData](#htmltemplateextradata-object)
+* [`root`](#root-string)
+* 你传给 [htmlTemplateExtraData](#htmltemplateextradata-object) 的所有属性。
 
 #### htmlTemplateExtraData: Object
 
 > default: `{}`
 
-The Extra Data which will be used to render [htmlTemplate](#htmltemplate-string).
+你用来渲染模板的额外数据 [htmlTemplate](#htmltemplate-string).
 
 #### devServerConfig: Object
 
 > default: {}
 
-You can consult [webpack-dev-server's documentation](https://webpack.js.org/configuration/dev-server/).
+详见 [webpack-dev-server 文档](https://webpack.js.org/configuration/dev-server/).
 
 #### webpackConfig: (config) => config
 
 > default: (config) => config
 
-To modify the webpack config, you can extend the config like [this](https://github.com/ant-tool/atool-build#配置扩展).
+用于修改我们默认的 webpack 配置，默认的 webpack 配置在[这里](./packages/eocky/src/config)。
 
 #### transformers: Object[]
 
-> [{ test: /\.md$/, use: [MarkdownTransformer](https://github.com/benjycui/bisheng/blob/master/packages/bisheng/src/transformers/markdown.js) }]
+> [{ test: /\.md$/, use: [MarkdownTransformer](./packages/eocky/src/transformers/markdown.js) }]
 
-A list of transformers that will be used to transform static files.
+你可以用这个字段来处理 markdown 之外的静态文件，当然，一般应该用不到。
 
 #### entryName: String
 
 > default: 'index'
 
-The name of files which will be generated by webpack, such as `[entryName].js` & `[entryName].css`.
+webpack 生成文件的文件名，`[entryName].js` & `[entryName].css`.
 
 #### root: String
 
 > default: '/'
 
-If the website will be deployed under a sub-directory of a domain (something like `http://benjycui.github.io/bisheng-theme-one/`), we must set it (such as `/bisheng-theme-one/`).
+如果该站点被用在了某域名的子目录下，你可能会需要这个字段。
 
 ## License
 
