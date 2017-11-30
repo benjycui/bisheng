@@ -147,7 +147,7 @@ posts
 
 主题的路径，可以是 path，也可以是一个 npm 包。
 
-[**More about theme**](./docs/theme.md).
+[**主题文档**](./docs/theme.md).
 
 * [eocky-theme-sanmui](./packages/eocky-theme-sanmui)
 
@@ -155,7 +155,7 @@ posts
 
 > undefined
 
-你希望在主题中拿到的一些配置。如果你是一个主题开发者，这些配置在[这里](./packages/eocky/src/routes.nunjucks.js#24)传入了 san-router。因此你在主题中可以使用 `this.data.get('route.config.themeConfig')`拿到他们。
+你希望在主题中拿到的一些配置。如果你是一个主题开发者，这些配置在[这里](./packages/eocky/src/routes.nunjucks.js#L24)传入了 san-router。因此你在主题中可以使用 `this.data.get('route.config.themeConfig')`拿到他们。
 
 #### htmlTemplate: String
 
