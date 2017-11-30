@@ -14,6 +14,7 @@
     "eocky-plugin-highlight": "0.0.3",
     "eocky-plugin-san": "0.0.3",
     "himalaya": "^1.0.0",
+    "san": "^3.3.0-rc.1",
     "san-markdown-loader": "^1.0.0-alpha.8",
     "san-mui": "^1.0.9"
   },

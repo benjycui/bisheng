@@ -12,6 +12,8 @@
   "dependencies": {
     "himalaya": "^1.0.0",
     "loader-utils": "^1.1.0",
-    "san-markdown-loader": "^1.0.0-alpha.8"
+    "san": "^3.3.0-rc.1",
+    "san-markdown-loader": "^1.0.0-alpha.8",
+    "san-mui": "^1.0.9"
   }
 }
