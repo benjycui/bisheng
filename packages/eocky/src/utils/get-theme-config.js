@@ -11,8 +11,7 @@ function toAbsolutePath(plugin) {
 }
 
 module.exports = function getThemeConfig(configFile) {
-  const nodeConfigFile = path.join(configFile, '..', 'config.js');
-  const customizedConfig = require(nodeConfigFile);
+  const customizedConfig = require(configFile);
   const config = Object.assign({ plugins: [] }, customizedConfig);
   config.plugins = [pluginHighlight].concat(config.plugins.map(toAbsolutePath));
 

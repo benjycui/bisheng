@@ -29,8 +29,8 @@ function getRoutesPath(configPath, themePath, configEntryName) {
     routesPath,
     nunjucks.renderString(routesTemplate, {
       themeConfig: JSON.stringify(themeConfig),
-      themePathRoute: escapeWinPath(themePath),
-      themePathConfig: escapeWinPath(path.join(themePath, 'config.js')),
+      themePathRoute: escapeWinPath(path.join(themePath, require(escapeWinPath(themePath)).routes)),
+      themePathConfig: escapeWinPath(themePath),
     }),
   );
   return routesPath;
