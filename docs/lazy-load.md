@@ -1,6 +1,6 @@
-# Lazy Load
+# 懒加载
 
-While [`lazyLoad`](https://github.com/benjycui/bisheng#lazyload-boolean--nodepath-nodevalue--boolean) is `true` or a function, Markdown data will be load lazily. And the corresponding fields in [Markdown data tree](https://github.com/benjycui/bisheng#source-string--arraystring--object-category-string--arraystring) will become a **lazy load function**, for example:
+当主题配置中的 `lazyload` 是 `true` 或者一个函数的时候，markdown 数据将使用懒加载，暴露给前端的 markdown 树形数据将变成**懒加载函数**，下面是一个例子：
 
 ```js
 // lazyLoad: false
@@ -18,7 +18,7 @@ While [`lazyLoad`](https://github.com/benjycui/bisheng#lazyload-boolean--nodepat
 }
 ```
 
-We can use this function to get the real Markdown data:
+使用下面这种方式拿到数据：
 
 ```js
 data.posts.a()

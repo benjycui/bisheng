@@ -1,6 +1,6 @@
-# Plugin
+# 插件
 
-A plugin is just a npm package with the following directory structure:
+一个插件就是一个 npm 包，目录结构如下：
 
 ```bash
 └── lib

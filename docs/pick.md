@@ -1,14 +1,14 @@
 # pick
 
-Sometimes, we will load lots of Markdown data, but we only need part of these Markdown data, such as the archived page. This will slow down our website, but we can use `pick` to improve the performance.
+有时候我们需要获取大量的 markdown 数据，但我们只需要它们的一部分，比如归档页面。由于获取大量数据会导致性能问题，我们可以使用 `pick` 提升性能。
 
-Each field in `pick` is a function, and the signature of these functions is:
+`pick` 字段的属性值均为函数，其签名如下：
 
 ```js
 function(markdownData: Object): any | undefined
 ```
 
-`bisheng` will pass Markdown data to each field in `pick` one by one, if those functions return something except `undefined`, `bisheng` will collect them and put them into `props.picked`, for example:
+`eocky` 会用 `pick` 来处理 markdown 数据，当这些函数的返回值不为空时，`eocky` 就会将这些数据传入 `route.config.picked`，例如：
 
 ```js
 pick: {
@@ -16,7 +16,7 @@ pick: {
 },
 ```
 
-Then, the `props.picked` will be:
+然后，得到 `picked` 字段如下：
 
 ```js
 {

@@ -1,33 +1,35 @@
 # Theme
 
-A theme includes a config file and styles as well as templates. The directory structure of a theme is:
+主题由模板、样式和配置文件构成。其目录结构如下：
 
 ```bash
 theme
-├── index.js # config file, required
+├── index.js # 配置文件, required
+├── routes.js # san-router 路由文件，这里只是一个例子，你可以在 index.js 中修改其路径
 ├── static # style files
 │   └── style.css
-└── template # templates are JSX files
-    ├── NotFound.jsx # required
-    └── Template.jsx
+└── template # 模板，依赖你在 routes 中配置了啥，支持 .san 文件
+    ├── NotFound.js
+    └── Template.san
 ```
 
-e.g. [ant-design](https://github.com/ant-design/ant-design/tree/master/site/theme)
+Ant Design 采取了 bisheng 主题作为其官网方案，可以作为参考 [ant-design](https://github.com/ant-design/ant-design/tree/master/site/theme)
 
-## Theme as NPM Package
+## 使用 npm 包作为主题
 
-We can also publish our theme as a NPM package, so that other can install it as a dependency.
+主题可以是一个 npm 包，这对复用主题，快速搭建站点非常友好。
 
-Directory structure:
+目录结构：
 
 ```bash
 lib
-├── index.js # config file, required
+├── index.js # 配置文件, required
+├── routes.js # san-router 路由文件，这里只是一个例子，你可以在 index.js 中修改其路径
 ├── static # style files
 │   └── style.css
-└── template # templates are JSX files
-    ├── NotFound.jsx # required
-    └── Template.jsx
+└── template # 模板，依赖你在 routes 中配置了啥，支持 .san 文件
+    ├── NotFound.js
+    └── Template.san
 ```
 
 `package.json`:
@@ -39,30 +41,16 @@ lib
 }
 ```
 
-e.g. [bisheng-theme-one](https://github.com/benjycui/bisheng-theme-one)
+参考：[eocky-theme-sanmui](./packages/eocky-theme-sanmui)
 
 ## `index.js`
 
-`index.js` includes `routes` and theme's own config.
+主题配置
 
 ```js
 module.exports = {
   // routes is required
-  routes: {
-    path: '/',
-    component: './template/Archive',
-
-    // optional, it's equal to `path` if omitted.
-    dataPath: 'path-to-markdown-file',
-    ...
-    childRoutes: [{
-      path: 'posts/:post',
-      component: './template/Post',
-
-      // we can use variables in `dataPath`, and values of variables are equal to them in path
-      dataPath: 'posts/:post',
-    }],
-  },
+  routes: 'path-to-routes.js',
 
   // the following configs are optional
   lazyLoad: true,
@@ -70,14 +58,11 @@ module.exports = {
     archive(markdownData) { ... },
     ...
   },
-  plugins: ['bisheng-plugin-react', ...],
+  plugins: ['eocky-plugin-san', ...],
 };
 ```
 
-The configuration of `routes` is similar with [react-router's](https://github.com/reactjs/react-router/blob/master/docs/guides/RouteConfiguration.md#configuration-with-plain-routes). The differences are:
-
-* `component` should be a string which is a path of a component.
-* `dataPath` means which Markdown file need to be rendered.
+routes 指向一个 san-router 形式的路由配置文件。
 
 ### lazyLoad: Boolean | (nodePath, nodeValue) => Boolean
 
@@ -91,7 +76,7 @@ And `lazyLoad` could be a function, it's similar to `ture`, but you can determin
 
 **Note:** when `lazyLoad` or the returned value of `lazyLoad()` is `true`, the Markdown data(or subtree) will be wrapped in a function which will return a promise.
 
-[**More about lazy load**](https://github.com/benjycui/bisheng/tree/master/docs/lazy-load.md).
+[**关于懒加载**](https://github.com/benjycui/bisheng/tree/master/docs/lazy-load.md).
 
 ### pick: Object { [field]: Function }
 
@@ -99,42 +84,30 @@ And `lazyLoad` could be a function, it's similar to `ture`, but you can determin
 
 To get part of data from Markdown data, and then put all the snippets into `props.picked` and pass it to template.
 
-[**More about pick**](https://github.com/benjycui/bisheng/tree/master/docs/pick.md).
+[**关于 pick**](./pick.md).
 
 ### plugins: Array[String]
 
 > default: []
 
-A list of plugins.
+主题依赖的插件：
 
 ```js
 module.exports = {
   plugins: [
     'pluginName?config1=value1&config2=value2',
-    'anotherPluginName',
+    'anotherPluginName'
   ],
 };
 ```
 
-The config of plugins follows [webpack loaders' convention](https://www.npmjs.com/package/loader-utils#parsequery).
+你可以用上述query形式的方式对插件传入配置，参考 [webpack loaders' convention](https://www.npmjs.com/package/loader-utils#parsequery).
 
-[**More about plugin**](https://github.com/benjycui/bisheng/tree/master/docs/plugin.md).
+[**关于插件**](./plugin.md).
 
-* [bisheng-plugin-description](https://github.com/benjycui/bisheng-plugin-description)
-* [bisheng-plugin-toc](https://github.com/benjycui/bisheng-plugin-toc)
-* [bisheng-plugin-react](https://github.com/benjycui/bisheng-plugin-react)
+* [eocky-plugin-san](../packages/eocky-plugin-san)
 
 
 ## Templates
 
-A template is just a React component, `bisheng` will pass [`themeConfig`](https://github.com/benjycui/bisheng#themeconfig-any) `data` `pageData` `utils` and all the [react-router](https://github.com/reactjs/react-router) props to it.
-
-* `data` contains the whole Markdown data tree which is generated from [`source`](https://github.com/benjycui/bisheng#source-string--arraystring--object-category-string--arraystring).
-* `pageData` is the content of a specific Markdown file. Actually, `bisheng` just get it from `data`. `bisheng` will determine which Markdown data should be pass as `pageData` by the configuration of `path` & `dataPath` in routes, for example:
-  1. User visits `/posts/hello-world`.
-  2. The URL matches the route `/posts/:post`.
-  3. The corresponding `dataPath` is `/posts/:post`.
-  4. So, `bisheng` will get `data.posts['hello-world']` and pass it as `pageData` to template.
-* `uitls` includes `bisheng`'s and plugins' utilities:
-  * `utils.toReactComponent` to convert JsonML to React component.
-  * `utils.get` to get nested value from an object, it's from [exist.js](https://github.com/benjycui/exist.js#existgetobj-nestedprop-defaultvalue).
+Templates 就是 San 的组件，他们通过 san-router 接受 markdown 数据，你可以在这些组件里使用 `this.data.get('route.config.xxx')` 的方式拿到这些数据。
