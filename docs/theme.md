@@ -68,21 +68,20 @@ routes 指向一个 san-router 形式的路由配置文件。
 
 > default: false
 
-If `lazyLoad` is `false`, it means that the whole Markdown data tree will be load while users visit any page.
 
-If `lazyLoad` is `true`, it meas that Markdown data will only be loaded while it's needed.
+如果 `lazyLoad` 是 `false`，markdown 数据会在你浏览的每一个页面都会全部加载。
 
-And `lazyLoad` could be a function, it's similar to `ture`, but you can determine whether a subtree of the Markdown data tree should be loaded lazily as one file.
+如果 `lazyLoad` 是 `true`，所有的 markdown 数据对应的数据部分都会变成一个 函数返回 Promise 以便你做懒加载。
 
-**Note:** when `lazyLoad` or the returned value of `lazyLoad()` is `true`, the Markdown data(or subtree) will be wrapped in a function which will return a promise.
+`lazyLoad` 也可以是一个函数，类似 `ture`。你可以通过这种方式来合并 markdown 数据构成一个 Promise。
 
-[**关于懒加载**](https://github.com/benjycui/bisheng/tree/master/docs/lazy-load.md).
+[**关于懒加载**](./lazy-load.md).
 
 ### pick: Object { [field]: Function }
 
 > default: {}
 
-To get part of data from Markdown data, and then put all the snippets into `props.picked` and pass it to template.
+获取 markdown 数据中的部分数据，将它们丢到 `route.config.picked` 以传入模板。
 
 [**关于 pick**](./pick.md).
 
