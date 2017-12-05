@@ -128,7 +128,6 @@ exports.build = function build(program, callback) {
   );
   const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'build');
   webpackConfig.plugins.push(new UglifyJsPlugin({
-    parallel: true,
     uglifyOptions: {
       output: {
         ascii_only: true,
