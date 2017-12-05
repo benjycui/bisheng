@@ -1,6 +1,8 @@
-const fs = require('fs');
-const path = require('path');
-const resolve = require('resolve');
+import * as fs from 'fs';
+import * as path from 'path';
+import * as resolve from 'resolve';
+import rucksack from 'rucksack-css';
+import autoprefixer from 'autoprefixer';
 
 const markdownTransformer = path.join(__dirname, '..', 'transformers', 'markdown');
 
@@ -12,6 +14,14 @@ const defaultConfig = {
   htmlTemplate: path.join(__dirname, '../template.html'),
   transformers: [],
   devServerConfig: {},
+  postcssConfig: {
+    plugins: [
+      rucksack(),
+      autoprefixer({
+        browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 8', 'iOS >= 8', 'Android >= 4'],
+      }),
+    ],
+  },
   webpackConfig(config) {
     return config;
   },
