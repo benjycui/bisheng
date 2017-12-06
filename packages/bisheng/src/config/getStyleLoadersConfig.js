@@ -1,16 +1,5 @@
-import rucksack from 'rucksack-css';
-import autoprefixer from 'autoprefixer';
 
-const postcssOptions = {
-  plugins: [
-    rucksack(),
-    autoprefixer({
-      browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 8', 'iOS >= 8', 'Android >= 4'],
-    }),
-  ],
-};
-
-export default [
+export default postcssOptions => ([
   {
     test(filePath) {
       return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath);
@@ -97,4 +86,4 @@ export default [
       options: postcssOptions,
     }, 'sass-loader'],
   }
-];
+]);

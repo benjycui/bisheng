@@ -205,6 +205,22 @@ The Extra Data which will be used to render [htmlTemplate](#htmltemplate-string)
 
 You can consult [webpack-dev-server's documentation](https://webpack.js.org/configuration/dev-server/).
 
+#### postcssConfig: Object
+
+```js
+default: {
+    plugins: [
+      rucksack(),
+      autoprefixer({
+        browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 8', 'iOS >= 8', 'Android >= 4'],
+      }),
+    ],
+  }
+```
+
+
+You can consult [wenpack postcss-loader's documentation](https://webpack.js.org/loaders/postcss-loader/#options).
+
 #### webpackConfig: (config) => config
 
 > default: (config) => config

@@ -2,13 +2,14 @@ import path from 'path';
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import context from '../context';
-import styleLoadersConfig from './styleLoadersConfig';
+import getStyleLoadersConfig from './getStyleLoadersConfig';
 
 const bishengLib = path.join(__dirname, '..');
 const bishengLibLoaders = path.join(bishengLib, 'loaders');
 
 export default function updateWebpackConfig(webpackConfig, mode) {
   const { bishengConfig } = context;
+  const styleLoadersConfig = getStyleLoadersConfig(bishengConfig.postcssConfig);
 
   /* eslint-disable no-param-reassign */
   webpackConfig.entry = {};
