@@ -1,15 +1,4 @@
-import rucksack from 'rucksack-css';
-import autoprefixer from 'autoprefixer';
 import stylus from 'stylus';
-
-const postcssOptions = {
-  plugins: [
-    rucksack(),
-    autoprefixer({
-      browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 8', 'iOS >= 8', 'Android >= 4'],
-    }),
-  ],
-};
 
 function plugin() {
   return style => {
@@ -17,7 +6,7 @@ function plugin() {
   };
 }
 
-export default [
+export default postcssOptions => ([
   {
     test(filePath) {
       return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath);
@@ -117,4 +106,4 @@ export default [
       }
     ]
   }
-];
+]);

@@ -180,6 +180,22 @@ posts
 
 详见 [webpack-dev-server 文档](https://webpack.js.org/configuration/dev-server/).
 
+#### postcssConfig: Object
+
+```js
+default: {
+    plugins: [
+      rucksack(),
+      autoprefixer({
+        browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 8', 'iOS >= 8', 'Android >= 4'],
+      }),
+    ],
+  }
+```
+
+
+详见 [wenpack postcss-loader's documentation](https://webpack.js.org/loaders/postcss-loader/#options).
+
 #### webpackConfig: (config) => config
 
 > default: (config) => config

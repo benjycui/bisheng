@@ -128,7 +128,13 @@ exports.build = function build(program, callback) {
     bishengConfig.root,
   );
   const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'build');
-  webpackConfig.plugins.push(new UglifyJSPlugin());
+  webpackConfig.plugins.push(new UglifyJsPlugin({
+    uglifyOptions: {
+      output: {
+        ascii_only: true,
+      },
+    },
+  }));
   webpackConfig.plugins.push(new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
   }));

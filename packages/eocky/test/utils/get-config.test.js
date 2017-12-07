@@ -9,6 +9,9 @@ describe('bisheng/utils/get-bisheng-config', () => {
     delete bishengConfig.webpackConfig;
     delete bishengConfig.filePathMapper;
 
+    assert.equal(bishengConfig.postcssConfig.plugins.length, 3);
+    delete bishengConfig.postcssConfig;
+
     assert.deepEqual(bishengConfig, {
       source: './content',
       output: './_site',
