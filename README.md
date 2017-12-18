@@ -25,7 +25,7 @@ You can create a PR to extend this list with your amazing website which is built
 
 `bisheng` is based on [dora](https://github.com/dora-js/dora) & [webpack](https://webpack.github.io/) & [React](https://facebook.github.io/react/) & [react-router](https://github.com/ReactTraining/react-router), and it has the following features:
 
-* Support [`browserHistory`](https://github.com/reactjs/react-router/blob/master/docs/API.md#browserhistory), even in [GitHub Pages](https://pages.github.com/).
+* Support [`browserHistory`](https://github.com/ReactTraining/react-router/blob/v3/docs/API.md#browserhistory), even in [GitHub Pages](https://pages.github.com/).
 * Lazy load for Markdown data.
 * [Plugin](https://github.com/benjycui/bisheng/blob/master/docs/plugin.md) system to extend default behaviour.
 * Server-side render for SEO.
