@@ -22,14 +22,19 @@ const routesTemplate = fs.readFileSync(path.join(__dirname, 'routes.nunjucks.js'
 const tmpDirPath = path.join(__dirname, '..', 'tmp');
 mkdirp.sync(tmpDirPath);
 
+function getDefaultOfModule(module) {
+  return module.default || module;
+}
+
 function getRoutesPath(configPath, themePath, configEntryName) {
   const routesPath = path.join(tmpDirPath, `routes.${configEntryName}.js`);
   const themeConfig = require(escapeWinPath(configPath)).themeConfig || {};
   fs.writeFileSync(
     routesPath,
     nunjucks.renderString(routesTemplate, {
-      themeConfig: JSON.stringify(themeConfig),
       themePath: escapeWinPath(themePath),
+      themeConfig: JSON.stringify(themeConfig),
+      themeRoutes: JSON.stringify(getDefaultOfModule(require(themePath)).routes),
     }),
   );
   return routesPath;

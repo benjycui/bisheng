@@ -67,8 +67,8 @@ module.exports = function getRoutes(data) {
     };
   }
 
-  const theme = require('{{ themePath }}');
-  const routes = Array.isArray(theme.routes) ? theme.routes : [theme.routes];
+  const themeRoutes = JSON.parse('{{ themeRoutes | safe }}');
+  const routes = Array.isArray(themeRoutes) ? themeRoutes : [themeRoutes];
 
   function processRoutes(route) {
     if (Array.isArray(route)) {
