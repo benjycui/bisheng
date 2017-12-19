@@ -51,6 +51,7 @@
   "homepage": "https://github.com/benjycui/bisheng-theme-one#readme",
   "devDependencies": {
     "babel-cli": "^6.18.0",
+    "babel-core": "^6.26.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.0",
