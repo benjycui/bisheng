@@ -2,7 +2,10 @@
   "scripts": {
     "lint": "eslint .eslintrc.js ./packages/*/src ./packages/*/test",
     "lint-fix": "eslint .eslintrc.js --fix ./packages/*/src ./packages/*/test",
-    "test": "lerna bootstrap && lerna exec -- _mocha --recursive --opts test/mocha.opts"
+    "test": "lerna bootstrap && lerna exec -- _mocha --recursive --opts test/mocha.opts",
+    "clean": "lerna clean",
+    "bootstrap": "lerna bootstrap",
+    "publish": "lerna publish"
   },
   "devDependencies": {
     "eslint": "latest",
@@ -10,7 +13,7 @@
     "eslint-plugin-import": "latest",
     "eslint-plugin-jsx-a11y": "latest",
     "eslint-plugin-react": "latest",
-    "lerna": "^2.4.0",
+    "lerna": "^2.5.1",
     "mocha": "^3.2.0"
   }
 }
