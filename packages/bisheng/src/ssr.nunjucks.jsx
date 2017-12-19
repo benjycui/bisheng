@@ -10,16 +10,20 @@ const routes = require('{{ routesPath }}')(data);
 module.exports = function ssr(url, callback) {
   ReactRouter.match({ routes, location: url }, (error, redirectLocation, renderProps) => {
     if (error) {
-      callback('');
+      callback(error, '');
     } else if (redirectLocation) {
-      callback(''); // TODO
+      callback(null, ''); // TODO
     } else if (renderProps) {
-      const content = ReactDOMServer.renderToString(
-        <ReactRouter.RouterContext {...renderProps} createElement={createElement} />,
-      );
-      callback(content);
+      try {
+        const content = ReactDOMServer.renderToString(
+          <ReactRouter.RouterContext {...renderProps} createElement={createElement} />,
+        );
+        callback(null, content);
+      } catch (e) {
+        callback(e, '');
+      }
     } else {
-      callback(''); // TODO
+      callback(null, ''); // TODO
     }
   });
 };
