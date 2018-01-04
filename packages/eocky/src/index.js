@@ -142,7 +142,7 @@ exports.build = function build(program, callback) {
   const ssrWebpackConfig = Object.assign({}, webpackConfig);
   const ssrPath = path.join(tmpDirPath, `ssr.${entryName}.js`);
   const routesPath = getRoutesPath(configFile, path.dirname(bishengConfig.theme), entryName);
-  fs.writeFileSync(ssrPath, nunjucks.renderString(ssrTemplate, { routesPath }));
+  fs.writeFileSync(ssrPath, nunjucks.renderString(ssrTemplate, { routesPath: escapeWinPath(routesPath) }));
 
   ssrWebpackConfig.entry = {
     [`${entryName}-ssr`]: ssrPath,
@@ -201,10 +201,14 @@ exports.build = function build(program, callback) {
     //     const output = path.join(bishengConfig.output, file);
     //     mkdirp.sync(path.dirname(output));
     //     return new Promise((resolve) => {
-    //       ssr(filenameToUrl(file), (content) => {
+    //       ssr(filenameToUrl(file), (error, content) => {
+    //         if (error) {
+    //           console.error(error);
+    //           process.exit(1);
+    //         }
     //         const templateData = Object.assign({ root: bishengConfig.root, content }, bishengConfig.htmlTemplateExtraData || {});
     //         const fileContent = nunjucks
-    //           .renderString(template, templateData);
+    //                 .renderString(template, templateData);
     //         fs.writeFileSync(output, fileContent);
     //         console.log('Created: ', output);
     //         resolve();
