@@ -13,5 +13,5 @@ program
 
 process.on('SIGINT', function() {
   program.runningCommand && program.runningCommand.kill('SIGKILL');
-  process.exit(0);
+  process.exit(130);
 });
