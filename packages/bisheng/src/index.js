@@ -78,10 +78,10 @@ exports.start = function start(program) {
   webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
   const serverOptions = {
     quiet: true,
+    hot: true,
     ...bishengConfig.devServerConfig,
     contentBase: path.join(process.cwd(), bishengConfig.output),
     historyApiFallback: true,
-    hot: true,
     host: 'localhost',
   };
   WebpackDevServer.addDevServerEntrypoints(webpackConfig, serverOptions);
