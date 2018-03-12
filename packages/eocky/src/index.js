@@ -1,7 +1,7 @@
 import openBrowser from 'react-dev-utils/openBrowser';
 import getWebpackCommonConfig from './config/getWebpackCommonConfig';
 import updateWebpackConfig from './config/updateWebpackConfig';
-import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
 const fs = require('fs');
 const path = require('path');
