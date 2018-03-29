@@ -6,9 +6,9 @@
     "deploy": "bisheng gh-pages --ssr && rm -rf _site"
   },
   "dependencies": {
-    "bisheng": "^0.28.0",
-    "bisheng-theme-one": "^0.2.31"
+    "bisheng": "^0.28.3",
+    "bisheng-theme-one": "^0.2.34"
   },
-  "version": "1.0.31",
+  "version": "1.0.33",
   "private": true
 }
