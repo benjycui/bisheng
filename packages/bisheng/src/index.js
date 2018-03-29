@@ -132,6 +132,9 @@ exports.build = function build(program, callback) {
     bishengConfig.root,
   );
   const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'build');
+  webpackConfig.plugins.push(new webpack.LoaderOptionsPlugin({
+    minimize: true,
+  }),);
   webpackConfig.plugins.push(new UglifyJsPlugin({
     uglifyOptions: {
       output: {
