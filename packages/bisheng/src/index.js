@@ -62,11 +62,6 @@ exports.start = function start(program) {
   context.initialize({ bishengConfig });
   mkdirp.sync(bishengConfig.output);
 
-  const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
-  const templateData = Object.assign({ root: '/' }, bishengConfig.htmlTemplateExtraData || {});
-  const templatePath = path.join(process.cwd(), bishengConfig.output, 'index.html');
-  fs.writeFileSync(templatePath, nunjucks.renderString(template, templateData));
-
   generateEntryFile(
     configFile,
     bishengConfig.theme,
@@ -74,7 +69,7 @@ exports.start = function start(program) {
     '/',
   );
 
-  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'start');
+  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(bishengConfig), 'start');
   webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
   const serverOptions = {
     quiet: true,
@@ -94,16 +89,20 @@ exports.start = function start(program) {
   const timefix = 11000;
   compiler.plugin('watch-run', (watching, callback) => {
     watching.startTime += timefix;
-    callback()
+    callback();
   });
   compiler.plugin('done', (stats) => {
-    stats.startTime -= timefix
-  })
+    stats.startTime -= timefix;
+    const templateData = Object.assign({ root: '/' }, bishengConfig.htmlTemplateExtraData || {});
+    const templatePath = path.join(process.cwd(), bishengConfig.output, 'index.html');
+    const template = fs.readFileSync(templatePath).toString();
+    fs.writeFileSync(templatePath, nunjucks.renderString(template, templateData));
+  });
 
   const server = new WebpackDevServer(compiler, serverOptions);
   server.listen(
     bishengConfig.port, '0.0.0.0',
-    () => openBrowser(`http://localhost:${bishengConfig.port}`)
+    () => openBrowser(`http://localhost:${bishengConfig.port}`),
   );
 };
 
@@ -131,7 +130,7 @@ exports.build = function build(program, callback) {
     entryName,
     bishengConfig.root,
   );
-  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'build');
+  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(bishengConfig), 'build');
   webpackConfig.plugins.push(new webpack.LoaderOptionsPlugin({
     minimize: true,
   }),);
@@ -145,7 +144,13 @@ exports.build = function build(program, callback) {
   webpackConfig.plugins.push(new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
   }));
-
+  webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
+  webpackConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
+  webpackConfig.plugins.push(new webpack.NamedChunksPlugin(chunk => chunk.name || 'faceless-chunk'));
+  webpackConfig.plugins.push(new webpack.optimize.CommonsChunkPlugin({
+    name: 'runtime',
+    minChunks: Infinity,
+  }));
 
   const ssrWebpackConfig = Object.assign({}, webpackConfig);
   const ssrPath = path.join(tmpDirPath, `ssr.${entryName}.js`);
@@ -179,7 +184,8 @@ exports.build = function build(program, callback) {
     let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(bishengConfig.filePathMapper);
     filesNeedCreated = R.unnest(filesNeedCreated);
 
-    const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
+    const templatePath = path.join(process.cwd(), bishengConfig.output, 'index.html');
+    const template = fs.readFileSync(templatePath).toString();
 
     if (!program.ssr) {
       require('./loaders/common/boss').jobDone();
