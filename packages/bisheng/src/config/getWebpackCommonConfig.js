@@ -12,7 +12,7 @@ import getTSCommonConfig from './getTSCommonConfig';
 
 /* eslint quotes:0 */
 
-export default function getWebpackCommonConfig(bishengConfig) {
+export default function getWebpackCommonConfig() {
   const jsFileName = context.isBuild ? '[name].[chunkhash:6].js' : '[name].js';
   const cssFileName = context.isBuild ? '[name].[contenthash:6].css' : '[name].css';
 
@@ -22,6 +22,7 @@ export default function getWebpackCommonConfig(bishengConfig) {
 
   return {
     output: {
+      path: join(process.cwd(), context.bishengConfig.output),
       filename: jsFileName,
       chunkFilename: jsFileName,
     },
@@ -107,9 +108,10 @@ export default function getWebpackCommonConfig(bishengConfig) {
       }),
       new HtmlWebpackPlugin({
         filename: 'index.html',
-        template: bishengConfig.htmlTemplate,
+        template: context.bishengConfig.htmlTemplate,
         inject: true,
         chunksSortMode: 'dependency',
+        alwaysWriteToDisk: true,
       }),
       new CaseSensitivePathsPlugin(),
       new webpack.ProgressPlugin((percentage, msg, addInfo) => {

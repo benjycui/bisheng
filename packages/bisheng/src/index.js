@@ -1,4 +1,6 @@
+import HtmlHardDiskPlugin from 'html-webpack-harddisk-plugin';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import WriteFilePlugin from 'write-file-webpack-plugin';
 import openBrowser from 'react-dev-utils/openBrowser';
 import getWebpackCommonConfig from './config/getWebpackCommonConfig';
 import updateWebpackConfig from './config/updateWebpackConfig';
@@ -69,8 +71,10 @@ exports.start = function start(program) {
     '/',
   );
 
-  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(bishengConfig), 'start');
+  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'start');
   webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
+  webpackConfig.plugins.push(new WriteFilePlugin());
+  webpackConfig.plugins.push(new HtmlHardDiskPlugin());
   const serverOptions = {
     quiet: true,
     hot: true,
@@ -88,11 +92,11 @@ exports.start = function start(program) {
   // https://github.com/webpack/watchpack/issues/25
   const timefix = 11000;
   compiler.plugin('watch-run', (watching, callback) => {
-    watching.startTime += timefix;
+    watching.startTime += timefix; // eslint-disable-line
     callback();
   });
   compiler.plugin('done', (stats) => {
-    stats.startTime -= timefix;
+    stats.startTime -= timefix; // eslint-disable-line
     const templateData = Object.assign({ root: '/' }, bishengConfig.htmlTemplateExtraData || {});
     const templatePath = path.join(process.cwd(), bishengConfig.output, 'index.html');
     const template = fs.readFileSync(templatePath).toString();
@@ -130,10 +134,10 @@ exports.build = function build(program, callback) {
     entryName,
     bishengConfig.root,
   );
-  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(bishengConfig), 'build');
+  const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'build');
   webpackConfig.plugins.push(new webpack.LoaderOptionsPlugin({
     minimize: true,
-  }),);
+  }));
   webpackConfig.plugins.push(new UglifyJsPlugin({
     uglifyOptions: {
       output: {
@@ -175,7 +179,7 @@ exports.build = function build(program, callback) {
     }
 
     if (stats.hasErrors()) {
-      console.log(stats.toString('errors-only'));
+      console.error(stats.toString('errors-only'));
       return;
     }
 
@@ -207,10 +211,20 @@ exports.build = function build(program, callback) {
     context.turnOnSSRFlag();
     // If we can build webpackConfig without errors, we can build ssrWebpackConfig without errors.
     // Because ssrWebpackConfig are just part of webpackConfig.
-    webpack(ssrWebpackConfig, () => {
+    webpack(ssrWebpackConfig, (_err, _stats) => {
+      if (_err !== null) {
+        return console.error(_err);
+      }
+      if (_stats.hasErrors()) {
+        console.error(_stats.toString('errors-only'));
+        return;
+      }
+
       require('./loaders/common/boss').jobDone();
 
-      const { ssr } = require(path.join(tmpDirPath, `${entryName}-ssr`));
+      const assets = _stats.toJson().assetsByChunkName[`${entryName}-ssr`];
+      const entryJsAsset = typeof assets === 'string' ? assets : assets.filter(a => /\.js$/.test(a))[0];
+      const { ssr } = require(path.join(tmpDirPath, entryJsAsset));
       const fileCreatedPromises = filesNeedCreated.map((file) => {
         const output = path.join(bishengConfig.output, file);
         mkdirp.sync(path.dirname(output));
@@ -221,8 +235,7 @@ exports.build = function build(program, callback) {
               process.exit(1);
             }
             const templateData = Object.assign({ root: bishengConfig.root, content }, bishengConfig.htmlTemplateExtraData || {});
-            const fileContent = nunjucks
-                    .renderString(template, templateData);
+            const fileContent = nunjucks.renderString(template, templateData);
             fs.writeFileSync(output, fileContent);
             console.log('Created: ', output);
             resolve();
