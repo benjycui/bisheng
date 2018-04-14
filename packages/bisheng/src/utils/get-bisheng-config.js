@@ -28,6 +28,7 @@ const defaultConfig = {
 
   entryName: 'index',
   root: '/',
+  history: 'browser',
   filePathMapper(filePath) {
     return filePath;
   },
