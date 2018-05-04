@@ -174,7 +174,7 @@ exports.build = function build(program, callback) {
     const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
 
     if (!program.ssr) {
-      // require('./loaders/common/boss').jobDone();
+      require('./loaders/common/boss').jobDone();
       // const templateData = Object.assign({ root: bishengConfig.root }, bishengConfig.htmlTemplateExtraData || {});
       // const fileContent = nunjucks.renderString(template, templateData);
       // filesNeedCreated.forEach((file) => {
