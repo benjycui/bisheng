@@ -56,9 +56,9 @@ module.exports = {
 你可以将 `eocky` 作为命令行工具全局安装，不过更推荐作为项目的 `devDependencies` 来使用它。
 
 ```bash
-$ npm install -g bisheng
-$ bisheng -h
-  Usage: bisheng [command] [options]
+$ npm install -g eocky
+$ eocky -h
+  Usage: eocky [command] [options]
 
   Commands:
 
