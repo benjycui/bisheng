@@ -169,20 +169,21 @@ exports.build = function build(program, callback) {
     // const markdown = sourceData.generate(bishengConfig.source, bishengConfig.transformers);
     // const themeConfig = require(bishengConfig.theme);
     // let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(bishengConfig.filePathMapper);
-    // filesNeedCreated = R.unnest(filesNeedCreated);
+    let filesNeedCreated = [['index.html']];
+    filesNeedCreated = R.unnest(filesNeedCreated);
 
     const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
 
     if (!program.ssr) {
       require('./loaders/common/boss').jobDone();
-      // const templateData = Object.assign({ root: bishengConfig.root }, bishengConfig.htmlTemplateExtraData || {});
-      // const fileContent = nunjucks.renderString(template, templateData);
-      // filesNeedCreated.forEach((file) => {
-      //   const output = path.join(bishengConfig.output, file);
-      //   mkdirp.sync(path.dirname(output));
-      //   fs.writeFileSync(output, fileContent);
-      //   console.log('Created: ', output);
-      // });
+      const templateData = Object.assign({ root: bishengConfig.root }, bishengConfig.htmlTemplateExtraData || {});
+      const fileContent = nunjucks.renderString(template, templateData);
+      filesNeedCreated.forEach((file) => {
+        const output = path.join(bishengConfig.output, file);
+        mkdirp.sync(path.dirname(output));
+        fs.writeFileSync(output, fileContent);
+        console.log('Created: ', output);
+      });
 
       if (callback) {
         callback();
