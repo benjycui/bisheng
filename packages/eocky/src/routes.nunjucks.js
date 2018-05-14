@@ -1,7 +1,7 @@
 import {router} from 'san-router';
 const createSanComponent = require('../lib/utils/create-san-element');
 
-const themeConfig = '{{ themeConfig | safe }}';
+const themeConfig = JSON.parse('{{ themeConfig | safe }}');
 
 const theme = require('{{ themePathConfig }}');
 
