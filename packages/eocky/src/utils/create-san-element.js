@@ -6,7 +6,9 @@ module.exports = function jsonml2san(jsonml) {
         if (elem.tagName &&
             elem.tagName.toLowerCase() === 'pre' &&
             elem.getAttribute('highlighted')) {
-            elem.innerHTML = elem.getAttribute('highlighted');
+            elem.innerHTML = `<code>${elem.getAttribute('highlighted')}</code>`;
+            elem.className = 'language-' + elem.getAttribute('lang');
+            elem.removeAttribute('highlighted');
         }
         return elem;
     });
