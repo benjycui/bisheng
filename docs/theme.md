@@ -109,4 +109,4 @@ module.exports = {
 
 ## Templates
 
-Templates 就是 San 的组件，他们通过 san-router 接受 markdown 数据，你可以在这些组件里使用 `this.data.get('route.config.xxx')` 的方式拿到这些数据。
+Templates 就是 San 的组件，他们通过 san-router 接受 markdown 数据，你可以在这些组件里使用 `this.data.get('route.config.[data|picked|utils]')` 的方式拿到这些数据。
