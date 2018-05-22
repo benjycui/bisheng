@@ -111,7 +111,7 @@ module.exports = {
 
 Templates 就是 San 的组件，他们通过 san-router 接受 markdown 数据，你可以在这些组件里使用 `this.data.get('route.config.[data|picked|utils]')` 的方式拿到这些数据,其中：
 
-- **route.config.data** 指向eocky.config.js文件中**soure**字段指定目录下markdown文档的解析结果，参考[source](https://github.com/WindTraveler/eocky#source-string--arraystring--object-category-string--arraystring).
+- **route.config.data** 指向eocky.config.js文件中**source**字段指定目录下markdown文档的解析结果，参考[source](https://github.com/WindTraveler/eocky#source-string--arraystring--object-category-string--arraystring).
 
 - **route.config.picked** 参考[pick](./theme.md#pick-object--field-function-).
 
