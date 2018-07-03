@@ -78,6 +78,8 @@
     "friendly-errors-webpack-plugin": "^1.6.1",
     "gh-pages": "^1.0.0",
     "history": "^3.0.0",
+    "html-webpack-plugin": "^3.1.0",
+    "html-webpack-harddisk-plugin": "^0.2.0",    
     "jsonml-to-react-element": "^1.0.0",
     "jsonml.js": "^0.1.0",
     "less": "~2.7.2",
@@ -104,7 +106,8 @@
     "uglifyjs-webpack-plugin": "^1.1.2",
     "url-loader": "~0.5.8",
     "webpack": "^3.7.0",
-    "webpack-dev-server": "^2.9.1"
+    "webpack-dev-server": "^2.9.1",
+    "write-file-webpack-plugin": "^4.2.0"    
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",

@@ -3,23 +3,26 @@ import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import chalk from 'chalk';
 
+import context from '../context';
 import getBabelCommonConfig from './getBabelCommonConfig';
 import getTSCommonConfig from './getTSCommonConfig';
 
 /* eslint quotes:0 */
 
 export default function getWebpackCommonConfig() {
-  const jsFileName = '[name].js';
-  const cssFileName = '[name].css';
-  const commonName = 'common.js';
+  const jsFileName = context.isBuild ? '[name].[chunkhash:6].js' : '[name].js';
+  const cssFileName = context.isBuild ? '[name].[contenthash:6].css' : '[name].css';
 
   const babelOptions = getBabelCommonConfig();
   const tsOptions = getTSCommonConfig();
 
+
   return {
     output: {
+      path: join(process.cwd(), context.bishengConfig.output),
       filename: jsFileName,
       chunkFilename: jsFileName,
     },
@@ -90,12 +93,25 @@ export default function getWebpackCommonConfig() {
     plugins: [
       new webpack.optimize.CommonsChunkPlugin({
         name: 'common',
-        filename: commonName,
+        minChunks(module) {
+          return (
+            module.resource &&
+            /\.js$/.test(module.resource) &&
+            /node_modules/.test(module.resource)
+          );
+        },
       }),
       new ExtractTextPlugin({
         filename: cssFileName,
         disable: false,
         allChunks: true,
+      }),
+      new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: context.bishengConfig.htmlTemplate,
+        inject: true,
+        chunksSortMode: 'dependency',
+        alwaysWriteToDisk: true,
       }),
       new CaseSensitivePathsPlugin(),
       new webpack.ProgressPlugin((percentage, msg, addInfo) => {
