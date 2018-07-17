@@ -1,0 +1,14 @@
+{
+  "name": "bisheng-example",
+  "scripts": {
+    "start": "bisheng start",
+    "build": "bisheng build --ssr",
+    "deploy": "bisheng gh-pages --ssr && rm -rf _site"
+  },
+  "dependencies": {
+    "bisheng": "^0.29.0",
+    "bisheng-theme-one": "^0.2.35"
+  },
+  "version": "1.0.34",
+  "private": true
+}

@@ -1,0 +1,71 @@
+{
+  "name": "bisheng-theme-one",
+  "version": "0.2.35",
+  "description": "The one theme for bisheng.",
+  "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "prepublish": "babel ./src --out-dir ./lib && shx cp -R src/static/* lib/static",
+    "postpublish": "shx rm -rf lib"
+  },
+  "babel": {
+    "presets": [
+      "react",
+      [
+        "env",
+        {
+          "targets": {
+            "browsers": [
+              "last 2 versions",
+              "Firefox ESR",
+              "> 1%",
+              "ie >= 8",
+              "iOS >= 8",
+              "Android >= 4"
+            ]
+          }
+        }
+      ]
+    ],
+    "plugins": [
+      "transform-class-properties",
+      "transform-object-rest-spread"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjycui/bisheng-theme-one.git"
+  },
+  "keywords": [
+    "bisheng",
+    "theme",
+    "one"
+  ],
+  "author": "Benjy Cui",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benjycui/bisheng-theme-one/issues"
+  },
+  "homepage": "https://github.com/benjycui/bisheng-theme-one#readme",
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "bisheng": "^0.29.0",
+    "react": "^16.0.0",
+    "shx": "^0.2.2"
+  },
+  "dependencies": {
+    "bisheng-plugin-description": "^0.1.4",
+    "react-document-title": "^2.0.1"
+  },
+  "peerDependencies": {
+    "bisheng": "^0.28.3",
+    "react": "^16.0.0"
+  }
+}

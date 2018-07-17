@@ -1,6 +1,6 @@
 {
   "name": "eocky",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Static site generator based on San.",
   "bin": {
     "eocky": "./bin/eocky"
@@ -73,7 +73,12 @@
     "friendly-errors-webpack-plugin": "^1.6.1",
     "gh-pages": "^1.0.0",
     "history": "^3.0.0",
+<<<<<<< HEAD:packages/eocky/package.json
     "html-loader": "^0.5.1",
+=======
+    "html-webpack-harddisk-plugin": "^0.2.0",
+    "html-webpack-plugin": "^3.1.0",
+>>>>>>> 4c0c58e1ee16970b039afb28fc1ca19469a61688:packages/bisheng/package.json
     "jsonml-to-react-element": "^1.0.0",
     "jsonml.js": "^0.1.0",
     "less": "~2.7.2",
@@ -106,7 +111,8 @@
     "uglifyjs-webpack-plugin": "^1.1.2",
     "url-loader": "~0.5.8",
     "webpack": "^3.7.0",
-    "webpack-dev-server": "^2.9.1"
+    "webpack-dev-server": "^2.9.1",
+    "write-file-webpack-plugin": "^4.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
