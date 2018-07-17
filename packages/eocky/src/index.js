@@ -4,7 +4,6 @@ import WriteFilePlugin from 'write-file-webpack-plugin';
 import openBrowser from 'react-dev-utils/openBrowser';
 import getWebpackCommonConfig from './config/getWebpackCommonConfig';
 import updateWebpackConfig from './config/updateWebpackConfig';
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
 const fs = require('fs');
 const path = require('path');
