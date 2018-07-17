@@ -163,7 +163,7 @@ posts
 
 站点所使用的 HTML 模板，因为是 SPA 所以只有一个。
 
-**注意:** 该模板使用 [nunjucks](https://mozilla.github.io/nunjucks/) 这一模板殷勤，用于注入数据，这部分数据包括
+**注意:** 该模板使用 [nunjucks](https://mozilla.github.io/nunjucks/) 这一模板引擎，用于注入数据，这部分数据包括
 
 * [`root`](#root-string)
 * 你传给 [htmlTemplateExtraData](#htmltemplateextradata-object) 的所有属性。
