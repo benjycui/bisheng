@@ -73,6 +73,7 @@
     "friendly-errors-webpack-plugin": "^1.6.1",
     "gh-pages": "^1.2.0",
     "history": "^3.0.0",
+    "html-loader": "^0.5.5",
     "html-webpack-harddisk-plugin": "^0.2.0",
     "html-webpack-plugin": "^3.1.0",
     "jsonml-to-react-element": "^1.0.0",
