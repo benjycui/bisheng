@@ -1,7 +1,7 @@
 const chain = require('ramda/src/chain');
 const toReactElement = require('jsonml-to-react-element');
 const exist = require('exist.js');
-const NProgress = require('nprogress');
+const NProgress = require('nprogress-for-antd');
 const NotFound = require('{{ themePath }}/template/NotFound');
 const themeConfig = JSON.parse('{{ themeConfig | safe }}');
 

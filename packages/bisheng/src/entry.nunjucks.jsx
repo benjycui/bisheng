@@ -1,5 +1,5 @@
 require('babel-polyfill');
-require('nprogress/nprogress.css');
+require('nprogress-for-antd/nprogress.css');
 
 /* eslint-disable no-unused-vars */
 const React = require('react');

@@ -86,7 +86,7 @@
     "mark-twain": "^2.0.0",
     "mkdirp": "^0.5.1",
     "node-prismjs": "^0.1.0",
-    "nprogress": "^0.2.0",
+    "nprogress-for-antd": "^0.2.0",
     "nunjucks": "^2.5.2",
     "postcss": "^6.0.11",
     "postcss-loader": "~2.0.6",
