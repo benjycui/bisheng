@@ -1,21 +1,34 @@
-import { tmpdir } from 'os';
+import { tmpdir } from "os"
+
+const resolve = x => require.resolve(x)
 
 export default function babel() {
   return {
     cacheDirectory: tmpdir(),
     presets: [
-      'react',
-      [require.resolve('babel-preset-env'), {
-        targets: {
-          browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 8', 'iOS >= 8', 'Android >= 4'],
-        },
-      }],
+      "@babel/preset/react",
+      [
+        resolve("@babel/preset-env"),
+        {
+          targets: {
+            browsers: [
+              "last 2 versions",
+              "Firefox ESR",
+              "> 1%",
+              "ie >= 8",
+              "iOS >= 8",
+              "Android >= 4"
+            ]
+          }
+        }
+      ]
     ],
     plugins: [
-      require.resolve('babel-plugin-add-module-exports'),
-      require.resolve('babel-plugin-transform-class-properties'),
-      require.resolve('babel-plugin-transform-decorators-legacy'),
-      require.resolve('babel-plugin-transform-object-rest-spread'),
-    ],
-  };
+      "babel-plugin-add-module-exports",
+
+      ["@babel/plugin-proposal-decorators", { decoratorsBeforeExport: true }],
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-object-rest-spread"
+    ].map(resolve)
+  }
 }
