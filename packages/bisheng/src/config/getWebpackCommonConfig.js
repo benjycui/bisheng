@@ -100,7 +100,7 @@ export default function getWebpackCommonConfig() {
       }),
       new CaseSensitivePathsPlugin(),
       new WebpackBar({
-        name: '📦 Bisheng',
+        name: '🚚  Bisheng',
       }),
       new FriendlyErrorsWebpackPlugin(),
     ],
