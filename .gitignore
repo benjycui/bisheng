@@ -4,3 +4,4 @@ node_modules
 packages/*/lib
 tmp
 package-lock.json
+.history
