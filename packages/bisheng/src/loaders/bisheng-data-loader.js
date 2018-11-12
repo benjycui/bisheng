@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const getThemeConfig = require('../utils/get-theme-config');
 const sourceData = require('../utils/source-data');
 const resolvePlugins = require('../utils/resolve-plugins');
 const context = require('../context');
@@ -11,8 +10,7 @@ module.exports = function bishengDataLoader(/* content */) {
     this.cacheable();
   }
 
-  const { bishengConfig } = context;
-  const themeConfig = getThemeConfig(bishengConfig.theme);
+  const { bishengConfig, themeConfig } = context;
 
   const markdown = sourceData.generate(bishengConfig.source, bishengConfig.transformers);
   const browserPlugins = resolvePlugins(themeConfig.plugins, 'browser');
