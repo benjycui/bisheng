@@ -7,6 +7,12 @@ const transform = require('san-markdown-loader/lib/transform');
 
 const parse = himalaya.parse;
 const stringify = himalaya.stringify;
+const parseOpts = {
+    ...himalaya.parseDefaults,
+    // himalaya 默认 template 标签包含不解析内容 这里重新配置
+    childlessTags: ['style', 'script']
+};
+
 const tmpDir = path.join(__dirname, '__tmp__');
 
 if (!fs.existsSync(tmpDir)) {
@@ -31,7 +37,7 @@ module.exports = function (markdownData, {
                 const originPath = process.cwd() + '/' + markdownData.meta.filename;
 
                 // 对code中的相对路径做转换
-                const parsedSanAst = parse(code);
+                const parsedSanAst = parse(code, parseOpts);
                 parsedSanAst
                     .filter(el => (
                         el.type === 'element'
@@ -47,7 +53,7 @@ module.exports = function (markdownData, {
                             components: []
                         });
                     });
-                const parsedCode = stringify(parsedSanAst);
+                const parsedCode = stringify(parsedSanAst, parseOpts);
 
                 fs.writeFileSync(targetPath, parsedCode, 'utf8');
                 const moduleRes = loaderUtils.stringifyRequest(this, targetPath).slice(1, -1);
