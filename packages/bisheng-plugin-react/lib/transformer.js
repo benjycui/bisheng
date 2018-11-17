@@ -1,9 +1,7 @@
-'use strict';
-
-const babel = require('babel-core');
-const types = require('babel-types');
-const traverse = require('babel-traverse').default;
-const generator = require('babel-generator').default;
+const babel = require('@babel/core');
+const types = require('@babel/types');
+const traverse = require('@babel/traverse').default;
+const generator = require('@babel/generator').default;
 
 const errorBoxStyle = {
   padding: 10,
@@ -19,61 +17,76 @@ function requireGenerator(varName, moduleName) {
   return types.variableDeclaration('var', [
     types.variableDeclarator(
       types.identifier(varName),
-      types.callExpression(
-        types.identifier('require'),
-        [types.stringLiteral(moduleName)]
-      )
+      types.callExpression(types.identifier('require'), [
+        types.stringLiteral(moduleName),
+      ]),
     ),
   ]);
 }
-
 const defaultBabelConfig = {
   presets: [
-    'react',
-    ['env', {
-      targets: {
-        browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 8', 'iOS >= 8', 'Android >= 4'],
+    '@babel/preset-react',
+    [
+      '@babel/preset-env',
+      {
+        targets: {
+          browsers: [
+            'last 2 versions',
+            'Firefox ESR',
+            '> 1%',
+            'ie >= 8',
+            'iOS >= 8',
+            'Android >= 4',
+          ],
+        },
       },
-    }],
+    ],
   ],
   plugins: [
-    'transform-class-properties',
-    'transform-object-rest-spread',
+    '@babel/plugin-proposal-class-properties',
+    '@babel/plugin-proposal-object-rest-spread',
   ],
 };
 
-module.exports = function transformer(
-  code,
-  babelConfig = {},
-  noreact
-) {
+module.exports = function transformer(code, babelConfig = {}, noreact) {
   let codeAst = null;
+
   try {
-    const { ast } = babel.transform(code, Object.assign({}, defaultBabelConfig, babelConfig));
+    const parserOpts = Object.assign({
+      ast: true,
+      babelrc: false,
+      configFile: false,
+    }, defaultBabelConfig, babelConfig);
+    //  parseSync
+    const { ast } = babel.transformSync(
+      code,
+      parserOpts,
+    );
     codeAst = ast;
-  } catch(e) {
+  } catch (e) {
     console.error(e);
-    return `function() { ` +
-      `  var React = require('react');` +
-      `  return React.createElement('pre', {` +
-      `    style: ${JSON.stringify(errorBoxStyle)}` +
-      `  }, '${e.toString()}'); ` +
-      `}`;
+    return (
+      'function() { '
+      + "  var React = require('react');"
+      + "  return React.createElement('pre', {"
+      + `    style: ${JSON.stringify(errorBoxStyle)}`
+      + `  }, '${e.toString()}'); `
+      + '}'
+    );
   }
 
   let renderReturn = null;
   traverse(codeAst, {
-    CallExpression: function(callPath) {
+    CallExpression(callPath) {
       const callPathNode = callPath.node;
-      if (callPathNode.callee &&
-          callPathNode.callee.object &&
-          callPathNode.callee.object.name === 'ReactDOM' &&
-          callPathNode.callee.property &&
-          callPathNode.callee.property.name === 'render') {
-
-        renderReturn = types.returnStatement(
-          callPathNode.arguments[0]
-        );
+      if (
+        callPathNode.callee
+        && callPathNode.callee.object
+        && callPathNode.callee.object.name === 'ReactDOM'
+        && callPathNode.callee.property
+        && callPathNode.callee.property.name === 'render'
+      ) {
+        renderReturn = types.returnStatement(callPathNode.arguments[0]);
 
         callPath.remove();
       }
@@ -94,8 +107,8 @@ module.exports = function transformer(
   const previewFunction = types.functionDeclaration(
     types.Identifier('bishengPluginReactPreviewer'),
     [],
-    codeBlock
+    codeBlock,
   );
 
-  return generator(types.program([previewFunction]), null, code).code;
+  return generator(types.program([previewFunction]), {}, code).code;
 };
