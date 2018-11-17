@@ -24,6 +24,7 @@
   "dependencies": {
     "@babel/core": "^7.0.0",
     "@babel/generator": "^7.0.0",
+    "@babel/plugin-proposal-decorators": "^7.1.6",
     "@babel/traverse": "^7.0.0",
     "@babel/types": "^7.0.0"
   },
