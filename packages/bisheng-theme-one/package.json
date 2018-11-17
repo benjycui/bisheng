@@ -61,7 +61,7 @@
     "@babel/preset-react": "^7.0.0",
     "bisheng": "^0.28.4",
     "react": "^16.0.0",
-    "shx": "^0.2.2"
+    "shx": "^0.3.2"
   },
   "dependencies": {
     "bisheng-plugin-description": "^0.1.4",
