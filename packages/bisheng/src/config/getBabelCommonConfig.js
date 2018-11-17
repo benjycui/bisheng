@@ -1,8 +1,10 @@
+const { tmpdir } = require('os');
+
 const { resolve } = require;
 
 export default function babel() {
   return {
-    cacheDirectory: true,
+    cacheDirectory: tmpdir(),
     presets: [
       '@babel/preset/react',
       [
