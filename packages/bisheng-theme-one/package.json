@@ -49,6 +49,9 @@
     "url": "https://github.com/benjycui/bisheng-theme-one/issues"
   },
   "homepage": "https://github.com/benjycui/bisheng-theme-one#readme",
+  "engines": {
+    "node": ">=8.6.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",

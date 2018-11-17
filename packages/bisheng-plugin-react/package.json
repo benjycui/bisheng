@@ -18,6 +18,9 @@
     "url": "https://github.com/benjycui/bisheng-plugin-react/issues"
   },
   "homepage": "https://github.com/benjycui/bisheng-plugin-react#readme",
+  "engines": {
+    "node": ">=8.6.0"
+  },
   "dependencies": {
     "@babel/core": "^7.0.0",
     "@babel/generator": "^7.0.0",
