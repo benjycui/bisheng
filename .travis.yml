@@ -1,4 +1,4 @@
 language: node_js
 node_js:
-  - "8.6.0"
+  - "8.10.0"
 before_install: npm install lerna@3.4.3 -g
