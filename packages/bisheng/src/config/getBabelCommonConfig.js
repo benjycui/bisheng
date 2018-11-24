@@ -6,7 +6,7 @@ export default function babel() {
   return {
     cacheDirectory: tmpdir(),
     presets: [
-      '@babel/preset/react',
+      '@babel/preset-react',
       [
         resolve('@babel/preset-env'),
         {
@@ -31,6 +31,8 @@ export default function babel() {
         { decoratorsBeforeExport: true },
       ],
       resolve('@babel/plugin-proposal-class-properties'),
+      resolve('@babel/plugin-proposal-export-default-from'),
+      resolve('@babel/plugin-proposal-export-namespace-from'),
     ],
   };
 }
