@@ -1,6 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import context from '../context';
 import getStyleLoadersConfig from './getStyleLoadersConfig';
 
@@ -29,26 +29,36 @@ export default function updateWebpackConfig(webpackConfig, mode) {
     styleLoadersConfig.forEach((config) => {
       webpackConfig.module.rules.push({
         test: config.test,
-        use: ExtractTextPlugin.extract({
-          use: config.use,
-        }),
+        use: [MiniCssExtractPlugin.loader, ...config.use],
       });
     });
   }
   webpackConfig.module.rules.push({
     test(filename) {
-      return filename === path.join(bishengLib, 'utils', 'data.js') ||
-        filename === path.join(bishengLib, 'utils', 'ssr-data.js');
+      return (
+        filename === path.join(bishengLib, 'utils', 'data.js')
+        || filename === path.join(bishengLib, 'utils', 'ssr-data.js')
+      );
     },
     loader: path.join(bishengLibLoaders, 'bisheng-data-loader'),
   });
   /* eslint-enable no-param-reassign */
 
-  const customizedWebpackConfig = bishengConfig.webpackConfig(webpackConfig, webpack);
+  const customizedWebpackConfig = bishengConfig.webpackConfig(
+    webpackConfig,
+    webpack,
+  );
 
-  const entryPath = path.join(bishengLib, '..', 'tmp', `entry.${bishengConfig.entryName}.js`);
+  const entryPath = path.join(
+    bishengLib,
+    '..',
+    'tmp',
+    `entry.${bishengConfig.entryName}.js`,
+  );
   if (customizedWebpackConfig.entry[bishengConfig.entryName]) {
-    throw new Error(`Should not set \`webpackConfig.entry.${bishengConfig.entryName}\`!`);
+    throw new Error(
+      `Should not set \`webpackConfig.entry.${bishengConfig.entryName}\`!`,
+    );
   }
   customizedWebpackConfig.entry[bishengConfig.entryName] = entryPath;
   return customizedWebpackConfig;
