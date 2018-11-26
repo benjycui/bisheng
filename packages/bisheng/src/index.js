@@ -15,35 +15,31 @@ const ghPages = require('gh-pages');
 const getBishengConfig = require('./utils/get-bisheng-config');
 const sourceData = require('./utils/source-data');
 const generateFilesPath = require('./utils/generate-files-path');
+const getThemeConfig = require('./utils/get-theme-config');
 const context = require('./context');
 
-const entryTemplate = fs.readFileSync(path.join(__dirname, 'entry.nunjucks.js')).toString();
-const routesTemplate = fs.readFileSync(path.join(__dirname, 'routes.nunjucks.js')).toString();
 const tmpDirPath = path.join(__dirname, '..', 'tmp');
 mkdirp.sync(tmpDirPath);
 
-function getDefaultOfModule(module) {
-  return module.default || module;
-}
-
-function getRoutesPath(configPath, themePath, configEntryName) {
+function getRoutesPath(themePath, configEntryName) {
+  const routesTemplate = fs.readFileSync(path.join(__dirname, 'routes.nunjucks.js')).toString();
   const routesPath = path.join(tmpDirPath, `routes.${configEntryName}.js`);
-  const themeConfig = require(escapeWinPath(configPath)).themeConfig || {};
+  const { bishengConfig, themeConfig } = context;
   fs.writeFileSync(
     routesPath,
     nunjucks.renderString(routesTemplate, {
       themePath: escapeWinPath(themePath),
-      themeConfig: JSON.stringify(themeConfig),
-      themeRoutes: JSON.stringify(getDefaultOfModule(require(themePath)).routes),
+      themeConfig: JSON.stringify(bishengConfig.themeConfig),
+      themeRoutes: JSON.stringify(themeConfig.routes),
     }),
   );
   return routesPath;
 }
 
-function generateEntryFile(configPath, configTheme, configEntryName, root) {
+function generateEntryFile(configTheme, configEntryName, root) {
+  const entryTemplate = fs.readFileSync(path.join(__dirname, 'entry.nunjucks.js')).toString();
   const entryPath = path.join(tmpDirPath, `entry.${configEntryName}.js`);
   const routesPath = getRoutesPath(
-    configPath,
     path.dirname(configTheme),
     configEntryName,
   );
@@ -59,7 +55,11 @@ function generateEntryFile(configPath, configTheme, configEntryName, root) {
 exports.start = function start(program) {
   const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
   const bishengConfig = getBishengConfig(configFile);
-  context.initialize({ bishengConfig });
+  const themeConfig = getThemeConfig(bishengConfig.theme);
+  context.initialize({
+    bishengConfig,
+    themeConfig,
+  });
   mkdirp.sync(bishengConfig.output);
 
   const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
@@ -68,7 +68,6 @@ exports.start = function start(program) {
   fs.writeFileSync(templatePath, nunjucks.renderString(template, templateData));
 
   generateEntryFile(
-    configFile,
     bishengConfig.theme,
     bishengConfig.entryName,
     '/',
@@ -115,18 +114,20 @@ function filenameToUrl(filename) {
   }
   return filename.replace(/\.html$/, '');
 }
+
 exports.build = function build(program, callback) {
   const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
   const bishengConfig = getBishengConfig(configFile);
+  const themeConfig = getThemeConfig(bishengConfig.theme);
   context.initialize({
     bishengConfig,
+    themeConfig,
     isBuild: true,
   });
   mkdirp.sync(bishengConfig.output);
 
   const { entryName } = bishengConfig;
   generateEntryFile(
-    configFile,
     bishengConfig.theme,
     entryName,
     bishengConfig.root,
@@ -149,7 +150,7 @@ exports.build = function build(program, callback) {
 
   const ssrWebpackConfig = Object.assign({}, webpackConfig);
   const ssrPath = path.join(tmpDirPath, `ssr.${entryName}.js`);
-  const routesPath = getRoutesPath(configFile, path.dirname(bishengConfig.theme), entryName);
+  const routesPath = getRoutesPath(path.dirname(bishengConfig.theme), entryName);
   fs.writeFileSync(ssrPath, nunjucks.renderString(ssrTemplate, { routesPath: escapeWinPath(routesPath) }));
 
   ssrWebpackConfig.entry = {
@@ -175,7 +176,6 @@ exports.build = function build(program, callback) {
     }
 
     const markdown = sourceData.generate(bishengConfig.source, bishengConfig.transformers);
-    const themeConfig = require(bishengConfig.theme);
     let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(bishengConfig.filePathMapper);
     filesNeedCreated = R.unnest(filesNeedCreated);
 
