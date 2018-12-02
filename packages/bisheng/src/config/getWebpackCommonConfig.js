@@ -16,8 +16,7 @@ export default function getWebpackCommonConfig() {
   const isProd = NODE_ENV === 'production';
   const fileNameHash = `[name]${isProd ? '.[contenthash:6]' : ''}`;
   const chunkFileName = `${fileNameHash}.js`;
-  const cssFileName = `${fileNameHash}.css`;
-  // const commonName = 'common.js';
+  const cssFileName = '[name].css';
 
   const babelOptions = getBabelCommonConfig();
   const tsOptions = getTSCommonConfig();
@@ -136,10 +135,10 @@ export default function getWebpackCommonConfig() {
       ],
       splitChunks: {
         cacheGroups: {
-          styles: {
-            name: 'styles',
-            test: /\.css$/,
-            chunks: 'all',
+          common: {
+            chunks: 'initial',
+            name: 'common',
+            test: /node_modules/,
             enforce: true,
           },
         },
