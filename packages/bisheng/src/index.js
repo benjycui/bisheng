@@ -16,6 +16,21 @@ const sourceData = require('./utils/source-data');
 const generateFilesPath = require('./utils/generate-files-path');
 const getThemeConfig = require('./utils/get-theme-config');
 const context = require('./context');
+const Module = require('module');
+
+// We need to inject the require logic to support use origin node_modules
+// if currently not provided.
+const oriRequire = Module.prototype.require;
+Module.prototype.require = function (...args) {
+  const moduleName = args[0];
+  try {
+    return oriRequire.apply(this, args);
+  } catch (err) {
+    const newArgs = [...args];
+    newArgs[0] = path.join(process.cwd(), 'node_modules', moduleName);
+    return oriRequire.apply(this, newArgs);
+  }
+};
 
 const tmpDirPath = path.join(__dirname, '..', 'tmp');
 mkdirp.sync(tmpDirPath);

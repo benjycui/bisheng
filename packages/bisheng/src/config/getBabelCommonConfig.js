@@ -24,7 +24,6 @@ export default function babel() {
       ],
     ],
     plugins: [
-      resolve('babel-plugin-add-module-exports'),
       resolve('@babel/plugin-proposal-object-rest-spread'),
       [
         resolve('@babel/plugin-proposal-decorators'),

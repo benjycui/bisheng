@@ -8,6 +8,7 @@ import WebpackBar from 'webpackbar';
 
 import getBabelCommonConfig from './getBabelCommonConfig';
 import getTSCommonConfig from './getTSCommonConfig';
+import CleanUpStatsPlugin from '../utils/CleanUpStatsPlugin';
 
 /* eslint quotes:0 */
 
@@ -51,13 +52,8 @@ export default function getWebpackCommonConfig() {
       noParse: [/moment.js/],
       rules: [
         {
-          test: /\.js$/,
+          test: /\.jsx?$/,
           exclude: /node_modules/,
-          loader: require.resolve('babel-loader'),
-          options: babelOptions,
-        },
-        {
-          test: /\.jsx$/,
           loader: require.resolve('babel-loader'),
           options: babelOptions,
         },
@@ -69,7 +65,7 @@ export default function getWebpackCommonConfig() {
               options: babelOptions,
             },
             {
-              loader: 'ts-loader',
+              loader: require.resolve('ts-loader'),
               options: {
                 transpileOnly: true,
                 compilerOptions: tsOptions,
@@ -152,8 +148,10 @@ export default function getWebpackCommonConfig() {
       new CaseSensitivePathsPlugin(),
       new WebpackBar({
         name: '🚚  Bisheng',
+        color: '#2f54eb',
       }),
       new FriendlyErrorsWebpackPlugin(),
+      new CleanUpStatsPlugin(),
     ],
   };
 }
