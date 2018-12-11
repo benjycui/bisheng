@@ -5,14 +5,14 @@ export default ({ postcssConfig, lessConfig }) => ([
     },
     use: [
       {
-        loader: 'css-loader',
+        loader: require.resolve('css-loader'),
         options: {
           restructuring: false,
           autoprefixer: false,
         },
       },
       {
-      loader: 'postcss-loader',
+      loader: require.resolve('postcss-loader'),
         options: postcssConfig,
       }
     ],
@@ -21,7 +21,7 @@ export default ({ postcssConfig, lessConfig }) => ([
     test: /\.module\.css$/,
     use: [
       {
-        loader: 'css-loader',
+        loader: require.resolve('css-loader'),
         options: {
           restructuring: false,
           modules: true,
@@ -29,7 +29,7 @@ export default ({ postcssConfig, lessConfig }) => ([
           autoprefixer: false,
         },
       }, {
-        loader: 'postcss-loader',
+        loader: require.resolve('postcss-loader'),
         options: postcssConfig,
       }
     ],
@@ -40,13 +40,13 @@ export default ({ postcssConfig, lessConfig }) => ([
     },
     use: [
       {
-        loader: 'css-loader',
+        loader: require.resolve('css-loader'),
         options: {
           autoprefixer: false,
         },
       },
       {
-        loader: 'postcss-loader',
+        loader: require.resolve('postcss-loader'),
         options: postcssConfig,
       }, {
         loader: require.resolve('less-loader'),
@@ -58,7 +58,7 @@ export default ({ postcssConfig, lessConfig }) => ([
     test: /\.module\.less$/,
     use: [
       {
-        loader: 'css-loader',
+        loader: require.resolve('css-loader'),
         options: {
           modules: true,
           localIdentName: '[local]___[hash:base64:5]',
@@ -66,7 +66,7 @@ export default ({ postcssConfig, lessConfig }) => ([
         },
       },
       {
-        loader: 'postcss-loader',
+        loader: require.resolve('postcss-loader'),
         options: postcssConfig,
       }, {
         loader: require.resolve('less-loader'),
@@ -80,23 +80,23 @@ export default ({ postcssConfig, lessConfig }) => ([
     },
     use: [
       {
-        loader: 'css-loader',
+        loader: require.resolve('css-loader'),
         options: {
           autoprefixer: false,
         },
       },
       {
-        loader: 'postcss-loader',
+        loader: require.resolve('postcss-loader'),
         options: postcssConfig,
       },
-      'sass-loader',
+      require.resolve('sass-loader'),
     ],
   },
   {
     test: /\.module\.scss$/,
     use: [
       {
-        loader: 'css-loader',
+        loader: require.resolve('css-loader'),
         options: {
           modules: true,
           localIdentName: '[local]___[hash:base64:5]',
@@ -104,10 +104,10 @@ export default ({ postcssConfig, lessConfig }) => ([
         },
       },
       {
-        loader: 'postcss-loader',
+        loader: require.resolve('postcss-loader'),
         options: postcssConfig,
       },
-      'sass-loader',
+      require.resolve('sass-loader'),
     ],
   }
 ]);
