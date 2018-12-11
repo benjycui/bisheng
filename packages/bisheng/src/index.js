@@ -27,7 +27,9 @@ Module.prototype.require = function (...args) {
     return oriRequire.apply(this, args);
   } catch (err) {
     const newArgs = [...args];
-    newArgs[0] = path.join(process.cwd(), 'node_modules', moduleName);
+    if (moduleName[0] !== '/') {
+      newArgs[0] = path.join(process.cwd(), 'node_modules', moduleName);
+    }
     return oriRequire.apply(this, newArgs);
   }
 };
