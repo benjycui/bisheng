@@ -129,16 +129,6 @@ export default function getWebpackCommonConfig() {
           cache: true,
         }),
       ],
-      splitChunks: {
-        cacheGroups: {
-          common: {
-            chunks: 'initial',
-            name: 'common',
-            test: /node_modules/,
-            enforce: true,
-          },
-        },
-      },
     },
 
     plugins: [
