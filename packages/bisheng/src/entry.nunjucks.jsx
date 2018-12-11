@@ -1,4 +1,4 @@
-require('babel-polyfill');
+require('@babel/polyfill');
 require('nprogress-for-antd/nprogress.css');
 
 /* eslint-disable no-unused-vars */

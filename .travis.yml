@@ -1,5 +1,4 @@
 language: node_js
 node_js:
-  - "6"
-  - "7"
-before_install: npm install lerna@2.0.0-rc.3 -g
+  - "8.10.0"
+before_install: npm install lerna@3.4.3 -g

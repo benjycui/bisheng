@@ -12,9 +12,9 @@
   },
   "babel": {
     "presets": [
-      "react",
+      "@babel/preset-react",
       [
-        "env",
+        "@babel/preset-env",
         {
           "targets": {
             "browsers": [
@@ -30,8 +30,8 @@
       ]
     ],
     "plugins": [
-      "transform-class-properties",
-      "transform-object-rest-spread"
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-object-rest-spread"
     ]
   },
   "repository": {
@@ -49,16 +49,19 @@
     "url": "https://github.com/benjycui/bisheng-theme-one/issues"
   },
   "homepage": "https://github.com/benjycui/bisheng-theme-one#readme",
+  "engines": {
+    "node": ">=8.6.0"
+  },
   "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-core": "^6.26.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-react": "^6.24.1",
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
     "bisheng": "^0.28.4",
     "react": "^16.0.0",
-    "shx": "^0.2.2"
+    "shx": "^0.3.2"
   },
   "dependencies": {
     "bisheng-plugin-description": "^0.1.4",

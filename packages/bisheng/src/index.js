@@ -1,22 +1,38 @@
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import openBrowser from 'react-dev-utils/openBrowser';
 import getWebpackCommonConfig from './config/getWebpackCommonConfig';
 import updateWebpackConfig from './config/updateWebpackConfig';
 
 const fs = require('fs');
 const path = require('path');
-const { escapeWinPath } = require('./utils/escape-win-path');
 const mkdirp = require('mkdirp');
 const nunjucks = require('nunjucks');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const R = require('ramda');
 const ghPages = require('gh-pages');
+const { escapeWinPath } = require('./utils/escape-win-path');
 const getBishengConfig = require('./utils/get-bisheng-config');
 const sourceData = require('./utils/source-data');
 const generateFilesPath = require('./utils/generate-files-path');
 const getThemeConfig = require('./utils/get-theme-config');
 const context = require('./context');
+const Module = require('module');
+
+// We need to inject the require logic to support use origin node_modules
+// if currently not provided.
+const oriRequire = Module.prototype.require;
+Module.prototype.require = function (...args) {
+  const moduleName = args[0];
+  try {
+    return oriRequire.apply(this, args);
+  } catch (err) {
+    const newArgs = [...args];
+    if (moduleName[0] !== '/') {
+      newArgs[0] = path.join(process.cwd(), 'node_modules', moduleName);
+    }
+    return oriRequire.apply(this, newArgs);
+  }
+};
 
 const tmpDirPath = path.join(__dirname, '..', 'tmp');
 mkdirp.sync(tmpDirPath);
@@ -53,7 +69,10 @@ function generateEntryFile(configTheme, configEntryName, root) {
 }
 
 exports.start = function start(program) {
-  const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
+  const configFile = path.join(
+    process.cwd(),
+    program.config || 'bisheng.config.js',
+  );
   const bishengConfig = getBishengConfig(configFile);
   const themeConfig = getThemeConfig(bishengConfig.theme);
   context.initialize({
@@ -63,8 +82,15 @@ exports.start = function start(program) {
   mkdirp.sync(bishengConfig.output);
 
   const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
-  const templateData = Object.assign({ root: '/' }, bishengConfig.htmlTemplateExtraData || {});
-  const templatePath = path.join(process.cwd(), bishengConfig.output, 'index.html');
+  const templateData = Object.assign(
+    { root: '/' },
+    bishengConfig.htmlTemplateExtraData || {},
+  );
+  const templatePath = path.join(
+    process.cwd(),
+    bishengConfig.output,
+    'index.html',
+  );
   fs.writeFileSync(templatePath, nunjucks.renderString(template, templateData));
 
   generateEntryFile(
@@ -93,20 +119,19 @@ exports.start = function start(program) {
   const timefix = 11000;
   compiler.plugin('watch-run', (watching, callback) => {
     watching.startTime += timefix;
-    callback()
+    callback();
   });
   compiler.plugin('done', (stats) => {
-    stats.startTime -= timefix
-  })
+    stats.startTime -= timefix;
+  });
 
   const server = new WebpackDevServer(compiler, serverOptions);
-  server.listen(
-    bishengConfig.port, '0.0.0.0',
-    () => openBrowser(`http://localhost:${bishengConfig.port}`)
-  );
+  server.listen(bishengConfig.port, '0.0.0.0', () => openBrowser(`http://localhost:${bishengConfig.port}`));
 };
 
-const ssrTemplate = fs.readFileSync(path.join(__dirname, 'ssr.nunjucks.js')).toString();
+const ssrTemplate = fs
+  .readFileSync(path.join(__dirname, 'ssr.nunjucks.js'))
+  .toString();
 
 function filenameToUrl(filename) {
   if (filename.endsWith('index.html')) {
@@ -116,7 +141,10 @@ function filenameToUrl(filename) {
 }
 
 exports.build = function build(program, callback) {
-  const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
+  const configFile = path.join(
+    process.cwd(),
+    program.config || 'bisheng.config.js',
+  );
   const bishengConfig = getBishengConfig(configFile);
   const themeConfig = getThemeConfig(bishengConfig.theme);
   context.initialize({
@@ -133,20 +161,19 @@ exports.build = function build(program, callback) {
     bishengConfig.root,
   );
   const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'build');
-  webpackConfig.plugins.push(new webpack.LoaderOptionsPlugin({
-    minimize: true,
-  }),);
-  webpackConfig.plugins.push(new UglifyJsPlugin({
-    uglifyOptions: {
-      output: {
-        ascii_only: true,
-      },
-    },
-  }));
-  webpackConfig.plugins.push(new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
-  }));
+  webpackConfig.plugins.push(
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+    }),
+  );
 
+  webpackConfig.plugins.push(
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(
+        process.env.NODE_ENV || 'production',
+      ),
+    }),
+  );
 
   const ssrWebpackConfig = Object.assign({}, webpackConfig);
   const ssrPath = path.join(tmpDirPath, `ssr.${entryName}.js`);
@@ -162,8 +189,6 @@ exports.build = function build(program, callback) {
     library: 'ssr',
     libraryTarget: 'commonjs',
   });
-  ssrWebpackConfig.plugins = ssrWebpackConfig.plugins
-    .filter(plugin => !(plugin instanceof webpack.optimize.CommonsChunkPlugin));
 
   webpack(webpackConfig, (err, stats) => {
     if (err !== null) {
@@ -183,7 +208,10 @@ exports.build = function build(program, callback) {
 
     if (!program.ssr) {
       require('./loaders/common/boss').jobDone();
-      const templateData = Object.assign({ root: bishengConfig.root }, bishengConfig.htmlTemplateExtraData || {});
+      const templateData = Object.assign(
+        { root: bishengConfig.root },
+        bishengConfig.htmlTemplateExtraData || {},
+      );
       const fileContent = nunjucks.renderString(template, templateData);
       filesNeedCreated.forEach((file) => {
         const output = path.join(bishengConfig.output, file);
@@ -201,7 +229,10 @@ exports.build = function build(program, callback) {
     context.turnOnSSRFlag();
     // If we can build webpackConfig without errors, we can build ssrWebpackConfig without errors.
     // Because ssrWebpackConfig are just part of webpackConfig.
-    webpack(ssrWebpackConfig, () => {
+    webpack(ssrWebpackConfig, (ssrBuildErr, ssrBuildStats) => {
+      if (ssrBuildErr) throw ssrBuildErr;
+      if (ssrBuildStats.hasErrors()) throw ssrBuildStats.toString('errors-only');
+
       require('./loaders/common/boss').jobDone();
 
       const { ssr } = require(path.join(tmpDirPath, `${entryName}-ssr`));
@@ -214,21 +245,22 @@ exports.build = function build(program, callback) {
               console.error(error);
               process.exit(1);
             }
-            const templateData = Object.assign({ root: bishengConfig.root, content }, bishengConfig.htmlTemplateExtraData || {});
-            const fileContent = nunjucks
-                    .renderString(template, templateData);
+            const templateData = Object.assign(
+              { root: bishengConfig.root, content },
+              bishengConfig.htmlTemplateExtraData || {},
+            );
+            const fileContent = nunjucks.renderString(template, templateData);
             fs.writeFileSync(output, fileContent);
             console.log('Created: ', output);
             resolve();
           });
         });
       });
-      Promise.all(fileCreatedPromises)
-        .then(() => {
-          if (callback) {
-            callback();
-          }
-        });
+      Promise.all(fileCreatedPromises).then(() => {
+        if (callback) {
+          callback();
+        }
+      });
     });
   });
 };
@@ -264,7 +296,10 @@ exports.deploy = function deploy(program) {
     const basePath = path.join(process.cwd(), output);
     pushToGhPages(basePath, config);
   } else {
-    const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
+    const configFile = path.join(
+      process.cwd(),
+      program.config || 'bisheng.config.js',
+    );
     const bishengConfig = getBishengConfig(configFile);
     const basePath = path.join(process.cwd(), bishengConfig.output);
     exports.build(program, () => pushToGhPages(basePath, config));

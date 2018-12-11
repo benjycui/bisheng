@@ -3,7 +3,7 @@
   "packages": [
     "packages/*"
   ],
-  "commands": {
+  "command": {
     "exec": {
       "ignore": "bisheng-{theme-one,example}"
     }
