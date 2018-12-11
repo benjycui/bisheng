@@ -1,4 +1,4 @@
-export default postcssOptions => [
+export default ({ postcssConfig, lessConfig }) => ([
   {
     test(filePath) {
       return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath);
@@ -12,9 +12,9 @@ export default postcssOptions => [
         },
       },
       {
-        loader: 'postcss-loader',
-        options: postcssOptions,
-      },
+      loader: 'postcss-loader',
+        options: postcssConfig,
+      }
     ],
   },
   {
@@ -28,11 +28,10 @@ export default postcssOptions => [
           localIdentName: '[local]___[hash:base64:5]',
           autoprefixer: false,
         },
-      },
-      {
+      }, {
         loader: 'postcss-loader',
-        options: postcssOptions,
-      },
+        options: postcssConfig,
+      }
     ],
   },
   {
@@ -48,14 +47,11 @@ export default postcssOptions => [
       },
       {
         loader: 'postcss-loader',
-        options: postcssOptions,
-      },
-      {
-        loader: 'less-loader',
-        options: {
-          javascriptEnabled: true,
-        },
-      },
+        options: postcssConfig,
+      }, {
+        loader: require.resolve('less-loader'),
+        options: lessConfig,
+      }
     ],
   },
   {
@@ -71,14 +67,11 @@ export default postcssOptions => [
       },
       {
         loader: 'postcss-loader',
-        options: postcssOptions,
-      },
-      {
-        loader: 'less-loader',
-        options: {
-          javascriptEnabled: true,
-        },
-      },
+        options: postcssConfig,
+      }, {
+        loader: require.resolve('less-loader'),
+        options: lessConfig,
+      }
     ],
   },
   {
@@ -94,7 +87,7 @@ export default postcssOptions => [
       },
       {
         loader: 'postcss-loader',
-        options: postcssOptions,
+        options: postcssConfig,
       },
       'sass-loader',
     ],
@@ -112,9 +105,9 @@ export default postcssOptions => [
       },
       {
         loader: 'postcss-loader',
-        options: postcssOptions,
+        options: postcssConfig,
       },
       'sass-loader',
     ],
-  },
-];
+  }
+]);

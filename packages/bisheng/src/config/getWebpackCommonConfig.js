@@ -53,19 +53,19 @@ export default function getWebpackCommonConfig() {
         {
           test: /\.js$/,
           exclude: /node_modules/,
-          loader: 'babel-loader',
+          loader: require.resolve('babel-loader'),
           options: babelOptions,
         },
         {
           test: /\.jsx$/,
-          loader: 'babel-loader',
+          loader: require.resolve('babel-loader'),
           options: babelOptions,
         },
         {
           test: /\.tsx?$/,
           use: [
             {
-              loader: 'babel-loader',
+              loader: require.resolve('babel-loader'),
               options: babelOptions,
             },
             {

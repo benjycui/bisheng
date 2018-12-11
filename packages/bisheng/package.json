@@ -80,7 +80,7 @@
     "history": "^4.7.2",
     "jsonml-to-react-element": "^1.0.0",
     "jsonml.js": "^0.1.0",
-    "less": "~3.8.1",
+    "less": "~3.9.0",
     "less-loader": "~4.1.0",
     "loader-utils": "^1.1.0",
     "mark-twain": "^2.0.0",

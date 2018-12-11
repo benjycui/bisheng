@@ -9,7 +9,7 @@ const bishengLibLoaders = path.join(bishengLib, 'loaders');
 
 export default function updateWebpackConfig(webpackConfig, mode) {
   const { bishengConfig } = context;
-  const styleLoadersConfig = getStyleLoadersConfig(bishengConfig.postcssConfig);
+  const styleLoadersConfig = getStyleLoadersConfig(bishengConfig);
 
   /* eslint-disable no-param-reassign */
   webpackConfig.entry = {};
