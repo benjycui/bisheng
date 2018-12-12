@@ -58,7 +58,7 @@ module.exports = function generateFilesPath(routes, markdown) {
     } else if (item.path.endsWith('/')) {
       return [`${item.path}index.html`];
     }
-    return isFolder && [`${item.path}.html`];
+    return !item.isFolder && [`${item.path}.html`];
   }, flattenedRoutes).filter(c => c);
 
   return has404(filesPath) ? filesPath : filesPath.concat('/404.html');
