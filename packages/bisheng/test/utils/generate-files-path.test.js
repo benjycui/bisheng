@@ -33,6 +33,6 @@ describe('bisheng/utils/generate-files-path', () => {
         content: 'doc/content.md',
       },
     });
-    assert.deepEqual(result, ['/hello.html', '/bye.html', '/404.html', 'doc/content.html', '/404.html']);
+    assert.deepEqual(result, ['/hello.html', '/bye.html', '/404.html', '/doc/content.html', '/404.html']);
   });
 });
