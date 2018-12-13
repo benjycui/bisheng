@@ -23,6 +23,9 @@ describe('bisheng/utils/generate-files-path', () => {
     const result = generateFilesPath([{
       path: '/:post',
       dataPath: '/:post',
+    }, {
+      path: '/doc/:post',
+      dataPath: '/doc/:post',
     }], {
       hello: 'hello.md',
       bye: 'bye.md',
@@ -30,6 +33,6 @@ describe('bisheng/utils/generate-files-path', () => {
         content: 'doc/content.md',
       },
     });
-    assert.deepEqual(result, ['/hello.html', '/bye.html', '/404.html', 'doc/content.html']);
+    assert.deepEqual(result, ['/hello.html', '/bye.html', '/404.html', 'doc/content.html', '/404.html']);
   });
 });
