@@ -6,7 +6,7 @@ export default function babel() {
   return {
     cacheDirectory: tmpdir(),
     presets: [
-      '@babel/preset-react',
+      resolve('@babel/preset-react'),
       [
         resolve('@babel/preset-env'),
         {
