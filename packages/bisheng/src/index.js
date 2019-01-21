@@ -288,7 +288,7 @@ function pushToGhPages(basePath, config) {
 }
 exports.deploy = function deploy(program) {
   const config = {
-    remote: program.remote,
+    repo: program.remote,
     branch: program.branch,
   };
   if (program.pushOnly) {
