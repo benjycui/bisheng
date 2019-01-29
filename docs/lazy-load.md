@@ -52,7 +52,7 @@ export default collect(async (nextProps) => {
 })
 ```
 
-`nextProps` is the original props that tempalte will get, and we can convert lazy load function in `nextProps` to real Markdown data. Then, we return the Markdown data to notifiy `bisheng` to refresh the page with new props.
+`nextProps` is the original props that template will get, and we can convert lazy load function in `nextProps` to real Markdown data. Then, we return the Markdown data to notifiy `bisheng` to refresh the page with new props.
 
 ### collect(collector: async function) => (RouteComponent: React.Component) => React.Component
 
