@@ -6,10 +6,6 @@ export default ({ postcssConfig, lessConfig }) => ([
     use: [
       {
         loader: require.resolve('css-loader'),
-        options: {
-          restructuring: false,
-          autoprefixer: false,
-        },
       },
       {
       loader: require.resolve('postcss-loader'),
@@ -23,10 +19,8 @@ export default ({ postcssConfig, lessConfig }) => ([
       {
         loader: require.resolve('css-loader'),
         options: {
-          restructuring: false,
           modules: true,
           localIdentName: '[local]___[hash:base64:5]',
-          autoprefixer: false,
         },
       }, {
         loader: require.resolve('postcss-loader'),
@@ -41,9 +35,6 @@ export default ({ postcssConfig, lessConfig }) => ([
     use: [
       {
         loader: require.resolve('css-loader'),
-        options: {
-          autoprefixer: false,
-        },
       },
       {
         loader: require.resolve('postcss-loader'),
@@ -62,7 +53,6 @@ export default ({ postcssConfig, lessConfig }) => ([
         options: {
           modules: true,
           localIdentName: '[local]___[hash:base64:5]',
-          autoprefixer: false,
         },
       },
       {
@@ -81,9 +71,6 @@ export default ({ postcssConfig, lessConfig }) => ([
     use: [
       {
         loader: require.resolve('css-loader'),
-        options: {
-          autoprefixer: false,
-        },
       },
       {
         loader: require.resolve('postcss-loader'),
@@ -100,7 +87,6 @@ export default ({ postcssConfig, lessConfig }) => ([
         options: {
           modules: true,
           localIdentName: '[local]___[hash:base64:5]',
-          autoprefixer: false,
         },
       },
       {

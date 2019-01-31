@@ -1,6 +1,6 @@
 {
   "name": "bisheng",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Transform Markdown(and other static files with transformers) into a SPA website using React.",
   "bin": {
     "bisheng": "./bin/bisheng"
@@ -74,7 +74,7 @@
     "babel-plugin-add-module-exports": "~0.2.1",
     "case-sensitive-paths-webpack-plugin": "^2.0.0",
     "commander": "^2.9.0",
-    "css-loader": "~1.0.1",
+    "css-loader": "~2.1.0",
     "exist.js": "^0.3.0",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "gh-pages": "^1.0.0",
