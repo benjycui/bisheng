@@ -44,22 +44,19 @@ module.exports = function generateFilesPath(routes, markdown) {
       const firstParam = dataPathSnippets[firstParamIndex];
 
       const dataSet = exist.get(markdown, dataPathSnippets.slice(0, firstParamIndex), {});
-      if (typeof dataSet === 'string') {
-        return null;
-      }
       const processedCompleteRoutes = Object.keys(dataSet).map((key) => {
         const pathSnippet = key.replace(/\.md/, '');
         const path = item.path.replace(firstParam, pathSnippet);
         const dataPath = item.dataPath.replace(firstParam, pathSnippet);
-        return { path, dataPath, isFolder: typeof dataSet[key] === 'object' };
+        return { path, dataPath };
       });
 
       return generateFilesPath(processedCompleteRoutes, markdown);
     } else if (item.path.endsWith('/')) {
       return [`${item.path}index.html`];
     }
-    return !item.isFolder && [`${item.path}.html`];
-  }, flattenedRoutes).filter(c => c);
+    return [`${item.path}.html`];
+  }, flattenedRoutes);
 
   return has404(filesPath) ? filesPath : filesPath.concat('/404.html');
 };
