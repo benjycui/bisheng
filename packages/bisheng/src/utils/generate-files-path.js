@@ -31,7 +31,7 @@ function flattenRoutes(routes) {
 }
 
 module.exports = function generateFilesPath(routes, markdown) {
-  const flattenedRoutes = flattenRoutes(routes).map((item) => {
+  const flattenedRoutes = flattenRoutes(routes).map(function (item) {
     item.path = toUriPath(item.path);
     item.dataPath = toUriPath(item.dataPath);
     return item;
@@ -59,7 +59,7 @@ module.exports = function generateFilesPath(routes, markdown) {
       });
 
       return generateFilesPath(processedCompleteRoutes, markdown);
-    } if (item.path.endsWith('/')) {
+    } else if (item.path.endsWith('/')) {
       return [`${item.path}index.html`];
     }
     return !item.isFolder && [`${item.path}.html`];
