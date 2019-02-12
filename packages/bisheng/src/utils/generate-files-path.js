@@ -31,7 +31,7 @@ function flattenRoutes(routes) {
 }
 
 module.exports = function generateFilesPath(routes, markdown) {
-  const flattenedRoutes = flattenRoutes(routes).map(function(item) {
+  const flattenedRoutes = flattenRoutes(routes).map((item) => {
     item.path = toUriPath(item.path);
     item.dataPath = toUriPath(item.dataPath);
     return item;
@@ -51,11 +51,15 @@ module.exports = function generateFilesPath(routes, markdown) {
         const pathSnippet = key.replace(/\.md/, '');
         const path = item.path.replace(firstParam, pathSnippet);
         const dataPath = item.dataPath.replace(firstParam, pathSnippet);
-        return { path, dataPath, isFolder: typeof dataSet[key] === 'object' };
+        return {
+          path,
+          dataPath,
+          isFolder: typeof dataSet[key] === 'object' && !(('zh-CN' in dataSet[key]) || ('en-US' in dataSet[key])),
+        };
       });
 
       return generateFilesPath(processedCompleteRoutes, markdown);
-    } else if (item.path.endsWith('/')) {
+    } if (item.path.endsWith('/')) {
       return [`${item.path}index.html`];
     }
     return !item.isFolder && [`${item.path}.html`];
