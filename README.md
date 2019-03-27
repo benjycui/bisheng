@@ -219,7 +219,7 @@ default: {
 ```
 
 
-You can consult [wenpack postcss-loader's documentation](https://webpack.js.org/loaders/postcss-loader/#options).
+You can consult [webpack postcss-loader's documentation](https://webpack.js.org/loaders/postcss-loader/#options).
 
 #### webpackConfig: (config) => config
 
