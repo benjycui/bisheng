@@ -6,6 +6,7 @@ import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import WebpackBar from 'webpackbar';
 
+import context from '../context';
 import getBabelCommonConfig from './getBabelCommonConfig';
 import getTSCommonConfig from './getTSCommonConfig';
 import CleanUpStatsPlugin from '../utils/CleanUpStatsPlugin';
@@ -13,11 +14,14 @@ import CleanUpStatsPlugin from '../utils/CleanUpStatsPlugin';
 /* eslint quotes:0 */
 
 export default function getWebpackCommonConfig() {
+  const { bishengConfig: { hash = false } } = context;
   const NODE_ENV = process.env.NODE_ENV || 'production';
   const isProd = NODE_ENV === 'production';
   const fileNameHash = `[name]${isProd ? '.[contenthash:6]' : ''}`;
   const chunkFileName = `${fileNameHash}.js`;
-  const cssFileName = '[name].css';
+  const cssFileName = hash
+    ? '[name].css'
+    : '[name]-[contenthash:8].css';
 
   const babelOptions = getBabelCommonConfig();
   const tsOptions = getTSCommonConfig();
@@ -25,7 +29,9 @@ export default function getWebpackCommonConfig() {
   return {
     mode: NODE_ENV,
     output: {
-      filename: '[name].js',
+      filename: hash
+        ? '[name].js'
+        : '[name]-[hash:8].js',
       chunkFilename: chunkFileName,
     },
 
