@@ -20,8 +20,8 @@ export default function getWebpackCommonConfig() {
   const fileNameHash = `[name]${isProd ? '.[contenthash:6]' : ''}`;
   const chunkFileName = `${fileNameHash}.js`;
   const cssFileName = hash
-    ? '[name].css'
-    : '[name]-[contenthash:8].css';
+    ? '[name]-[contenthash:8].css'
+    : '[name].css';
 
   const babelOptions = getBabelCommonConfig();
   const tsOptions = getTSCommonConfig();
@@ -30,8 +30,8 @@ export default function getWebpackCommonConfig() {
     mode: NODE_ENV,
     output: {
       filename: hash
-        ? '[name].js'
-        : '[name]-[hash:8].js',
+        ? '[name]-[hash:8].js'
+        : '[name].js',
       chunkFilename: chunkFileName,
     },
 
