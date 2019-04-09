@@ -26,6 +26,10 @@ export default function updateWebpackConfig(webpackConfig, mode) {
     });
   }
   if (mode === 'build') {
+    webpackConfig.output.filename = bishengConfig.hash
+      ? '[name]-[hash:8].js'
+      : '[name].js',
+
     styleLoadersConfig.forEach((config) => {
       webpackConfig.module.rules.push({
         test: config.test,

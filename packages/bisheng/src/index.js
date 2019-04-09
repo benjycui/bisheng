@@ -82,8 +82,13 @@ exports.start = function start(program) {
   mkdirp.sync(bishengConfig.output);
 
   const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
+  const entryFile = `${bishengConfig.entryName}.js`;
+  const manifest = {
+    [entryFile]: entryFile,
+  };
+
   const templateData = Object.assign(
-    { root: '/' },
+    { root: '/', manifest },
     bishengConfig.htmlTemplateExtraData || {},
   );
   const templatePath = path.join(
@@ -185,6 +190,7 @@ exports.build = function build(program, callback) {
   };
   ssrWebpackConfig.target = 'node';
   ssrWebpackConfig.output = Object.assign({}, ssrWebpackConfig.output, {
+    filename: '[name].js',
     path: tmpDirPath,
     library: 'ssr',
     libraryTarget: 'commonjs',
