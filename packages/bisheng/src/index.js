@@ -203,18 +203,19 @@ exports.build = function build(program, callback) {
     if (bishengConfig.hash) {
       const { assetsByChunkName } = stats.toJson();
       if (assetsByChunkName
-        && Array.isArray(assetsByChunkName.index)
-        && assetsByChunkName.index.length
+        && Array.isArray(assetsByChunkName[entryName])
+        && assetsByChunkName[entryName].length
       ) {
         // index, TODO common
-        assetsByChunkName.index.forEach((asset) => {
+        assetsByChunkName[entryName].forEach((asset) => {
           if (/-(.*?)\.js$/.test(asset)) {
             // index-${hash}.js
-            manifest['index.js'] = asset;
+            manifest[`${entryName}.js`] = asset;
           }
-          if (/-(.*?)\.css$/.test(asset)) {
-            manifest['index.css'] = asset;
-          }
+          // not support user defined css-split-webpack-plugin
+          // if (/-(.*?)\.css$/.test(asset)) {
+          //   manifest['index.css'] = asset;
+          // }
         })
       }
     }
