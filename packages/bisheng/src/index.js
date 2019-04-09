@@ -145,6 +145,8 @@ function filenameToUrl(filename) {
   return filename.replace(/\.html$/, '');
 }
 
+// hash { js: ['index-{hash}.js', ...], css: [ 'index.{hash}-{chunkId}.css' ] }
+// no hash // { js: ['index.js', ...], css: [ 'index.{chunkId}.css' ] }
 function getManifest(compilation) {
   const manifest = {}
   compilation.entrypoints.forEach((entrypoint, name) => {
