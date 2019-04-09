@@ -19,9 +19,7 @@ export default function getWebpackCommonConfig() {
   const isProd = NODE_ENV === 'production';
   const fileNameHash = `[name]${isProd ? '.[contenthash:6]' : ''}`;
   const chunkFileName = `${fileNameHash}.js`;
-  const cssFileName = hash
-    ? '[name]-[contenthash:8].css'
-    : '[name].css';
+  const cssFileName = '[name].css';
 
   const babelOptions = getBabelCommonConfig();
   const tsOptions = getTSCommonConfig();
