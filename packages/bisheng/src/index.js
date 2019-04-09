@@ -199,6 +199,25 @@ exports.build = function build(program, callback) {
       console.log(stats.toString('errors-only'));
       return;
     }
+    const manifest = {};
+    if (bishengConfig.hash) {
+      const { assetsByChunkName } = stats.toJson();
+      if (assetsByChunkName
+        && Array.isArray(assetsByChunkName.index)
+        && assetsByChunkName.index.length
+      ) {
+        // index, TODO common
+        assetsByChunkName.index.forEach((asset) => {
+          if (/-(.*?)\.js$/.test(asset)) {
+            // index-${hash}.js
+            manifest['index.js'] = asset;
+          }
+          if (/-(.*?)\.css$/.test(asset)) {
+            manifest['index.css'] = asset;
+          }
+        })
+      }
+    }
 
     const markdown = sourceData.generate(bishengConfig.source, bishengConfig.transformers);
     let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(bishengConfig.filePathMapper);
@@ -209,7 +228,11 @@ exports.build = function build(program, callback) {
     if (!program.ssr) {
       require('./loaders/common/boss').jobDone();
       const templateData = Object.assign(
-        { root: bishengConfig.root },
+        {
+          root: bishengConfig.root,
+          hash: bishengConfig.hash,
+          manifest,
+        },
         bishengConfig.htmlTemplateExtraData || {},
       );
       const fileContent = nunjucks.renderString(template, templateData);
@@ -246,7 +269,11 @@ exports.build = function build(program, callback) {
               process.exit(1);
             }
             const templateData = Object.assign(
-              { root: bishengConfig.root, content },
+              {
+                root: bishengConfig.root,
+                content, hash: bishengConfig.hash,
+                manifest,
+              },
               bishengConfig.htmlTemplateExtraData || {},
             );
             const fileContent = nunjucks.renderString(template, templateData);

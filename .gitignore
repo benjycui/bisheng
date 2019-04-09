@@ -6,4 +6,5 @@ tmp
 package-lock.json
 .history
 yarn.lock
+.DS_Store
 

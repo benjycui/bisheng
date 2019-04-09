@@ -112,6 +112,7 @@ module.exports = {
   webpackConfig(config) {
     return config;
   },
+  hash: false,
 
   entryName: 'index',
   root: '/',
