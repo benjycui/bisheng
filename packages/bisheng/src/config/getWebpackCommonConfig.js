@@ -14,11 +14,15 @@ import CleanUpStatsPlugin from '../utils/CleanUpStatsPlugin';
 /* eslint quotes:0 */
 
 export default function getWebpackCommonConfig() {
+  const { isBuild, bishengConfig } = context;
   const NODE_ENV = process.env.NODE_ENV || 'production';
   const isProd = NODE_ENV === 'production';
   const fileNameHash = `[name]${isProd ? '.[contenthash:6]' : ''}`;
   const chunkFileName = `${fileNameHash}.js`;
-  const cssFileName = '[name].css';
+  const isHash = isBuild && bishengConfig.hash;
+  const cssFileName = isHash
+    ? '[name]-[contenthash:8].css'
+    : '[name].css';
 
   const babelOptions = getBabelCommonConfig();
   const tsOptions = getTSCommonConfig();
