@@ -14,7 +14,6 @@ import CleanUpStatsPlugin from '../utils/CleanUpStatsPlugin';
 /* eslint quotes:0 */
 
 export default function getWebpackCommonConfig() {
-  const { bishengConfig: { hash = false } } = context;
   const NODE_ENV = process.env.NODE_ENV || 'production';
   const isProd = NODE_ENV === 'production';
   const fileNameHash = `[name]${isProd ? '.[contenthash:6]' : ''}`;
@@ -27,9 +26,7 @@ export default function getWebpackCommonConfig() {
   return {
     mode: NODE_ENV,
     output: {
-      filename: hash
-        ? '[name]-[hash:8].js'
-        : '[name].js',
+      filename: '[name].js',
       chunkFilename: chunkFileName,
     },
 
