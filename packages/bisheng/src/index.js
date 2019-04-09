@@ -82,11 +82,12 @@ exports.start = function start(program) {
   mkdirp.sync(bishengConfig.output);
 
   const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
-  const entryFile = `${bishengConfig.entryName}.js`;
+  // dev manifest
   const manifest = {
-    [entryFile]: entryFile,
-  };
-
+    js: [ `${bishengConfig.entryName}.js` ],
+    // inject style
+    css: [ ],
+  }
   const templateData = Object.assign(
     { root: '/', manifest },
     bishengConfig.htmlTemplateExtraData || {},
@@ -116,7 +117,6 @@ exports.start = function start(program) {
   };
   WebpackDevServer.addDevServerEntrypoints(webpackConfig, serverOptions);
   const compiler = webpack(webpackConfig);
-
   // Ref: https://github.com/pigcan/blog/issues/6
   // Webpack startup recompilation fix. Remove when @sokra fixes the bug.
   // https://github.com/webpack/webpack/issues/2983
@@ -143,6 +143,43 @@ function filenameToUrl(filename) {
     return filename.replace(/index\.html$/, '');
   }
   return filename.replace(/\.html$/, '');
+}
+
+function getManifest(compilation) {
+  const manifest = {}
+  compilation.entrypoints.forEach((entrypoint, name) => {
+    const js = [];
+    const css = [];
+    const initials = new Set();
+    const chunks = entrypoint.chunks;
+    // Walk main chunks
+    for (const chunk of chunks) {
+      for (let file of chunk.files) {
+        if (!initials.has(file)) {
+          initials.add(file);
+
+          // Get extname
+          const ext = path.extname(file).toLowerCase();
+          if (file) {
+            // Type classification
+            switch (ext) {
+              case '.js':
+                js.push(file);
+                break;
+              case '.css':
+                css.push(file);
+                break;
+              default:
+                break;
+            }
+          }
+        }
+      }
+    }
+
+    manifest[name] = { js, css };
+  })
+  return manifest;
 }
 
 exports.build = function build(program, callback) {
@@ -205,26 +242,7 @@ exports.build = function build(program, callback) {
       console.log(stats.toString('errors-only'));
       return;
     }
-    const manifest = {};
-    if (bishengConfig.hash) {
-      const { assetsByChunkName } = stats.toJson();
-      if (assetsByChunkName
-        && Array.isArray(assetsByChunkName[entryName])
-        && assetsByChunkName[entryName].length
-      ) {
-        // index, TODO common
-        assetsByChunkName[entryName].forEach((asset) => {
-          if (/-(.*?)\.js$/.test(asset)) {
-            // index-${hash}.js
-            manifest[`${entryName}.js`] = asset;
-          }
-          // not support user defined css-split-webpack-plugin
-          // if (/-(.*?)\.css$/.test(asset)) {
-          //   manifest['index.css'] = asset;
-          // }
-        })
-      }
-    }
+    const manifest = getManifest(stats.compilation)[bishengConfig.entryName];
 
     const markdown = sourceData.generate(bishengConfig.source, bishengConfig.transformers);
     let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(bishengConfig.filePathMapper);
