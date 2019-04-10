@@ -27,7 +27,7 @@ export default function updateWebpackConfig(webpackConfig, mode) {
   }
   if (mode === 'build') {
     webpackConfig.output.filename = bishengConfig.hash
-      ? '[name]-[hash:8].js'
+      ? '[name]-[contenthash:8].js'
       : '[name].js',
 
     styleLoadersConfig.forEach((config) => {
