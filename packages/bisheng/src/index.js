@@ -326,6 +326,7 @@ function pushToGhPages(basePath, config) {
     logger(message) {
       console.log(message);
     },
+    dotfiles: true,
   };
   if (process.env.RUN_ENV_USER) {
     options.user = {
