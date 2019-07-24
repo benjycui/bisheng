@@ -1,4 +1,4 @@
-export default ({ postcssConfig, lessConfig }) => ([
+export default ({ postcssConfig, lessConfig, cssConfig }) => ([
   {
     test(filePath) {
       return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath);
@@ -35,6 +35,7 @@ export default ({ postcssConfig, lessConfig }) => ([
     use: [
       {
         loader: require.resolve('css-loader'),
+        options: cssConfig || {}
       },
       {
         loader: require.resolve('postcss-loader'),
