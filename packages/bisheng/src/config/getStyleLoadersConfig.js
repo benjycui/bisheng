@@ -32,6 +32,7 @@ export default ({ postcssConfig, lessConfig, cssConfig }) => ([
     test(filePath) {
       return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath);
     },
+    exclude: /antd/,
     use: [
       {
         loader: require.resolve('css-loader'),

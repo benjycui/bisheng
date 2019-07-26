@@ -1,6 +1,6 @@
 {
-  "name": "bisheng",
-  "version": "1.2.4",
+  "name": "zisheng",
+  "version": "1.0.0",
   "description": "Transform Markdown(and other static files with transformers) into a SPA website using React.",
   "bin": {
     "bisheng": "./bin/bisheng"
@@ -41,10 +41,6 @@
       "@babel/plugin-proposal-object-rest-spread"
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/benjycui/bisheng.git"
-  },
   "keywords": [
     "markdown",
     "spa",
@@ -52,12 +48,8 @@
     "blog",
     "react"
   ],
-  "author": "Benjy Cui<benjytrys@gmail.com>",
+  "author": "Benjy Cui",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/benjycui/bisheng/issues"
-  },
-  "homepage": "https://github.com/benjycui/bisheng#readme",
   "dependencies": {
     "@babel/core": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",

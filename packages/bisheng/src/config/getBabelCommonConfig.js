@@ -1,4 +1,5 @@
 const { tmpdir } = require('os');
+const { join } = require('path');
 
 const { resolve } = require;
 
@@ -24,6 +25,7 @@ export default function babel() {
       ],
     ],
     plugins: [
+      join(__dirname, '../babel-plugin-style-path-resolve'),
       resolve('@babel/plugin-proposal-object-rest-spread'),
       [
         resolve('@babel/plugin-proposal-decorators'),
