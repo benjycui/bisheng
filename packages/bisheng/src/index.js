@@ -10,13 +10,13 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const R = require('ramda');
 const ghPages = require('gh-pages');
+const Module = require('module');
 const { escapeWinPath } = require('./utils/escape-win-path');
 const getBishengConfig = require('./utils/get-bisheng-config');
 const sourceData = require('./utils/source-data');
 const generateFilesPath = require('./utils/generate-files-path');
 const getThemeConfig = require('./utils/get-theme-config');
 const context = require('./context');
-const Module = require('module');
 
 // We need to inject the require logic to support use origin node_modules
 // if currently not provided.
@@ -84,10 +84,10 @@ exports.start = function start(program) {
   const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
   // dev manifest
   const manifest = {
-    js: [ `${bishengConfig.entryName}.js` ],
+    js: [`${bishengConfig.entryName}.js`],
     // inject style
-    css: [ ],
-  }
+    css: [],
+  };
   const templateData = Object.assign(
     { root: '/', manifest },
     bishengConfig.htmlTemplateExtraData || {},
@@ -148,15 +148,15 @@ function filenameToUrl(filename) {
 // hash { js: ['index-{hash}.js', ...], css: [ 'index.{hash}-{chunkId}.css' ] }
 // no hash // { js: ['index.js', ...], css: [ 'index.{chunkId}.css' ] }
 function getManifest(compilation) {
-  const manifest = {}
+  const manifest = {};
   compilation.entrypoints.forEach((entrypoint, name) => {
     const js = [];
     const css = [];
     const initials = new Set();
-    const chunks = entrypoint.chunks;
+    const { chunks } = entrypoint;
     // Walk main chunks
     for (const chunk of chunks) {
-      for (let file of chunk.files) {
+      for (const file of chunk.files) {
         if (!initials.has(file)) {
           initials.add(file);
 
@@ -180,7 +180,7 @@ function getManifest(compilation) {
     }
 
     manifest[name] = { js, css };
-  })
+  });
   return manifest;
 }
 
@@ -228,6 +228,7 @@ exports.build = function build(program, callback) {
     [`${entryName}-ssr`]: ssrPath,
   };
   ssrWebpackConfig.target = 'node';
+  ssrWebpackConfig.externals = ['react-document-title'];
   ssrWebpackConfig.output = Object.assign({}, ssrWebpackConfig.output, {
     filename: '[name].js',
     path: tmpDirPath,
@@ -290,7 +291,7 @@ exports.build = function build(program, callback) {
         const output = path.join(bishengConfig.output, file);
         mkdirp.sync(path.dirname(output));
         return new Promise((resolve) => {
-          ssr(filenameToUrl(file), (error, content) => {
+          ssr(filenameToUrl(file), (error, content, title = '') => {
             if (error) {
               console.error(error);
               process.exit(1);
@@ -298,8 +299,10 @@ exports.build = function build(program, callback) {
             const templateData = Object.assign(
               {
                 root: bishengConfig.root,
-                content, hash: bishengConfig.hash,
+                content,
+                hash: bishengConfig.hash,
                 manifest,
+                title,
               },
               bishengConfig.htmlTemplateExtraData || {},
             );
