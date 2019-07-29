@@ -228,7 +228,9 @@ exports.build = function build(program, callback) {
     [`${entryName}-ssr`]: ssrPath,
   };
   ssrWebpackConfig.target = 'node';
-  ssrWebpackConfig.externals = ['react-document-title'];
+  ssrWebpackConfig.externals = Array.isArray(ssrWebpackConfig.externals)
+    ? [...ssrWebpackConfig.externals, 'react-document-title']
+    : { ...ssrWebpackConfig.externals, 'react-document-title': 'react-document-title' };
   ssrWebpackConfig.output = Object.assign({}, ssrWebpackConfig.output, {
     filename: '[name].js',
     path: tmpDirPath,
@@ -295,7 +297,7 @@ exports.build = function build(program, callback) {
             if (error) {
               console.error(error);
               process.exit(1);
-            }
+            };
             const templateData = Object.assign(
               {
                 root: bishengConfig.root,
