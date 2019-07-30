@@ -96,6 +96,7 @@
     "ramda": "^0.26.0",
     "react": "^16.0.0",
     "react-dev-utils": "^4.1.0",
+    "react-document-title": "^2.0.3",
     "react-dom": "^16.0.0",
     "react-router": "^3.0.0",
     "resolve": "^1.1.7",

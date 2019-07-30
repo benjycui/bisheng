@@ -5,6 +5,7 @@
     "test": "lerna bootstrap && lerna exec -- _mocha --recursive --opts test/mocha.opts",
     "clean": "lerna clean",
     "bootstrap": "lerna bootstrap",
+    "build": "lerna run build",
     "publish": "lerna publish"
   },
   "devDependencies": {
