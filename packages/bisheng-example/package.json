@@ -2,7 +2,7 @@
   "name": "bisheng-example",
   "scripts": {
     "start": "bisheng start",
-    "build": "bisheng build --ssr",
+    "build-example": "bisheng build --ssr",
     "deploy": "bisheng gh-pages --ssr && rm -rf _site"
   },
   "dependencies": {

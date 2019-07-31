@@ -297,11 +297,25 @@ exports.build = function build(program, callback) {
         const output = path.join(bishengConfig.output, file);
         mkdirp.sync(path.dirname(output));
         return new Promise((resolve) => {
-          ssr(filenameToUrl(file), (error, content, title = '') => {
+          const pathname = filenameToUrl(file);
+          ssr(pathname, (error, content, {
+            title = '',
+          }) => {
             if (error) {
               console.error(error);
               process.exit(1);
             }
+            let params = {};
+            if (themeConfig.selector) {
+              // selector for render html templates
+              const cheerio = require('cheerio');
+              const $ = cheerio.load(content, {
+                decodeEntities: false,
+                recognizeSelfClosing: true,
+              });
+              params = themeConfig.selector($, pathname) || {};
+            }
+            console.log('params', params);
             const templateData = Object.assign(
               {
                 root: bishengConfig.root,
@@ -309,6 +323,7 @@ exports.build = function build(program, callback) {
                 hash: bishengConfig.hash,
                 manifest,
                 title,
+                ...params,
               },
               bishengConfig.htmlTemplateExtraData || {},
             );

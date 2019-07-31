@@ -3,15 +3,16 @@ const toReactElement = require('jsonml-to-react-element');
 const exist = require('exist.js');
 const NProgress = require('nprogress-for-antd');
 const NotFound = require('{{ themePath }}/template/NotFound');
+
 const themeConfig = JSON.parse('{{ themeConfig | safe }}');
 
 function calcPropsPath(dataPath, params) {
-  return typeof dataPath === 'function' ?
-    dataPath(params) :
-    Object.keys(params).reduce(
-    (path, param) => path.replace(`:${param}`, params[param]),
-    dataPath,
-  );
+  return typeof dataPath === 'function'
+    ? dataPath(params)
+    : Object.keys(params).reduce(
+      (path, param) => path.replace(`:${param}`, params[param]),
+      dataPath,
+    );
 }
 
 function generateUtils(data, props) {
@@ -57,7 +58,7 @@ module.exports = function getRoutes(data) {
             const Comp = Template.default || Template;
             Comp[dynamicPropsKey] = { ...nextProps, ...collectedValue };
             callback(null, Comp);
-          } catch (e) { console.error(e) }
+          } catch (e) { console.error(e); }
         })
         .catch((err) => {
           const Comp = NotFound.default || NotFound;

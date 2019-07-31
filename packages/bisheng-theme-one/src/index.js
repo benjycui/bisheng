@@ -11,6 +11,18 @@ module.exports = {
     },
   },
   plugins: [path.join(__dirname, '..', 'node_modules', 'bisheng-plugin-description')],
+  selector: ($, pathname) => {
+    let description = '';
+    console.log('pathname', pathname);
+    if (pathname === '/') {
+      description = 'Bisheng Theme Home description';
+    } else {
+      description = $('.item-description').text();
+    }
+    return {
+      description: description || '',
+    };
+  },
   routes: [{
     path: '/',
     component: './template/Archive',
