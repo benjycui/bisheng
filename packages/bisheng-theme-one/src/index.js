@@ -13,10 +13,7 @@ module.exports = {
   plugins: [path.join(__dirname, '..', 'node_modules', 'bisheng-plugin-description')],
   selector: ($, pathname) => {
     let description = '';
-    console.log('pathname', pathname);
-    if (pathname === '/') {
-      description = 'Bisheng Theme Home description';
-    } else {
+    if (pathname !== '/') {
       description = $('.item-description').text();
     }
     return {
