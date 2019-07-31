@@ -310,7 +310,8 @@ exports.build = function build(program, callback) {
               try {
                 // selector for render html templates
                 const cheerio = require('cheerio');
-                const $ = cheerio.load(content, {
+                const emojiStrip = require('emoji-strip');
+                const $ = cheerio.load(emojiStrip(content), {
                   decodeEntities: false,
                   recognizeSelfClosing: true,
                 });
