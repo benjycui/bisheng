@@ -307,15 +307,16 @@ exports.build = function build(program, callback) {
             }
             let params = {};
             if (themeConfig.selector) {
-              // selector for render html templates
-              const cheerio = require('cheerio');
-              const $ = cheerio.load(content, {
-                decodeEntities: false,
-                recognizeSelfClosing: true,
-              });
-              params = themeConfig.selector($, pathname) || {};
+              try {
+                // selector for render html templates
+                const cheerio = require('cheerio');
+                const $ = cheerio.load(content, {
+                  decodeEntities: false,
+                  recognizeSelfClosing: true,
+                });
+                params = themeConfig.selector($, pathname) || {};
+              } catch (e) { console.warn(`${pathname} get params failed`); }
             }
-            console.log('params', params);
             const templateData = Object.assign(
               {
                 root: bishengConfig.root,
