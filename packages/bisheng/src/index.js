@@ -346,7 +346,7 @@ function pushToGhPages(basePath, config) {
     if (err) {
       throw err;
     }
-    console.log('Site has been published!');
+    console.log('✅ Site has been published!');
   });
 }
 exports.deploy = function deploy(program) {
