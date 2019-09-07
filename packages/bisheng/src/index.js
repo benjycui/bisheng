@@ -233,6 +233,7 @@ exports.build = function build(program, callback) {
     ssrWebpackConfig.externals,
     {
       'react-document-title': 'react-document-title',
+      'react-helmet': 'react-helmet'
     },
   ].filter(external => external);
   ssrWebpackConfig.output = Object.assign({}, ssrWebpackConfig.output, {
@@ -298,24 +299,10 @@ exports.build = function build(program, callback) {
         mkdirp.sync(path.dirname(output));
         return new Promise((resolve) => {
           const pathname = filenameToUrl(file);
-          ssr(pathname, (error, content, title = '') => {
+          ssr(pathname, (error, content, params = {}) => {
             if (error) {
               console.error(error);
               process.exit(1);
-            }
-            let params = {};
-            if (themeConfig.postProcessHtml) {
-              try {
-                // postProcessHtml for render html templates
-                const cheerio = require('cheerio');
-                const $ = cheerio.load(content, {
-                  decodeEntities: false,
-                  recognizeSelfClosing: true,
-                });
-                params = themeConfig.postProcessHtml($, pathname) || {};
-                console.log('pathname', pathname);
-                console.log('params', params);
-              } catch (e) { console.warn(`${pathname} get params failed`); }
             }
             const templateData = Object.assign(
               {
@@ -323,7 +310,6 @@ exports.build = function build(program, callback) {
                 content,
                 hash: bishengConfig.hash,
                 manifest,
-                title,
                 ...params,
               },
               bishengConfig.htmlTemplateExtraData || {},

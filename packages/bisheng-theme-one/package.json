@@ -65,7 +65,8 @@
   },
   "dependencies": {
     "bisheng-plugin-description": "^0.1.4",
-    "react-document-title": "^2.0.1"
+    "react-document-title": "^2.0.1",
+    "react-helmet": "^5.2.1"
   },
   "peerDependencies": {
     "bisheng": "^0.28.3",

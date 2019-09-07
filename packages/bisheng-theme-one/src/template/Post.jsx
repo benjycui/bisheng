@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'bisheng/router';
 import collect from 'bisheng/collect';
+import Helmet from 'react-helmet';
 import DocumentTitle from 'react-document-title';
 import Layout from './Layout';
 
@@ -11,6 +12,10 @@ const Post = (props) => {
     <DocumentTitle title={`${meta.title} | BiSheng Theme One`}>
       <Layout {...props}>
         <div className="hentry">
+          <Helmet>
+            <title>{`${meta.title} | BiSheng Theme One`}</title>
+            <meta name="description" content={description} />
+          </Helmet>
           <h1 className="entry-title">{meta.title}</h1>
           {
             !description ? null :

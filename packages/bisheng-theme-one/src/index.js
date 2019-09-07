@@ -11,15 +11,6 @@ module.exports = {
     },
   },
   plugins: [path.join(__dirname, '..', 'node_modules', 'bisheng-plugin-description')],
-  postProcessHtml: ($, pathname) => {
-    let description = '';
-    if (pathname !== '/') {
-      description = $('.item-description').text();
-    }
-    return {
-      description: description || '',
-    };
-  },
   routes: [{
     path: '/',
     component: './template/Archive',
