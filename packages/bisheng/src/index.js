@@ -342,6 +342,7 @@ function pushToGhPages(basePath, config) {
       email: process.env.RUN_ENV_EMAIL,
     };
   }
+  console.log(options);
   ghPages.publish(basePath, options, (err) => {
     if (err) {
       throw err;
