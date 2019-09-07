@@ -329,9 +329,11 @@ exports.build = function build(program, callback) {
 };
 
 function pushToGhPages(basePath, config) {
+  const now = new Date();
   const options = {
     ...config,
     depth: 1,
+    message: `Deploy to gh-pages - ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} [ci skip]`,
     logger(message) {
       console.log(message);
     },
