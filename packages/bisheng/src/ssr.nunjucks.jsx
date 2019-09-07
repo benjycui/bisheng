@@ -23,7 +23,7 @@ module.exports = function ssr(url, callback) {
         );
         const title = DocumentTitle.rewind();
         // params for extension
-        callback(null, content, { title });
+        callback(null, content, title);
       } catch (e) {
         callback(e, '');
       }

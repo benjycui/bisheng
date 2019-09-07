@@ -298,9 +298,7 @@ exports.build = function build(program, callback) {
         mkdirp.sync(path.dirname(output));
         return new Promise((resolve) => {
           const pathname = filenameToUrl(file);
-          ssr(pathname, (error, content, {
-            title = '',
-          }) => {
+          ssr(pathname, (error, content, title = '') => {
             if (error) {
               console.error(error);
               process.exit(1);
@@ -315,6 +313,8 @@ exports.build = function build(program, callback) {
                   recognizeSelfClosing: true,
                 });
                 params = themeConfig.postProcessHtml($, pathname) || {};
+                console.log('pathname', pathname);
+                console.log('params', params);
               } catch (e) { console.warn(`${pathname} get params failed`); }
             }
             const templateData = Object.assign(
