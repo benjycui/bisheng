@@ -11,7 +11,7 @@ module.exports = {
     },
   },
   plugins: [path.join(__dirname, '..', 'node_modules', 'bisheng-plugin-description')],
-  selector: ($, pathname) => {
+  postProcessHtml: ($, pathname) => {
     let description = '';
     if (pathname !== '/') {
       description = $('.item-description').text();

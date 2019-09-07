@@ -306,16 +306,16 @@ exports.build = function build(program, callback) {
               process.exit(1);
             }
             let params = {};
-            if (themeConfig.selector) {
+            if (themeConfig.postProcessHtml) {
               try {
-                // selector for render html templates
+                // postProcessHtml for render html templates
                 const cheerio = require('cheerio');
                 const emojiStrip = require('emoji-strip');
                 const $ = cheerio.load(emojiStrip(content), {
                   decodeEntities: false,
                   recognizeSelfClosing: true,
                 });
-                params = themeConfig.selector($, pathname) || {};
+                params = themeConfig.postProcessHtml($, pathname) || {};
               } catch (e) { console.warn(`${pathname} get params failed`); }
             }
             const templateData = Object.assign(
