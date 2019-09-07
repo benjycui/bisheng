@@ -310,9 +310,7 @@ exports.build = function build(program, callback) {
               try {
                 // postProcessHtml for render html templates
                 const cheerio = require('cheerio');
-                const emojiStrip = require('emoji-strip');
-                const plainText = emojiStrip(content);
-                const $ = cheerio.load(plainText, {
+                const $ = cheerio.load(content, {
                   decodeEntities: false,
                   recognizeSelfClosing: true,
                 });

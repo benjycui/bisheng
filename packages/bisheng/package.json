@@ -76,7 +76,6 @@
     "cheerio": "^1.0.0-rc.3",
     "commander": "^2.9.0",
     "css-loader": "~2.1.0",
-    "emoji-strip": "^1.0.1",
     "exist.js": "^0.3.0",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "gh-pages": "^2.1.1",
