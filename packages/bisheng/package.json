@@ -73,7 +73,6 @@
     "babel-loader": "^8.0.0",
     "babel-plugin-add-module-exports": "~0.2.1",
     "case-sensitive-paths-webpack-plugin": "^2.0.0",
-    "cheerio": "^1.0.0-rc.3",
     "commander": "^2.9.0",
     "css-loader": "~2.1.0",
     "exist.js": "^0.3.0",
