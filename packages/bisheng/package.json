@@ -98,6 +98,7 @@
     "react-dev-utils": "^4.1.0",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.0.0",
+    "react-helmet": "^5.2.1",
     "react-router": "^3.0.0",
     "resolve": "^1.1.7",
     "rucksack-css": "~1.0.2",

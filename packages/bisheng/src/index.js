@@ -233,6 +233,7 @@ exports.build = function build(program, callback) {
     ssrWebpackConfig.externals,
     {
       'react-document-title': 'react-document-title',
+      'react-helmet': 'react-helmet'
     },
   ].filter(external => external);
   ssrWebpackConfig.output = Object.assign({}, ssrWebpackConfig.output, {
@@ -297,7 +298,8 @@ exports.build = function build(program, callback) {
         const output = path.join(bishengConfig.output, file);
         mkdirp.sync(path.dirname(output));
         return new Promise((resolve) => {
-          ssr(filenameToUrl(file), (error, content, title = '') => {
+          const pathname = filenameToUrl(file);
+          ssr(pathname, (error, content, params = {}) => {
             if (error) {
               console.error(error);
               process.exit(1);
@@ -308,7 +310,7 @@ exports.build = function build(program, callback) {
                 content,
                 hash: bishengConfig.hash,
                 manifest,
-                title,
+                ...params,
               },
               bishengConfig.htmlTemplateExtraData || {},
             );
