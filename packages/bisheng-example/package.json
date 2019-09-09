@@ -1,5 +1,4 @@
 {
-  "name": "bisheng-example",
   "scripts": {
     "start": "bisheng start",
     "build": "bisheng build --ssr",
