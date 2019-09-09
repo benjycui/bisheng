@@ -29,6 +29,7 @@ You can create a PR to extend this list with your amazing website which is built
 * Lazy load for Markdown data.
 * [Plugin](https://github.com/benjycui/bisheng/blob/master/docs/plugin.md) system to extend default behaviour.
 * Server-side render for SEO.
+* Support [`react-helmet`](https://github.com/nfl/react-helmet) and [`react-document-title`](https://github.com/gaearon/react-document-title) for better SEO.
 
 ## Big picture
 
