@@ -6,6 +6,11 @@ function createWorkers(count) {
   const workers = [];
   while (workers.length < count) {
     const worker = childProcess.fork(path.join(__dirname, './worker.js'));
+    worker.on('exit', code => {
+      if (code !== 0) {
+        process.exit(code);
+      }
+    });
     worker.setMaxListeners(1);
     workers.push(worker);
   }
