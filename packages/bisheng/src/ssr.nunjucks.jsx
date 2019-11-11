@@ -15,22 +15,22 @@ module.exports = function ssr(url, callback) {
     } else if (redirectLocation) {
       callback(null, ''); // TODO
     } else if (renderProps) {
+      const helmetContext = {};
       try {
         const content = ReactDOMServer.renderToString(
           <ReactRouter.RouterContext
             {...renderProps}
-            createElement={createElement}
+            createElement={(Component, props) => createElement(Component, { ...props, helmetContext })}
           />,
         );
-
+        const helmet = helmetContext.helmet || Helmet.renderStatic();
         const documentTitle = DocumentTitle.rewind();
-        const helmet = Helmet.renderStatic();
         const helmetTitleTmp = helmet.title.toString();
         const htmlAttributes = helmet.htmlAttributes.toString();
         const meta = helmet.meta.toString();
         const link = helmet.link.toString();
         const helmentTitle = helmetTitleTmp.match(/<title.*>([^<]+)<\/title>/)
-          ? helmetTitleTmp.match(/<title.*>([^<]+)<\/title>/)[1] 
+          ? helmetTitleTmp.match(/<title.*>([^<]+)<\/title>/)[1]
           : '';
 
         // 兼容 DocumentTitle ，推荐使用 react-helmet

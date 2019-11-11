@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'bisheng/router';
 import collect from 'bisheng/collect';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import Layout from './Layout';
 
 const Post = (props) => {
