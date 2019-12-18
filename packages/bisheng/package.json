@@ -1,6 +1,6 @@
 {
   "name": "bisheng",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "Transform Markdown(and other static files with transformers) into a SPA website using React.",
   "bin": {
     "bisheng": "./bin/bisheng"
@@ -104,8 +104,8 @@
     "rucksack-css": "~1.0.2",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.2",
-    "terser-webpack-plugin": "^2.3.1",
-    "ts-loader": "^5.3.0",
+    "terser-webpack-plugin": "^1.1.0",
+    "ts-loader": "^6.2.1",
     "url-loader": "^3.0.0",
     "webpack": "^4.25.1",
     "webpack-dev-server": "^3.1.10",
