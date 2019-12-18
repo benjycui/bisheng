@@ -117,19 +117,6 @@ exports.start = function start(program) {
   };
   WebpackDevServer.addDevServerEntrypoints(webpackConfig, serverOptions);
   const compiler = webpack(webpackConfig);
-  // Ref: https://github.com/pigcan/blog/issues/6
-  // Webpack startup recompilation fix. Remove when @sokra fixes the bug.
-  // https://github.com/webpack/webpack/issues/2983
-  // https://github.com/webpack/watchpack/issues/25
-  const timefix = 11000;
-  compiler.plugin('watch-run', (watching, callback) => {
-    watching.startTime += timefix;
-    callback();
-  });
-  compiler.plugin('done', (stats) => {
-    stats.startTime -= timefix;
-  });
-
   const server = new WebpackDevServer(compiler, serverOptions);
   server.listen(bishengConfig.port, '0.0.0.0', () => openBrowser(`http://localhost:${bishengConfig.port}`));
 };
