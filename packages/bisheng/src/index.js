@@ -322,7 +322,7 @@ function pushToGhPages(basePath, config) {
   const options = {
     ...config,
     depth: 1,
-    message: `Deploy to gh-pages - ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}${config.skipci ? ' [ci skip]' : ''}`,
+    message: `Deploy to gh-pages - ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}${config.skipCi ? ' [ci skip]' : ''}`,
     logger(message) {
       console.log(message);
     },
@@ -345,7 +345,7 @@ exports.deploy = function deploy(program) {
     remote: program.remote,
     branch: program.branch,
     dotfiles: program.dotfiles,
-    skipci: program.skipci,
+    skipCi: program.skipCi,
   };
   if (program.pushOnly) {
     const output = typeof program.pushOnly === 'string' ? program.pushOnly : './_site';
