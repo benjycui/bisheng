@@ -291,6 +291,7 @@ exports.build = function build(program, callback) {
               console.error(error);
               process.exit(1);
             }
+            console.log('Creating: ', output);
             const templateData = Object.assign(
               {
                 root: bishengConfig.root,
