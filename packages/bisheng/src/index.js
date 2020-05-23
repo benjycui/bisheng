@@ -260,6 +260,7 @@ exports.build = function build(program, callback) {
       const fileContent = nunjucks.renderString(template, templateData);
       filesNeedCreated.forEach((file) => {
         const output = path.join(bishengConfig.output, file);
+        console.log('Creating: ', output);
         mkdirp.sync(path.dirname(output));
         fs.writeFileSync(output, fileContent);
         console.log('Created: ', output);
@@ -287,11 +288,11 @@ exports.build = function build(program, callback) {
         return new Promise((resolve) => {
           const pathname = filenameToUrl(file);
           ssr(pathname, (error, content, params = {}) => {
+            console.log('Creating: ', output);
             if (error) {
               console.error(error);
               process.exit(1);
             }
-            console.log('Creating: ', output);
             const templateData = Object.assign(
               {
                 root: bishengConfig.root,
