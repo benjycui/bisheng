@@ -52,7 +52,7 @@ function getRoutesPath(themePath, configEntryName) {
   return routesPath;
 }
 
-function generateEntryFile(configTheme, configEntryName, root, earlyEntry) {
+function generateEntryFile(configTheme, configEntryName, root) {
   const entryTemplate = fs.readFileSync(path.join(__dirname, 'entry.nunjucks.js')).toString();
   const entryPath = path.join(tmpDirPath, `entry.${configEntryName}.js`);
   const routesPath = getRoutesPath(
@@ -64,7 +64,6 @@ function generateEntryFile(configTheme, configEntryName, root, earlyEntry) {
     nunjucks.renderString(entryTemplate, {
       routesPath: escapeWinPath(routesPath),
       root: escapeWinPath(root),
-      earlyEntry,
     }),
   );
 }
@@ -104,7 +103,6 @@ exports.start = function start(program) {
     bishengConfig.theme,
     bishengConfig.entryName,
     '/',
-    bishengConfig.earlyEntry,
   );
 
   const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'start');
@@ -192,7 +190,6 @@ exports.build = function build(program, callback) {
     bishengConfig.theme,
     entryName,
     bishengConfig.root,
-    bishengConfig.earlyEntry,
   );
   const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'build');
   webpackConfig.plugins.push(

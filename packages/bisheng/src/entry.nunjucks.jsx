@@ -1,4 +1,3 @@
-{{ earlyEntry | safe }}
 require('@babel/polyfill');
 require('nprogress-for-antd/nprogress.css');
 
