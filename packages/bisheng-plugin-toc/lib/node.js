@@ -8,8 +8,9 @@ function isHeading(tagName) {
 
 module.exports = (markdownData, config) => {
   const maxDepth = config.maxDepth || 6;
-
-  const listItems = JsonML.getChildren(markdownData.content).filter((node) => {
+  
+  const hasAttributes = JsonML.isElement(markdownData.content) && JsonML.hasAttributes(markdownData.content); 
+  const listItems = hasAttributes && JsonML.getChildren(markdownData.content).filter((node) => {
     const tagName = JsonML.getTagName(node);
     return isHeading(tagName) && +tagName.charAt(1) <= maxDepth;
   }).map((node) => {
