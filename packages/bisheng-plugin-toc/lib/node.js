@@ -6,10 +6,14 @@ function isHeading(tagName) {
   return /^h[1-6]$/i.test(tagName);
 }
 
+function hasAttributes(jml) {
+  return Array.isArray(jml) && ('string' === typeof jml[0]);
+}
+
 module.exports = (markdownData, config) => {
   const maxDepth = config.maxDepth || 6;
 
-  const listItems = JsonML.getChildren(markdownData.content).filter((node) => {
+  const listItems = hasAttributes(markdownData.content) && JsonML.getChildren(markdownData.content).filter((node) => {
     const tagName = JsonML.getTagName(node);
     return isHeading(tagName) && +tagName.charAt(1) <= maxDepth;
   }).map((node) => {
