@@ -1,6 +1,6 @@
 {
   "name": "bisheng",
-  "version": "2.0.0",
+  "version": "2.0.0-beta.1",
   "description": "Transform Markdown(and other static files with transformers) into a SPA website using React.",
   "bin": {
     "bisheng": "./bin/bisheng"
@@ -14,7 +14,7 @@
   "scripts": {
     "build": "babel src --out-dir lib",
     "clean": "rimraf lib",
-    "prepublish": "npm run build && shx cp src/template.html lib/template.html",
+    "prepublishOnly": "npm run build && shx cp src/template.html lib/template.html",
     "postpublish": "npm run clean"
   },
   "babel": {
