@@ -41,7 +41,9 @@ export default ({ postcssConfig, lessConfig }) => ([
         options: postcssConfig,
       }, {
         loader: require.resolve('less-loader'),
-        options: lessConfig,
+        options: {
+          lessOptions: lessConfig,
+        },
       }
     ],
   },
@@ -60,7 +62,9 @@ export default ({ postcssConfig, lessConfig }) => ([
         options: postcssConfig,
       }, {
         loader: require.resolve('less-loader'),
-        options: lessConfig,
+        options: {
+          lessOptions: lessConfig,
+        },
       }
     ],
   },

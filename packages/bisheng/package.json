@@ -1,6 +1,6 @@
 {
   "name": "bisheng",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Transform Markdown(and other static files with transformers) into a SPA website using React.",
   "bin": {
     "bisheng": "./bin/bisheng"
@@ -81,8 +81,8 @@
     "history": "^3.3.0",
     "jsonml-to-react-element": "^1.0.0",
     "jsonml.js": "^0.1.0",
-    "less": "~3.9.0",
-    "less-loader": "^5.0.0",
+    "less": "^4.0.0",
+    "less-loader": "^7.1.0",
     "loader-utils": "^1.1.0",
     "mark-twain": "^2.0.0",
     "mini-css-extract-plugin": "^0.9.0",
