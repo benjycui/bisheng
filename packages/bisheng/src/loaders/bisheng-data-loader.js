@@ -15,7 +15,7 @@ module.exports = function bishengDataLoader(/* content */) {
   const markdown = sourceData.generate(bishengConfig.source, bishengConfig.transformers);
   const browserPlugins = resolvePlugins(themeConfig.plugins, 'browser');
   const pluginsString = browserPlugins
-    .map(plugin => `[require('${plugin[0]}'), ${JSON.stringify(plugin[1])}]`)
+    .map((plugin) => `[require('${plugin[0]}'), ${JSON.stringify(plugin[1])}]`)
     .join(',\n');
 
   const callback = this.async();
@@ -62,11 +62,11 @@ module.exports = function bishengDataLoader(/* content */) {
       });
       callback(
         null,
-        'module.exports = {' +
-          `\n  markdown: ${sourceDataString},` +
-          `\n  picked: ${JSON.stringify(picked, null, 2)},` +
-          `\n  plugins: [\n${pluginsString}\n],` +
-          '\n};',
+        'module.exports = {'
+          + `\n  markdown: ${sourceDataString},`
+          + `\n  picked: ${JSON.stringify(picked, null, 2)},`
+          + `\n  plugins: [\n${pluginsString}\n],`
+          + '\n};',
       );
     });
 };

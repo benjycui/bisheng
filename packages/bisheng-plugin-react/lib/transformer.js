@@ -60,11 +60,13 @@ module.exports = function transformer(code, babelConfig = {}, noreact) {
   let codeAst = null;
 
   try {
-    const parserOpts = Object.assign({
+    const parserOpts = {
       ast: true,
       babelrc: false,
       configFile: false,
-    }, defaultBabelConfig, babelConfig);
+      ...defaultBabelConfig,
+      ...babelConfig,
+    };
     //  parseSync
     const { ast } = babel.transformSync(
       code,

@@ -8,9 +8,9 @@ export default ({ postcssConfig, lessConfig }) => ([
         loader: require.resolve('css-loader'),
       },
       {
-      loader: require.resolve('postcss-loader'),
+        loader: require.resolve('postcss-loader'),
         options: postcssConfig,
-      }
+      },
     ],
   },
   {
@@ -25,7 +25,7 @@ export default ({ postcssConfig, lessConfig }) => ([
       }, {
         loader: require.resolve('postcss-loader'),
         options: postcssConfig,
-      }
+      },
     ],
   },
   {
@@ -44,7 +44,7 @@ export default ({ postcssConfig, lessConfig }) => ([
         options: {
           lessOptions: lessConfig,
         },
-      }
+      },
     ],
   },
   {
@@ -65,7 +65,7 @@ export default ({ postcssConfig, lessConfig }) => ([
         options: {
           lessOptions: lessConfig,
         },
-      }
+      },
     ],
   },
   {
@@ -99,5 +99,5 @@ export default ({ postcssConfig, lessConfig }) => ([
       },
       require.resolve('sass-loader'),
     ],
-  }
+  },
 ]);

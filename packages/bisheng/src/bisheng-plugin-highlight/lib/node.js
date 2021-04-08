@@ -1,5 +1,3 @@
-
-
 const Prism = require('node-prismjs');
 const JsonML = require('jsonml.js/lib/utils');
 
@@ -15,10 +13,9 @@ function highlight(node) {
     return;
   }
 
-  const language = Prism.languages[JsonML.getAttributes(node).lang] ||
-          Prism.languages.autoit;
-  JsonML.getAttributes(node).highlighted =
-    Prism.highlight(getCode(node), language);
+  const language = Prism.languages[JsonML.getAttributes(node).lang]
+          || Prism.languages.autoit;
+  JsonML.getAttributes(node).highlighted = Prism.highlight(getCode(node), language);
 }
 
 module.exports = (markdownData/* , config */) => {

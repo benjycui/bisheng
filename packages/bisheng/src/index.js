@@ -88,10 +88,11 @@ exports.start = function start(program) {
     // inject style
     css: [],
   };
-  const templateData = Object.assign(
-    { root: '/', manifest },
-    bishengConfig.htmlTemplateExtraData || {},
-  );
+  const templateData = {
+    root: '/',
+    manifest,
+    ...bishengConfig.htmlTemplateExtraData || {},
+  };
   const templatePath = path.join(
     process.cwd(),
     bishengConfig.output,
@@ -206,7 +207,7 @@ exports.build = function build(program, callback) {
     }),
   );
 
-  const ssrWebpackConfig = Object.assign({}, webpackConfig);
+  const ssrWebpackConfig = { ...webpackConfig };
   const ssrPath = path.join(tmpDirPath, `ssr.${entryName}.js`);
   const routesPath = getRoutesPath(path.dirname(bishengConfig.theme), entryName);
   fs.writeFileSync(ssrPath, nunjucks.renderString(ssrTemplate, { routesPath: escapeWinPath(routesPath) }));
@@ -220,15 +221,16 @@ exports.build = function build(program, callback) {
     ssrWebpackConfig.externals,
     {
       'react-document-title': 'react-document-title',
-      'react-helmet': 'react-helmet'
+      'react-helmet': 'react-helmet',
     },
-  ].filter(external => external);
-  ssrWebpackConfig.output = Object.assign({}, ssrWebpackConfig.output, {
+  ].filter((external) => external);
+  ssrWebpackConfig.output = {
+    ...ssrWebpackConfig.output,
     filename: '[name].js',
     path: tmpDirPath,
     library: 'ssr',
     libraryTarget: 'commonjs',
-  });
+  };
 
   webpack(webpackConfig, (err, stats) => {
     if (err !== null) {
@@ -249,14 +251,12 @@ exports.build = function build(program, callback) {
 
     if (!program.ssr) {
       require('./loaders/common/boss').jobDone();
-      const templateData = Object.assign(
-        {
-          root: bishengConfig.root,
-          hash: bishengConfig.hash,
-          manifest,
-        },
-        bishengConfig.htmlTemplateExtraData || {},
-      );
+      const templateData = {
+        root: bishengConfig.root,
+        hash: bishengConfig.hash,
+        manifest,
+        ...bishengConfig.htmlTemplateExtraData || {},
+      };
       const fileContent = nunjucks.renderString(template, templateData);
       filesNeedCreated.forEach((file) => {
         const output = path.join(bishengConfig.output, file);
@@ -293,16 +293,14 @@ exports.build = function build(program, callback) {
               console.error(error);
               process.exit(1);
             }
-            const templateData = Object.assign(
-              {
-                root: bishengConfig.root,
-                content,
-                hash: bishengConfig.hash,
-                manifest,
-                ...params,
-              },
-              bishengConfig.htmlTemplateExtraData || {},
-            );
+            const templateData = {
+              root: bishengConfig.root,
+              content,
+              hash: bishengConfig.hash,
+              manifest,
+              ...params,
+              ...bishengConfig.htmlTemplateExtraData || {},
+            };
             const fileContent = nunjucks.renderString(template, templateData);
             fs.writeFileSync(output, fileContent);
             console.log('Created: ', output);

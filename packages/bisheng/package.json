@@ -85,7 +85,7 @@
     "less-loader": "^7.1.0",
     "loader-utils": "^1.1.0",
     "mark-twain": "^2.0.0",
-    "mini-css-extract-plugin": "^0.9.0",
+    "mini-css-extract-plugin": "^1.4.1",
     "mkdirp": "^0.5.1",
     "node-prismjs": "^0.1.0",
     "nprogress-for-antd": "^0.2.0",
@@ -103,11 +103,11 @@
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.2",
     "terser-webpack-plugin": "^1.1.0",
-    "ts-loader": "^6.2.1",
+    "ts-loader": "^8.0.0",
     "url-loader": "^3.0.0",
-    "webpack": "^4.25.1",
-    "webpack-dev-server": "^3.1.10",
-    "webpackbar": "^4.0.0"
+    "webpack": "^5.0.0",
+    "webpack-dev-server": "^3.11.2",
+    "webpackbar": "^5.0.0-3"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",

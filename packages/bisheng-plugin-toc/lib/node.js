@@ -1,5 +1,3 @@
-'use strict';
-
 const JsonML = require('jsonml.js/lib/utils');
 
 function isHeading(tagName) {
@@ -7,7 +5,7 @@ function isHeading(tagName) {
 }
 
 function hasAttributes(jml) {
-  return Array.isArray(jml) && ('string' === typeof jml[0]);
+  return Array.isArray(jml) && (typeof jml[0] === 'string');
 }
 
 module.exports = (markdownData, config) => {
@@ -35,7 +33,7 @@ module.exports = (markdownData, config) => {
         {
           className: `bisheng-toc-${tagName}`,
           href: `#${headingTextId}`,
-          title: headingText
+          title: headingText,
         },
       ].concat(config.keepElem ? headingNodeChildren : [headingText]),
     ];
