@@ -1,4 +1,5 @@
 import { join } from 'path';
+import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin';
@@ -147,6 +148,11 @@ export default function getWebpackCommonConfig() {
       }),
       new FriendlyErrorsWebpackPlugin(),
       new CleanUpStatsPlugin(),
+      new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        },
+      }),
     ],
   };
 
