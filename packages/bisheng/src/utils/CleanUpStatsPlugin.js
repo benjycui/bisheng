@@ -23,13 +23,13 @@ class CleanUpStatsPlugin {
   }
 
   apply(compiler) {
-    compiler.hooks.afterCompile.tap('CleanUpStatsPlugin', compilation => {
+    compiler.hooks.afterCompile.tap('CleanUpStatsPlugin', (compilation) => {
       const { children, warnings } = compilation;
       if (Array.isArray(children)) {
-        compilation.children = children.filter(child => this.shouldPickStatChild(child));
+        compilation.children = children.filter((child) => this.shouldPickStatChild(child));
       }
       if (Array.isArray(warnings)) {
-        compilation.warnings = warnings.filter(message => this.shouldPickWarning(message));
+        compilation.warnings = warnings.filter((message) => this.shouldPickWarning(message));
       }
     });
   }

@@ -6,7 +6,7 @@ function createWorkers(count) {
   const workers = [];
   while (workers.length < count) {
     const worker = childProcess.fork(path.join(__dirname, './worker.js'));
-    worker.on('exit', code => {
+    worker.on('exit', (code) => {
       if (code !== 0) {
         process.exit(code);
       }
@@ -43,7 +43,7 @@ module.exports = (function () {
       arrange(task);
     },
     jobDone() {
-      workers.forEach(w => w.kill());
+      workers.forEach((w) => w.kill());
     },
   };
 }());

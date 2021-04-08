@@ -1,8 +1,6 @@
-'use strict';
-
 const transformer = require('./transformer');
 
-module.exports = function(markdownData, {
+module.exports = function (markdownData, {
   lang = 'react-example',
   babelConfig,
   noreact,
@@ -11,7 +9,7 @@ module.exports = function(markdownData, {
 
   // ignore customized content
   if (Array.isArray(content)) {
-    markdownData.content = content.map(node => {
+    markdownData.content = content.map((node) => {
       const tagName = node[0];
       const attr = node[1];
       if (tagName === 'pre' && attr && attr.lang === lang) {
