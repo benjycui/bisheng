@@ -21,7 +21,7 @@ const context = require('./context');
 // We need to inject the require logic to support use origin node_modules
 // if currently not provided.
 const oriRequire = Module.prototype.require;
-Module.prototype.require = function (...args) {
+Module.prototype.require = function require(...args) {
   const moduleName = args[0];
   try {
     return oriRequire.apply(this, args);
@@ -108,6 +108,11 @@ exports.start = function start(program) {
 
   const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'start');
   webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
+  webpackConfig.plugins.push(new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
+    },
+  }));
   const serverOptions = {
     quiet: true,
     hot: true,
@@ -143,7 +148,9 @@ function getManifest(compilation) {
     const initials = new Set();
     const { chunks } = entrypoint;
     // Walk main chunks
+    // eslint-disable-next-line no-restricted-syntax
     for (const chunk of chunks) {
+      // eslint-disable-next-line no-restricted-syntax
       for (const file of chunk.files) {
         if (!initials.has(file)) {
           initials.add(file);
@@ -198,14 +205,11 @@ exports.build = function build(program, callback) {
       minimize: true,
     }),
   );
-
-  webpackConfig.plugins.push(
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(
-        process.env.NODE_ENV || 'production',
-      ),
-    }),
-  );
+  webpackConfig.plugins.push(new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production'),
+    },
+  }));
 
   const ssrWebpackConfig = { ...webpackConfig };
   const ssrPath = path.join(tmpDirPath, `ssr.${entryName}.js`);
