@@ -2,7 +2,7 @@
   "scripts": {
     "lint": "eslint .eslintrc.js ./packages/*/src ./packages/*/test",
     "lint-fix": "eslint .eslintrc.js --fix ./packages/*/src ./packages/*/test",
-    "test": "lerna exec -- _mocha --recursive --opts test/mocha.opts",
+    "test": "npm run build && lerna exec -- _mocha --recursive --opts test/mocha.opts",
     "clean": "lerna clean",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
