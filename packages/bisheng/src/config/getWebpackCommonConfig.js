@@ -148,11 +148,6 @@ export default function getWebpackCommonConfig() {
       }),
       new FriendlyErrorsWebpackPlugin(),
       new CleanUpStatsPlugin(),
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        },
-      }),
     ],
   };
 
