@@ -1,5 +1,3 @@
-
-
 const assert = require('assert');
 const generateFilesPath = require('../../lib/utils/generate-files-path');
 
