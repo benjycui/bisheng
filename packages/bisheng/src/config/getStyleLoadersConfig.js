@@ -19,8 +19,9 @@ export default ({ postcssConfig, lessConfig }) => ([
       {
         loader: require.resolve('css-loader'),
         options: {
-          modules: true,
-          localIdentName: '[local]___[hash:base64:5]',
+          modules: {
+            localIdentName: '[local]___[hash:base64:5]',
+          },
         },
       }, {
         loader: require.resolve('postcss-loader'),
@@ -53,8 +54,9 @@ export default ({ postcssConfig, lessConfig }) => ([
       {
         loader: require.resolve('css-loader'),
         options: {
-          modules: true,
-          localIdentName: '[local]___[hash:base64:5]',
+          modules: {
+            localIdentName: '[local]___[hash:base64:5]',
+          },
         },
       },
       {
@@ -89,8 +91,9 @@ export default ({ postcssConfig, lessConfig }) => ([
       {
         loader: require.resolve('css-loader'),
         options: {
-          modules: true,
-          localIdentName: '[local]___[hash:base64:5]',
+          modules: {
+            localIdentName: '[local]___[hash:base64:5]',
+          },
         },
       },
       {
