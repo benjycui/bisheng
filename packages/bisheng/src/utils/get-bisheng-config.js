@@ -23,7 +23,10 @@ const defaultConfig = {
   webpackConfig(config) {
     return config;
   },
-
+  tsConfig: {},
+  babelConfig(config) {
+    return config;
+  },
   entryName: 'index',
   root: '/',
   filePathMapper(filePath) {

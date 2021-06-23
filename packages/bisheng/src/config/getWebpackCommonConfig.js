@@ -25,7 +25,8 @@ export default function getWebpackCommonConfig() {
     : '[name].css';
 
   const babelOptions = getBabelCommonConfig();
-  const tsOptions = getTSCommonConfig();
+  const customBabelOptions = bishengConfig.babelConfig(babelOptions);
+  const tsOptions = getTSCommonConfig(bishengConfig.tsConfig);
 
   /** @type {import('webpack').Configuration} */
   const config = {
@@ -61,14 +62,14 @@ export default function getWebpackCommonConfig() {
           test: /\.jsx?$/,
           exclude: /node_modules/,
           loader: require.resolve('babel-loader'),
-          options: babelOptions,
+          options: customBabelOptions,
         },
         {
           test: /\.tsx?$/,
           use: [
             {
               loader: require.resolve('babel-loader'),
-              options: babelOptions,
+              options: customBabelOptions,
             },
             {
               loader: require.resolve('ts-loader'),
