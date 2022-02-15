@@ -101,6 +101,29 @@ module.exports = function transformer(code, babelConfig = {}, noreact) {
         callPath.remove();
       }
     },
+    AssignmentExpression(path) {
+      const pathNode = path.node;
+      if (
+        pathNode.operator === '='
+        && pathNode.left
+        && pathNode.left.object
+        && pathNode.left.object.name === 'exports'
+        && pathNode.left.property
+        && pathNode.left.property.value === 'default'
+      ) {
+        renderReturn = types.returnStatement(
+          types.addComment(
+            types.callExpression(
+              types.memberExpression(types.identifier('React'), types.identifier('createElement')),
+              [types.identifier('_default')],
+            ),
+            'leading',
+            '#__PURE__',
+          ),
+        );
+        path.remove();
+      }
+    },
   });
 
   const astProgramBody = codeAst.program.body;

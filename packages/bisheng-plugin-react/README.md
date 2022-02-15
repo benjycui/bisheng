@@ -15,7 +15,7 @@ Install:
 npm i --save bisheng-plugin-react
 ```
 
-Add 'bisheng-plugin-react to `bisehng.config.js`'s plugins.
+Add 'bisheng-plugin-react to `bisheng.config.js`'s plugins.
 
 ```js
 module.exports = {
