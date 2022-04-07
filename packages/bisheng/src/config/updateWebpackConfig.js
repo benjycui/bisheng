@@ -28,7 +28,7 @@ export default function updateWebpackConfig(webpackConfig, mode) {
   if (mode === 'build') {
     webpackConfig.output.filename = bishengConfig.hash
       ? '[name]-[contenthash:8].js'
-      : '[name].js';
+      : '[name].js',
 
     styleLoadersConfig.forEach((config) => {
       webpackConfig.module.rules.push({
@@ -46,6 +46,7 @@ export default function updateWebpackConfig(webpackConfig, mode) {
     },
     loader: path.join(bishengLibLoaders, 'bisheng-data-loader'),
   });
+  /* eslint-enable no-param-reassign */
 
   const customizedWebpackConfig = bishengConfig.webpackConfig(
     webpackConfig,

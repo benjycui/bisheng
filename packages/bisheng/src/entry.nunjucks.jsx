@@ -11,14 +11,6 @@ const data = require('../lib/utils/data.js');
 const createElement = require('../lib/utils/create-element');
 const routes = require('{{ routesPath }}')(data);
 
-let createRoot;
-try {
-  // eslint-disable-next-line global-require, import/no-unresolved
-  ({ createRoot } = require('react-dom/client'));
-} catch (e) {
-  // Do nothing;
-}
-
 const { pathname, search, hash } = window.location;
 const location = `${pathname}${search}${hash}`;
 const basename = '{{ root }}';
@@ -30,10 +22,8 @@ ReactRouter.match({ routes, location, basename }, () => {
       createElement={createElement}
     />
   );
-
-  if (createRoot) {
-    createRoot(document.getElementById('react-content')).render(router);
-  } else {
-    ReactDOM.render(router, document.getElementById('react-content'));
-  }
+  ReactDOM.render(
+    router,
+    document.getElementById('react-content'),
+  );
 });

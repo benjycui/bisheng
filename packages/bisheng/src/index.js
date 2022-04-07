@@ -21,7 +21,7 @@ const context = require('./context');
 // We need to inject the require logic to support use origin node_modules
 // if currently not provided.
 const oriRequire = Module.prototype.require;
-Module.prototype.require = function require(...args) {
+Module.prototype.require = function (...args) {
   const moduleName = args[0];
   try {
     return oriRequire.apply(this, args);
@@ -88,11 +88,10 @@ exports.start = function start(program) {
     // inject style
     css: [],
   };
-  const templateData = {
-    root: '/',
-    manifest,
-    ...bishengConfig.htmlTemplateExtraData || {},
-  };
+  const templateData = Object.assign(
+    { root: '/', manifest },
+    bishengConfig.htmlTemplateExtraData || {},
+  );
   const templatePath = path.join(
     process.cwd(),
     bishengConfig.output,
@@ -108,11 +107,6 @@ exports.start = function start(program) {
 
   const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'start');
   webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
-  webpackConfig.plugins.push(new webpack.DefinePlugin({
-    'process.env': {
-      NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
-    },
-  }));
   const serverOptions = {
     quiet: true,
     hot: true,
@@ -148,9 +142,7 @@ function getManifest(compilation) {
     const initials = new Set();
     const { chunks } = entrypoint;
     // Walk main chunks
-    // eslint-disable-next-line no-restricted-syntax
     for (const chunk of chunks) {
-      // eslint-disable-next-line no-restricted-syntax
       for (const file of chunk.files) {
         if (!initials.has(file)) {
           initials.add(file);
@@ -205,13 +197,16 @@ exports.build = function build(program, callback) {
       minimize: true,
     }),
   );
-  webpackConfig.plugins.push(new webpack.DefinePlugin({
-    'process.env': {
-      NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production'),
-    },
-  }));
 
-  const ssrWebpackConfig = { ...webpackConfig };
+  webpackConfig.plugins.push(
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(
+        process.env.NODE_ENV || 'production',
+      ),
+    }),
+  );
+
+  const ssrWebpackConfig = Object.assign({}, webpackConfig);
   const ssrPath = path.join(tmpDirPath, `ssr.${entryName}.js`);
   const routesPath = getRoutesPath(path.dirname(bishengConfig.theme), entryName);
   fs.writeFileSync(ssrPath, nunjucks.renderString(ssrTemplate, { routesPath: escapeWinPath(routesPath) }));
@@ -225,16 +220,15 @@ exports.build = function build(program, callback) {
     ssrWebpackConfig.externals,
     {
       'react-document-title': 'react-document-title',
-      'react-helmet': 'react-helmet',
+      'react-helmet': 'react-helmet'
     },
-  ].filter((external) => external);
-  ssrWebpackConfig.output = {
-    ...ssrWebpackConfig.output,
+  ].filter(external => external);
+  ssrWebpackConfig.output = Object.assign({}, ssrWebpackConfig.output, {
     filename: '[name].js',
     path: tmpDirPath,
     library: 'ssr',
     libraryTarget: 'commonjs',
-  };
+  });
 
   webpack(webpackConfig, (err, stats) => {
     if (err !== null) {
@@ -255,12 +249,14 @@ exports.build = function build(program, callback) {
 
     if (!program.ssr) {
       require('./loaders/common/boss').jobDone();
-      const templateData = {
-        root: bishengConfig.root,
-        hash: bishengConfig.hash,
-        manifest,
-        ...bishengConfig.htmlTemplateExtraData || {},
-      };
+      const templateData = Object.assign(
+        {
+          root: bishengConfig.root,
+          hash: bishengConfig.hash,
+          manifest,
+        },
+        bishengConfig.htmlTemplateExtraData || {},
+      );
       const fileContent = nunjucks.renderString(template, templateData);
       filesNeedCreated.forEach((file) => {
         const output = path.join(bishengConfig.output, file);
@@ -297,14 +293,16 @@ exports.build = function build(program, callback) {
               console.error(error);
               process.exit(1);
             }
-            const templateData = {
-              root: bishengConfig.root,
-              content,
-              hash: bishengConfig.hash,
-              manifest,
-              ...params,
-              ...bishengConfig.htmlTemplateExtraData || {},
-            };
+            const templateData = Object.assign(
+              {
+                root: bishengConfig.root,
+                content,
+                hash: bishengConfig.hash,
+                manifest,
+                ...params,
+              },
+              bishengConfig.htmlTemplateExtraData || {},
+            );
             const fileContent = nunjucks.renderString(template, templateData);
             fs.writeFileSync(output, fileContent);
             console.log('Created: ', output);
