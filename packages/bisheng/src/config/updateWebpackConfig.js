@@ -26,9 +26,7 @@ export default function updateWebpackConfig(webpackConfig, mode) {
     });
   }
   if (mode === 'build') {
-    webpackConfig.output.filename = bishengConfig.hash
-      ? '[name]-[contenthash:8].js'
-      : '[name].js',
+    webpackConfig.output.filename = bishengConfig.hash ? '[name]-[contenthash:8].js' : '[name].js';
 
     styleLoadersConfig.forEach((config) => {
       webpackConfig.module.rules.push({
@@ -40,29 +38,18 @@ export default function updateWebpackConfig(webpackConfig, mode) {
   webpackConfig.module.rules.push({
     test(filename) {
       return (
-        filename === path.join(bishengLib, 'utils', 'data.js')
-        || filename === path.join(bishengLib, 'utils', 'ssr-data.js')
+        filename === path.join(bishengLib, 'utils', 'data.js') ||
+        filename === path.join(bishengLib, 'utils', 'ssr-data.js')
       );
     },
     loader: path.join(bishengLibLoaders, 'bisheng-data-loader'),
   });
-  /* eslint-enable no-param-reassign */
 
-  const customizedWebpackConfig = bishengConfig.webpackConfig(
-    webpackConfig,
-    webpack,
-  );
+  const customizedWebpackConfig = bishengConfig.webpackConfig(webpackConfig, webpack);
 
-  const entryPath = path.join(
-    bishengLib,
-    '..',
-    'tmp',
-    `entry.${bishengConfig.entryName}.js`,
-  );
+  const entryPath = path.join(bishengLib, '..', 'tmp', `entry.${bishengConfig.entryName}.js`);
   if (customizedWebpackConfig.entry[bishengConfig.entryName]) {
-    throw new Error(
-      `Should not set \`webpackConfig.entry.${bishengConfig.entryName}\`!`,
-    );
+    throw new Error(`Should not set \`webpackConfig.entry.${bishengConfig.entryName}\`!`);
   }
   customizedWebpackConfig.entry[bishengConfig.entryName] = entryPath;
   return customizedWebpackConfig;

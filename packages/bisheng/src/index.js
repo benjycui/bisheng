@@ -21,7 +21,7 @@ const context = require('./context');
 // We need to inject the require logic to support use origin node_modules
 // if currently not provided.
 const oriRequire = Module.prototype.require;
-Module.prototype.require = function (...args) {
+Module.prototype.require = function require(...args) {
   const moduleName = args[0];
   try {
     return oriRequire.apply(this, args);
@@ -55,10 +55,7 @@ function getRoutesPath(themePath, configEntryName) {
 function generateEntryFile(configTheme, configEntryName, root) {
   const entryTemplate = fs.readFileSync(path.join(__dirname, 'entry.nunjucks.js')).toString();
   const entryPath = path.join(tmpDirPath, `entry.${configEntryName}.js`);
-  const routesPath = getRoutesPath(
-    path.dirname(configTheme),
-    configEntryName,
-  );
+  const routesPath = getRoutesPath(path.dirname(configTheme), configEntryName);
   fs.writeFileSync(
     entryPath,
     nunjucks.renderString(entryTemplate, {
@@ -69,10 +66,7 @@ function generateEntryFile(configTheme, configEntryName, root) {
 }
 
 exports.start = function start(program) {
-  const configFile = path.join(
-    process.cwd(),
-    program.config || 'bisheng.config.js',
-  );
+  const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
   const bishengConfig = getBishengConfig(configFile);
   const themeConfig = getThemeConfig(bishengConfig.theme);
   context.initialize({
@@ -88,25 +82,25 @@ exports.start = function start(program) {
     // inject style
     css: [],
   };
-  const templateData = Object.assign(
-    { root: '/', manifest },
-    bishengConfig.htmlTemplateExtraData || {},
-  );
-  const templatePath = path.join(
-    process.cwd(),
-    bishengConfig.output,
-    'index.html',
-  );
+  const templateData = {
+    root: '/',
+    manifest,
+    ...(bishengConfig.htmlTemplateExtraData || {}),
+  };
+  const templatePath = path.join(process.cwd(), bishengConfig.output, 'index.html');
   fs.writeFileSync(templatePath, nunjucks.renderString(template, templateData));
 
-  generateEntryFile(
-    bishengConfig.theme,
-    bishengConfig.entryName,
-    '/',
-  );
+  generateEntryFile(bishengConfig.theme, bishengConfig.entryName, '/');
 
   const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'start');
   webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
+  webpackConfig.plugins.push(
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
+      },
+    }),
+  );
   const serverOptions = {
     quiet: true,
     hot: true,
@@ -118,12 +112,12 @@ exports.start = function start(program) {
   WebpackDevServer.addDevServerEntrypoints(webpackConfig, serverOptions);
   const compiler = webpack(webpackConfig);
   const server = new WebpackDevServer(compiler, serverOptions);
-  server.listen(bishengConfig.port, '0.0.0.0', () => openBrowser(`http://localhost:${bishengConfig.port}`));
+  server.listen(bishengConfig.port, '0.0.0.0', () =>
+    openBrowser(`http://localhost:${bishengConfig.port}`),
+  );
 };
 
-const ssrTemplate = fs
-  .readFileSync(path.join(__dirname, 'ssr.nunjucks.js'))
-  .toString();
+const ssrTemplate = fs.readFileSync(path.join(__dirname, 'ssr.nunjucks.js')).toString();
 
 function filenameToUrl(filename) {
   if (filename.endsWith('index.html')) {
@@ -142,7 +136,9 @@ function getManifest(compilation) {
     const initials = new Set();
     const { chunks } = entrypoint;
     // Walk main chunks
+    // eslint-disable-next-line no-restricted-syntax
     for (const chunk of chunks) {
+      // eslint-disable-next-line no-restricted-syntax
       for (const file of chunk.files) {
         if (!initials.has(file)) {
           initials.add(file);
@@ -172,10 +168,7 @@ function getManifest(compilation) {
 }
 
 exports.build = function build(program, callback) {
-  const configFile = path.join(
-    process.cwd(),
-    program.config || 'bisheng.config.js',
-  );
+  const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
   const bishengConfig = getBishengConfig(configFile);
   const themeConfig = getThemeConfig(bishengConfig.theme);
   context.initialize({
@@ -186,11 +179,7 @@ exports.build = function build(program, callback) {
   mkdirp.sync(bishengConfig.output);
 
   const { entryName } = bishengConfig;
-  generateEntryFile(
-    bishengConfig.theme,
-    entryName,
-    bishengConfig.root,
-  );
+  generateEntryFile(bishengConfig.theme, entryName, bishengConfig.root);
   const webpackConfig = updateWebpackConfig(getWebpackCommonConfig(), 'build');
   webpackConfig.plugins.push(
     new webpack.LoaderOptionsPlugin({
@@ -200,16 +189,19 @@ exports.build = function build(program, callback) {
 
   webpackConfig.plugins.push(
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(
-        process.env.NODE_ENV || 'production',
-      ),
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production'),
+      },
     }),
   );
 
-  const ssrWebpackConfig = Object.assign({}, webpackConfig);
+  const ssrWebpackConfig = { ...webpackConfig };
   const ssrPath = path.join(tmpDirPath, `ssr.${entryName}.js`);
   const routesPath = getRoutesPath(path.dirname(bishengConfig.theme), entryName);
-  fs.writeFileSync(ssrPath, nunjucks.renderString(ssrTemplate, { routesPath: escapeWinPath(routesPath) }));
+  fs.writeFileSync(
+    ssrPath,
+    nunjucks.renderString(ssrTemplate, { routesPath: escapeWinPath(routesPath) }),
+  );
 
   ssrWebpackConfig.entry = {
     [`${entryName}-ssr`]: ssrPath,
@@ -220,9 +212,9 @@ exports.build = function build(program, callback) {
     ssrWebpackConfig.externals,
     {
       'react-document-title': 'react-document-title',
-      'react-helmet': 'react-helmet'
+      'react-helmet': 'react-helmet',
     },
-  ].filter(external => external);
+  ].filter((external) => external);
   ssrWebpackConfig.output = Object.assign({}, ssrWebpackConfig.output, {
     filename: '[name].js',
     path: tmpDirPath,
@@ -242,7 +234,9 @@ exports.build = function build(program, callback) {
     const manifest = getManifest(stats.compilation)[bishengConfig.entryName];
 
     const markdown = sourceData.generate(bishengConfig.source, bishengConfig.transformers);
-    let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(bishengConfig.filePathMapper);
+    let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(
+      bishengConfig.filePathMapper,
+    );
     filesNeedCreated = R.unnest(filesNeedCreated);
 
     const template = fs.readFileSync(bishengConfig.htmlTemplate).toString();
@@ -324,7 +318,9 @@ function pushToGhPages(basePath, config) {
   const options = {
     ...config,
     depth: 1,
-    message: `Deploy to gh-pages - ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}${config.skipCi ? ' [ci skip]' : ''}`,
+    message: `Deploy to gh-pages - ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}${
+      config.skipCi ? ' [ci skip]' : ''
+    }`,
     logger(message) {
       console.log(message);
     },
@@ -354,10 +350,7 @@ exports.deploy = function deploy(program) {
     const basePath = path.join(process.cwd(), output);
     pushToGhPages(basePath, config);
   } else {
-    const configFile = path.join(
-      process.cwd(),
-      program.config || 'bisheng.config.js',
-    );
+    const configFile = path.join(process.cwd(), program.config || 'bisheng.config.js');
     const bishengConfig = getBishengConfig(configFile);
     const basePath = path.join(process.cwd(), bishengConfig.output);
     exports.build(program, () => pushToGhPages(basePath, config));
