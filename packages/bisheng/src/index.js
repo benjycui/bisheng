@@ -214,7 +214,7 @@ exports.build = function build(program, callback) {
       'react-document-title': 'react-document-title',
       'react-helmet': 'react-helmet',
     },
-  ].filter((external) => external);
+  ].filter(external => external);
   ssrWebpackConfig.output = Object.assign({}, ssrWebpackConfig.output, {
     filename: '[name].js',
     path: tmpDirPath,
@@ -252,7 +252,7 @@ exports.build = function build(program, callback) {
         bishengConfig.htmlTemplateExtraData || {},
       );
       const fileContent = nunjucks.renderString(template, templateData);
-      filesNeedCreated.forEach((file) => {
+      filesNeedCreated.forEach(file => {
         const output = path.join(bishengConfig.output, file);
         console.log('Creating: ', output);
         mkdirp.sync(path.dirname(output));
@@ -276,10 +276,10 @@ exports.build = function build(program, callback) {
       require('./loaders/common/boss').jobDone();
 
       const { ssr } = require(path.join(tmpDirPath, `${entryName}-ssr`));
-      const fileCreatedPromises = filesNeedCreated.map((file) => {
+      const fileCreatedPromises = filesNeedCreated.map(file => {
         const output = path.join(bishengConfig.output, file);
         mkdirp.sync(path.dirname(output));
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
           const pathname = filenameToUrl(file);
           ssr(pathname, (error, content, params = {}) => {
             console.log('Creating: ', output);
@@ -331,7 +331,7 @@ function pushToGhPages(basePath, config) {
       email: process.env.RUN_ENV_EMAIL,
     };
   }
-  ghPages.publish(basePath, options, (err) => {
+  ghPages.publish(basePath, options, err => {
     if (err) {
       throw err;
     }
