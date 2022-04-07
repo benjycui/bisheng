@@ -1,5 +1,3 @@
-
-
 const Prism = require('node-prismjs');
 const JsonML = require('jsonml.js/lib/utils');
 
