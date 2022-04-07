@@ -1,5 +1,4 @@
 import { join } from 'path';
-import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin';
@@ -20,9 +19,7 @@ export default function getWebpackCommonConfig() {
   const fileNameHash = `[name]${isProd ? '.[contenthash:6]' : ''}`;
   const chunkFileName = `${fileNameHash}.js`;
   const isHash = isBuild && bishengConfig.hash;
-  const cssFileName = isHash
-    ? '[name]-[contenthash:8].css'
-    : '[name].css';
+  const cssFileName = isHash ? '[name]-[contenthash:8].css' : '[name].css';
 
   const babelOptions = getBabelCommonConfig();
   const tsOptions = getTSCommonConfig();

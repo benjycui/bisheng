@@ -1,4 +1,4 @@
-export default ({ postcssConfig, lessConfig }) => ([
+export default ({ postcssConfig, lessConfig }) => [
   {
     test(filePath) {
       return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath);
@@ -23,7 +23,8 @@ export default ({ postcssConfig, lessConfig }) => ([
             localIdentName: '[local]___[hash:base64:5]',
           },
         },
-      }, {
+      },
+      {
         loader: require.resolve('postcss-loader'),
         options: postcssConfig,
       },
@@ -40,7 +41,8 @@ export default ({ postcssConfig, lessConfig }) => ([
       {
         loader: require.resolve('postcss-loader'),
         options: postcssConfig,
-      }, {
+      },
+      {
         loader: require.resolve('less-loader'),
         options: {
           lessOptions: lessConfig,
@@ -62,7 +64,8 @@ export default ({ postcssConfig, lessConfig }) => ([
       {
         loader: require.resolve('postcss-loader'),
         options: postcssConfig,
-      }, {
+      },
+      {
         loader: require.resolve('less-loader'),
         options: {
           lessOptions: lessConfig,
@@ -103,4 +106,4 @@ export default ({ postcssConfig, lessConfig }) => ([
       require.resolve('sass-loader'),
     ],
   },
-]);
+];

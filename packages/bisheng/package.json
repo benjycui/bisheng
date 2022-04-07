@@ -103,11 +103,11 @@
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.2",
     "terser-webpack-plugin": "^1.1.0",
-    "ts-loader": "^8.0.0",
+    "ts-loader": "^6.2.1",
     "url-loader": "^3.0.0",
-    "webpack": "^5.0.0",
+    "webpack": "^4.25.1",
     "webpack-dev-server": "^3.11.2",
-    "webpackbar": "^5.0.0-3"
+    "webpackbar": "^4.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
