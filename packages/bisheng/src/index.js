@@ -243,14 +243,12 @@ exports.build = function build(program, callback) {
 
     if (!program.ssr) {
       require('./loaders/common/boss').jobDone();
-      const templateData = Object.assign(
-        {
-          root: bishengConfig.root,
-          hash: bishengConfig.hash,
-          manifest,
-        },
-        bishengConfig.htmlTemplateExtraData || {},
-      );
+      const templateData = {
+        root: bishengConfig.root,
+        hash: bishengConfig.hash,
+        manifest,
+        ...(bishengConfig.htmlTemplateExtraData || {}),
+      };
       const fileContent = nunjucks.renderString(template, templateData);
       filesNeedCreated.forEach(file => {
         const output = path.join(bishengConfig.output, file);
@@ -287,16 +285,14 @@ exports.build = function build(program, callback) {
               console.error(error);
               process.exit(1);
             }
-            const templateData = Object.assign(
-              {
-                root: bishengConfig.root,
-                content,
-                hash: bishengConfig.hash,
-                manifest,
-                ...params,
-              },
-              bishengConfig.htmlTemplateExtraData || {},
-            );
+            const templateData = {
+              root: bishengConfig.root,
+              content,
+              hash: bishengConfig.hash,
+              manifest,
+              ...params,
+              ...(bishengConfig.htmlTemplateExtraData || {}),
+            };
             const fileContent = nunjucks.renderString(template, templateData);
             fs.writeFileSync(output, fileContent);
             console.log('Created: ', output);

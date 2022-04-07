@@ -24,49 +24,50 @@ module.exports = function bishengDataLoader(/* content */) {
   const pickedPromises = []; // Flag to remind loader that job is done.
   if (themeConfig.pick) {
     const nodePlugins = resolvePlugins(themeConfig.plugins, 'node');
-    sourceData.traverse(markdown, (filename) => {
+    sourceData.traverse(markdown, filename => {
       const fileContent = fs.readFileSync(path.join(process.cwd(), filename)).toString();
-      pickedPromises.push(new Promise((resolve) => {
-        boss.queue({
-          filename,
-          content: fileContent,
-          plugins: nodePlugins,
-          transformers: bishengConfig.transformers,
-          isBuild: context.isBuild,
-          callback(err, result) {
-            const parsedMarkdown = eval(`(${result})`); // eslint-disable-line no-eval
+      pickedPromises.push(
+        new Promise(resolve => {
+          boss.queue({
+            filename,
+            content: fileContent,
+            plugins: nodePlugins,
+            transformers: bishengConfig.transformers,
+            isBuild: context.isBuild,
+            callback(err, result) {
+              const parsedMarkdown = eval(`(${result})`); // eslint-disable-line no-eval
 
-            Object.keys(themeConfig.pick).forEach((key) => {
-              if (!picked[key]) {
-                picked[key] = [];
-              }
+              Object.keys(themeConfig.pick).forEach(key => {
+                if (!picked[key]) {
+                  picked[key] = [];
+                }
 
-              const picker = themeConfig.pick[key];
-              const pickedData = picker(parsedMarkdown);
-              if (pickedData) {
-                picked[key].push(pickedData);
-              }
-            });
+                const picker = themeConfig.pick[key];
+                const pickedData = picker(parsedMarkdown);
+                if (pickedData) {
+                  picked[key].push(pickedData);
+                }
+              });
 
-            resolve();
-          },
-        });
-      }));
+              resolve();
+            },
+          });
+        }),
+      );
     });
   }
 
-  Promise.all(pickedPromises)
-    .then(() => {
-      const sourceDataString = sourceData.stringify(markdown, {
-        lazyLoad: themeConfig.lazyLoad,
-      });
-      callback(
-        null,
-        'module.exports = {' +
-          `\n  markdown: ${sourceDataString},` +
-          `\n  picked: ${JSON.stringify(picked, null, 2)},` +
-          `\n  plugins: [\n${pluginsString}\n],` +
-          '\n};',
-      );
+  Promise.all(pickedPromises).then(() => {
+    const sourceDataString = sourceData.stringify(markdown, {
+      lazyLoad: themeConfig.lazyLoad,
     });
+    callback(
+      null,
+      'module.exports = {' +
+        `\n  markdown: ${sourceDataString},` +
+        `\n  picked: ${JSON.stringify(picked, null, 2)},` +
+        `\n  plugins: [\n${pluginsString}\n],` +
+        '\n};',
+    );
+  });
 };
