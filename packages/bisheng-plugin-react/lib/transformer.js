@@ -99,6 +99,15 @@ module.exports = function transformer(code, babelConfig = {}, noreact) {
         renderReturn = types.returnStatement(callPathNode.arguments[0]);
 
         callPath.remove();
+      } else if (
+        callPathNode.callee
+        && callPathNode.callee.object
+        && callPathNode.callee.object.name === 'Object'
+        && callPathNode.callee.property
+        && callPathNode.callee.property.name === 'defineProperty'
+        && callPathNode.arguments[0].name === 'exports'
+      ) {
+        callPath.remove();
       }
     },
     AssignmentExpression(path) {
