@@ -215,12 +215,15 @@ exports.build = function build(program, callback) {
       'react-helmet': 'react-helmet',
     },
   ].filter(external => external);
-  ssrWebpackConfig.output = Object.assign({}, ssrWebpackConfig.output, {
+  ssrWebpackConfig.output = {
+    ...ssrWebpackConfig.output,
     filename: '[name].js',
     path: tmpDirPath,
     library: 'ssr',
     libraryTarget: 'commonjs',
-  });
+  };
+  ssrWebpackConfig.optimization = { ...ssrWebpackConfig.optimization };
+  delete ssrWebpackConfig.optimization.splitChunks;
 
   webpack(webpackConfig, (err, stats) => {
     if (err !== null) {
