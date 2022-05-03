@@ -234,7 +234,10 @@ exports.build = function build(program, callback) {
       console.log(stats.toString('errors-only'));
       return;
     }
-    const manifest = getManifest(stats.compilation)[bishengConfig.entryName];
+    let manifest = getManifest(stats.compilation)[bishengConfig.entryName];
+    if (bishengConfig.postManifest) {
+      manifest = bishengConfig.postManifest(manifest);
+    }
 
     const markdown = sourceData.generate(bishengConfig.source, bishengConfig.transformers);
     let filesNeedCreated = generateFilesPath(themeConfig.routes, markdown).map(
@@ -303,7 +306,12 @@ exports.build = function build(program, callback) {
           });
         });
       });
+
       Promise.all(fileCreatedPromises).then(() => {
+        if (bishengConfig.postBuild) {
+          bishengConfig.postBuild();
+        }
+
         if (callback) {
           callback();
         }
