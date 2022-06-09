@@ -1,16 +1,17 @@
 import React from 'react';
 import { Link } from 'bisheng/router';
-import DocumentTitle from 'react-document-title';
+import { Helmet } from 'react-helmet';
 import Layout from './Layout';
 
 function getTime(date) {
-  return (new Date(date)).getTime();
+  return new Date(date).getTime();
 }
 
-export default (props) => {
+export default props => {
   const toReactComponent = props.utils.toReactComponent;
-  const posts = props.picked.posts
-          .sort((a, b) => getTime(b.meta.publishDate) - getTime(a.meta.publishDate));
+  const posts = props.picked.posts.sort(
+    (a, b) => getTime(b.meta.publishDate) - getTime(a.meta.publishDate),
+  );
 
   let year = NaN;
   const entryList = [];
@@ -25,7 +26,8 @@ export default (props) => {
       entryList.push(
         <a className="item-year" href={`#${publishYear}`} key={publishYear} id={publishYear}>
           {publishYear}
-        </a>);
+        </a>,
+      );
     }
 
     entryList.push(
@@ -34,26 +36,24 @@ export default (props) => {
           <time>{`${meta.publishDate.slice(0, 10)} `}</time>
           <Link to={`/${meta.filename.replace(/\.md$/i, '')}`}>{meta.title}</Link>
         </h2>
-        {
-          !description ? null :
-            <div className="item-description">
-              { toReactComponent(description) }
-            </div>
-        }
-      </div>
+        {!description ? null : (
+          <div className="item-description">{toReactComponent(description)}</div>
+        )}
+      </div>,
     );
-  })
+  });
   return (
-    <DocumentTitle title="BiSheng Theme One">
+    <>
+      <Helmet>
+        <title>BiSheng Theme One</title>
+      </Helmet>
       <Layout {...props}>
         <h1 className="entry-title">Archive</h1>
-        <div className="entry-list">
-          {entryList}
-        </div>
+        <div className="entry-list">{entryList}</div>
       </Layout>
-    </DocumentTitle>
+    </>
   );
-}
+};
 
 // TODO
 // <div class="pagination">

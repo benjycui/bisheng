@@ -2,7 +2,6 @@ require('@babel/polyfill');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const ReactRouter = require('react-router');
-const DocumentTitle = require('react-document-title');
 const { Helmet } = require('react-helmet');
 const createElement = require('../lib/utils/create-element');
 const data = require('../lib/utils/ssr-data.js');
@@ -24,7 +23,7 @@ module.exports = function ssr(url, callback) {
           />,
         );
         const helmet = helmetContext.helmet || Helmet.renderStatic();
-        const documentTitle = DocumentTitle.rewind();
+        const documentTitle = Helmet.rewind();
         const helmetTitleTmp = helmet.title.toString();
         const htmlAttributes = helmet.htmlAttributes.toString();
         const meta = helmet.meta.toString();
