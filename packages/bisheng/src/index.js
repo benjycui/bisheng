@@ -211,7 +211,6 @@ exports.build = function build(program, callback) {
     // user externals
     ssrWebpackConfig.externals,
     {
-      'react-document-title': 'react-document-title',
       'react-helmet': 'react-helmet',
     },
   ].filter(external => external);
