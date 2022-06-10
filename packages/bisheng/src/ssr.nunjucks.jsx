@@ -1,7 +1,7 @@
 require('@babel/polyfill');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
-const ReactRouter = require('react-router-dom');
+const ReactRouter = require('react-router');
 const { Helmet } = require('react-helmet');
 const createElement = require('../lib/utils/create-element');
 const data = require('../lib/utils/ssr-data.js');
