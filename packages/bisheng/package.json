@@ -1,6 +1,6 @@
 {
   "name": "bisheng",
-  "version": "3.7.0-alpha.2",
+  "version": "3.7.0-alpha.3",
   "description": "Transform Markdown(and other static files with transformers) into a SPA website using React.",
   "bin": {
     "bisheng": "./bin/bisheng"
@@ -97,7 +97,7 @@
     "rc-util": "^5.20.0",
     "react-dev-utils": "^4.1.0",
     "react-helmet": "^6.1.0",
-    "react-router": "^3.0.0",
+    "react-router-3-fork": "^3.2.6-rc.0",
     "resolve": "^1.1.7",
     "rucksack-css": "~1.0.2",
     "sass-loader": "^8.0.0",
