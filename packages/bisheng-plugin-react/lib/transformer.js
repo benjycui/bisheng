@@ -119,12 +119,13 @@ module.exports = function transformer(code, babelConfig = {}, noreact) {
         && pathNode.left.object.name === 'exports'
         && pathNode.left.property
         && pathNode.left.property.value === 'default'
+        && pathNode.right.type === 'Identifier'
       ) {
         renderReturn = types.returnStatement(
           types.addComment(
             types.callExpression(
               types.memberExpression(types.identifier('React'), types.identifier('createElement')),
-              [types.identifier('_default')],
+              [types.identifier(pathNode.right.name)],
             ),
             'leading',
             '#__PURE__',
