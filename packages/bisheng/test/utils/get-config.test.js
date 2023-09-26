@@ -7,6 +7,7 @@ describe('bisheng/utils/get-bisheng-config', () => {
   it('should merge custom config to default config', () => {
     const bishengConfig = getBishengConfig(path.join(__dirname, '../fixtures/bisheng.config.js'));
     delete bishengConfig.webpackConfig;
+    delete bishengConfig.babelConfig;
     delete bishengConfig.filePathMapper;
 
     assert.equal(bishengConfig.postcssConfig.plugins.length, 3);
@@ -21,6 +22,7 @@ describe('bisheng/utils/get-bisheng-config', () => {
       port: 8000,
       root: '/',
       devServerConfig: {},
+      tsConfig: {},
       transformers: [{
         test: /\.md$/.toString(),
         use: path.join(__dirname, '..', '..', 'lib', 'transformers', 'markdown'),

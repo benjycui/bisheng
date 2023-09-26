@@ -229,6 +229,18 @@ You can consult [webpack postcss-loader's documentation](https://webpack.js.org/
 
 To modify the webpack config, you can extend the config like [this](https://github.com/ant-tool/atool-build#配置扩展).
 
+#### babelConfig: (config) => config
+
+> default: (config) = config
+
+You can consult [webpack babel-loader's documentation](https://webpack.js.org/loaders/babel-loader/#options)
+
+#### tsConfig: Object
+
+> default: {}
+
+You can extend [typescript config](https://www.typescriptlang.org/tsconfig)
+
 #### transformers: Object[]
 
 > [{ test: /\.md$/, use: [MarkdownTransformer](https://github.com/benjycui/bisheng/blob/master/packages/bisheng/src/transformers/markdown.js) }]
